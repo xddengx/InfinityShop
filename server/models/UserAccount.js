@@ -62,6 +62,16 @@ ProductSchema.statics.DeleteProductId = (productId, callback) => {
   return UserProductsModel.deleteOne(search).exec(callback);
 };
 
+// use for updating product find product via product id 
+ProductSchema.statics.UpdateProduct = (productId, callback) => {
+  const search = {
+    _id: convertId(productId)
+  };
+
+  return UserProductsModel.UpdateOne(search).exec(callback);
+};
+
+// find all products
 ProductSchema.statics.findProducts = (productId, callback) => {
   const search = {
     _id: convertId(productId),

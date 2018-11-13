@@ -60,6 +60,18 @@ const getProducts = (request, response) => {
   });
 };
 
+const updateProduct = (req, res) =>{
+  UserAccount.UserProductsModel.UpdateProduct(req.body.data, (err, docs) =>{
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+
+    return res.json({successful: 'success'});
+    // return res.json({ products: docs });
+  });
+}
+
 const deleteProduct = (req, res) => {
   // console.dir(req.body);
   UserAccount.UserProductsModel.DeleteProductId(req.body.data, (err) => {
@@ -75,4 +87,5 @@ const deleteProduct = (req, res) => {
 module.exports.makerPage = makerPage;
 module.exports.getProducts = getProducts;
 module.exports.makeProduct = makeProduct;
+module.exports.updateProduct = updateProduct;
 module.exports.deleteProduct = deleteProduct;

@@ -80,58 +80,113 @@ const handleProduct = e => {
 };
 
 const deleteProduct = e => {
-    console.log("hello", e.target.parentNode.id);
+    // console.log("hello", e.target.parentNode.id);
     let productId = e.target.parentNode.id;
-    console.log(csrfToken);
+    // console.log(csrfToken);
     let params = `data=${productId}&_csrf=${csrfToken}`;
-    console.dir(params);
+    // console.dir(params);
 
     sendAjax('DELETE', '/deleteProduct', params, function () {
         console.log("success");
     });
 };
 
-const UpdateProductForm = () => {
-    console.log("hello");
+// updating the actual product
+const updateProductHandle = e => {
+    e.preventDefault();
+
+    console.log(e);
+    let productId = e.target.parentNode.id;
+    console.log(productId);
+
+    if ($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == '') {
+        handleError("All fields are required in order to update product.");
+        return false;
+    }
+
+    // $("#updateProductForm").serialize()
+    let updatedProduct = $("#updateProductForm").serialize();
+    // let query = `&${updatedProduct}`;
+
+    console.dir(updatedProduct);
+
+    // PUT, /updateProduct, 
+    // sendAjax('PUT', $("#updateProductForm").attr("action"), query, function() {
+    //     console.log("success");
+    // });
+
+    return false;
+};
+
+// rendering the form with a modal
+const UpdateProductForm = props => {
+    console.dir(props);
 
     return React.createElement(
-        "form",
-        { id: "testing",
-            onSubmit: handleProduct,
-            name: "productForm",
-            action: "/userAccount",
-            method: "POST",
-            className: "productForm"
-        },
+        "div",
+        { id: "updateModal", className: "modal" },
         React.createElement(
-            "h4",
-            null,
-            " Add a product to sell"
-        ),
-        React.createElement(
-            "label",
-            { htmlFor: "name" },
-            "Product Name: "
-        ),
-        React.createElement("input", { className: "inputProds", id: "productName", type: "text", name: "name", placeholder: "Product Name" }),
-        React.createElement(
-            "label",
-            { htmlFor: "price" },
-            " Price: "
-        ),
-        React.createElement("input", { className: "inputProds", id: "productPrice", type: "text", name: "price", placeholder: "Product Price" }),
-        React.createElement(
-            "label",
-            { htmlFor: "description" },
-            "Description: "
-        ),
-        React.createElement("input", { className: "inputProds", id: "description", type: "text", name: "description", placeholder: "Description" }),
-        React.createElement("input", { className: "makeProductSubmit", type: "submit", value: "Create Product" })
+            "div",
+            { className: "formContent" },
+            React.createElement(
+                "button",
+                { id: "closeForm", className: "close", onClick: e => closeModal(e) },
+                "\xD7 "
+            ),
+            React.createElement(
+                "form",
+                { id: "updateProductForm",
+                    onSubmit: updateProductHandle,
+                    name: "updateProductForm",
+                    action: "/updateProduct",
+                    method: "POST",
+                    className: "updateProductForm"
+                },
+                React.createElement(
+                    "h4",
+                    null,
+                    " Update product"
+                ),
+                React.createElement(
+                    "label",
+                    { htmlFor: "name" },
+                    "Product Name: "
+                ),
+                React.createElement("input", { id: "updateName", type: "text", name: "name", placeholder: "Product Name" }),
+                React.createElement(
+                    "label",
+                    { htmlFor: "price" },
+                    " Price: "
+                ),
+                React.createElement("input", { id: "updatePrice", type: "text", name: "price", placeholder: "Product Price" }),
+                React.createElement(
+                    "label",
+                    { htmlFor: "description" },
+                    "Description: "
+                ),
+                React.createElement("input", { id: "updateDescription", type: "text", name: "description", placeholder: "Description" }),
+                React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+                React.createElement("input", { type: "hidden", name: "id", value: props.product }),
+                React.createElement("input", { className: "updateProductSubmit", type: "submit", value: "Update Product" })
+            )
+        )
     );
 };
 
-const showUpdateProductForm = function (csrf) {
-    ReactDOM.render(React.createElement(UpdateProductForm, { csrf: csrf }), document.querySelector("#testing"));
+const closeModal = e => {
+    // console.log(e);
+    // e.target.parentNode.style.display = "none";
+    // console.dir(e.target.parentNode);
+
+    ReactDOM.render(React.createElement(
+        "div",
+        null,
+        " "
+    ), document.querySelector("#testing"));
+};
+
+const showUpdateProductForm = function (e, csrf, productId) {
+    ReactDOM.render(React.createElement(UpdateProductForm, { csrf: csrf, product: productId }), document.querySelector("#testing"));
 };
 
 // create React JSX for Add Product form
@@ -174,6 +229,8 @@ const ProductForm = props => {
 };
 
 const ProductList = function (props) {
+    console.dir(props);
+
     // no products exist 
     if (props.products.length === 0) {
         return React.createElement(
@@ -202,7 +259,7 @@ const ProductList = function (props) {
             ),
             React.createElement(
                 "button",
-                { id: "updateButton", type: "button", onClick: e => showUpdateProductForm() },
+                { id: "updateButton", type: "button", onClick: e => showUpdateProductForm(e, props.csrf, product._id) },
                 "Update"
             ),
             React.createElement(
@@ -225,6 +282,21 @@ const ProductList = function (props) {
                 " $",
                 product.price,
                 " "
+            ),
+            React.createElement(
+                "div",
+                { id: "togglePrivacy" },
+                React.createElement(
+                    "p",
+                    null,
+                    " Public/Private"
+                ),
+                React.createElement(
+                    "label",
+                    { className: "switch" },
+                    React.createElement("input", { type: "checkbox" }),
+                    React.createElement("span", { className: "slider" })
+                )
             )
         );
     });
@@ -242,7 +314,7 @@ const ProductList = function (props) {
 // ajax call and pass in the data we get from the server
 const loadProductsFromServer = () => {
     sendAjax('GET', '/getProducts', null, data => {
-        ReactDOM.render(React.createElement(ProductList, { products: data.products }), document.querySelector("#products"));
+        ReactDOM.render(React.createElement(ProductList, { products: data.products, csrf: csrfToken }), document.querySelector("#products"));
     });
 };
 
@@ -254,7 +326,7 @@ const setup = function (csrf) {
 
     // products attribute is empty for now, because we don't have data yet. But
     // it will at least get the HTML onto the page while we wait for the server
-    ReactDOM.render(React.createElement(ProductList, { products: [] }), document.querySelector("#products"));
+    ReactDOM.render(React.createElement(ProductList, { products: [], csrf: csrf }), document.querySelector("#products"));
 
     loadProductsFromServer();
 };
