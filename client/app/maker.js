@@ -86,7 +86,7 @@ const UpdateProductForm = (props) =>{
     );
 };
 
-const closeModal = (e) =>{
+const closeModal = () =>{
     // console.log(e);
     // e.target.parentNode.style.display = "none";
     // console.dir(e.target.parentNode);
@@ -149,17 +149,21 @@ const ProductList = function(props){
     const productNodes = props.products.map(function(product) {
         return(
             <div className="productCard" key={product._id} id={product._id} className="product">
-                <button id="deleteButton" type ="button" onClick={(e)=> deleteProduct(e)}>Delete</button>
-                <button id="updateButton" type ="button" onClick={(e)=> showUpdateProductForm(e, props.csrf, product._id)}>Update</button>
-                <h3 className="productName"> {product.name} </h3>
-                <h4 className="productDescription"> {product.description} </h4>
-                <h3 className="productPrice"> ${product.price} </h3>
-                <div id="togglePrivacy">
-                    <p> Public/Private</p>
-                    <label className="switch">
-                        <input type="checkbox"></input>
-                        <span className="slider"></span>
-                    </label>
+                <div id="test"> 
+                    <div id="togglePrivacy">
+                        <p> Public/Private</p>
+                        <label className="switch">
+                            <input type="checkbox"></input>
+                            <span className="slider"></span>
+                        </label>
+                    </div>
+                    <div id="prodInfo">
+                        <button id="deleteButton" type ="button" onClick={(e)=> deleteProduct(e)}>Delete</button>
+                        <button id="updateButton" type ="button" onClick={(e)=> showUpdateProductForm(e, props.csrf, product._id)}>Update</button>
+                        <h3 className="productName"> {product.name} </h3>
+                        <h4 className="productDescription"> {product.description} </h4>
+                        <h3 className="productPrice"> ${product.price} </h3>
+                    </div>
                 </div>
             </div>
         );

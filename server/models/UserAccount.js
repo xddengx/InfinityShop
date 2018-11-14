@@ -62,24 +62,30 @@ ProductSchema.statics.DeleteProductId = (productId, callback) => {
   return UserProductsModel.deleteOne(search).exec(callback);
 };
 
-// use for updating product find product via product id . 
+// use for updating product find product via product id .
 // body.data returns productId found
 ProductSchema.statics.UpdateProductById = (productId, callback) => {
   const search = {
-    _id: convertId(productId)
+    _id: convertId(productId),
   };
 
   return UserProductsModel.findOne(search).exec(callback);
 };
 
 // find all products
-ProductSchema.statics.findProducts = (productId, callback) => {
-  const search = {
-    _id: convertId(productId),
-  };
+// ProductSchema.statics.findProducts = (name, callback) => {
+//   const search = {
+//     // _id: convertId(productId),
+//     name: name,
+//   };
 
-  return UserProductsModel.find(search).select('name price description').exec(callback);
+//   return UserProductsModel.find(search).select('name price description').exec(callback);
+// };
+
+ProductSchema.statics.findProducts = (callback) => {
+  return UserProductsModel.find(callback);
 };
+
 
 UserProductsModel = mongoose.model('Products', ProductSchema);
 

@@ -1,67 +1,90 @@
-// var csrfToken;
+var csrfToken;
 
-// const ProductsList = function(props){
-//     // no products exist 
-//     if(props.products.length === 0){
-//         return (
-//             <div className="productsList">
-//                 <h3 className="emptyProducts">All items are sold out!</h3>
-//             </div>
-//         );
-//     }
+const ProductsList = function (props) {
+    // console.dir(props);
+    // no products exist 
+    if (props.products.length === 0) {
+        return React.createElement(
+            "div",
+            { className: "productsList" },
+            React.createElement(
+                "h3",
+                { className: "emptyProducts" },
+                "All items are sold out!"
+            )
+        );
+    }
 
-//     // map function to create UI for EACH product stored
-//     // every product will generate a product Div and add it to productNodes
-//     // advantage is that we can update the sate of this component via Ajax.
-//     // everytimes the state updates, the page will immediately create UI and show the updates
-//     const productsNodes = props.products.map(function(products) {
-//         return(
-//             <div className="productCard" key={products._id} id={products._id} className="product">
-//                 <button id="buyButton" type ="button" onClick={(e)=> BuyProduct(e)}>Buy</button>
-//                 <h3 className="productName"> {products.name} </h3>
-//                 <h4 className="productDescription"> {products.description} </h4>
-//                 <h3 className="productPrice"> ${products.price} </h3>
-//             </div>
-//         );
-//     });
+    // map function to create UI for EACH product stored
+    // every product will generate a product Div and add it to productNodes
+    // advantage is that we can update the sate of this component via Ajax.
+    // everytimes the state updates, the page will immediately create UI and show the updates
+    const productsNodes = props.products.map(function (products) {
+        return React.createElement(
+            "div",
+            { className: "productCard", key: products._id, id: products._id, className: "product" },
+            React.createElement(
+                "button",
+                { id: "buyButton", type: "button", onClick: e => BuyProduct(e) },
+                "Buy"
+            ),
+            React.createElement(
+                "h3",
+                { className: "productName" },
+                " ",
+                products.name,
+                " "
+            ),
+            React.createElement(
+                "h4",
+                { className: "productDescription" },
+                " ",
+                products.description,
+                " "
+            ),
+            React.createElement(
+                "h3",
+                { className: "productPrice" },
+                " $",
+                products.price,
+                " "
+            )
+        );
+    });
 
-//     return(
-//         <div className="productList">
-//             {productsNodes}
-//         </div>
-//     );
-// };
+    return React.createElement(
+        "div",
+        { className: "productList" },
+        productsNodes
+    );
+};
 
-// const loadAllProductsFromServer = () => {
-//     sendAjax('GET', '/storefront', null, (data) => {
-//         ReactDOM.render(
-//             <ProductsList products={data.products} />, document.querySelector("#allProducts")
-//         );
-//     });
-// };
+const loadAllProductsFromServer = () => {
+    sendAjax('GET', '/storefront', null, data => {
+        ReactDOM.render(React.createElement(ProductsList, { products: data.products }), document.querySelector("#allProducts"));
+    });
+};
 
-// const showAllProducts = function(){
-//     // products attribute is empty for now, because we don't have data yet. But
-//     // it will at least get the HTML onto the page while we wait for the server
-//     ReactDOM.render(
-//         <ProductsList products={[]} />, document.querySelector("#allProducts")
-//     );
+const showAllProducts = function () {
+    // products attribute is empty for now, because we don't have data yet. But
+    // it will at least get the HTML onto the page while we wait for the server
+    ReactDOM.render(React.createElement(ProductsList, { products: [] }), document.querySelector("#allProducts"));
 
-//     loadAllProductsFromServer();
-// };
+    loadAllProductsFromServer();
+};
 
-// // allows us to get new CSRF token for new submissions
-// // const getToken = () => {
-// //     sendAjax('GET', '/getToken', null, (result) => {
-// //         showAllProducts(result.csrfToken);
-// //         csrfToken = result.csrfToken;
-// //     });
-// // };
+// allows us to get new CSRF token for new submissions
+const getTokenStore = () => {
+    sendAjax('GET', '/getToken', null, result => {
+        showAllProducts(result.csrfToken);
+        csrfToken = result.csrfToken;
+    });
+};
 
-// $(document).ready(function(){
-//     getToken();
-//     loadAllProductsFromServer();
-// });
+$(document).ready(function () {
+    getTokenStore();
+    loadAllProductsFromServer();
+});
 var csrfToken;
 
 const handleProduct = e => {
@@ -170,7 +193,7 @@ const UpdateProductForm = props => {
     );
 };
 
-const closeModal = e => {
+const closeModal = () => {
     // console.log(e);
     // e.target.parentNode.style.display = "none";
     // console.dir(e.target.parentNode);
@@ -250,49 +273,57 @@ const ProductList = function (props) {
             "div",
             { className: "productCard", key: product._id, id: product._id, className: "product" },
             React.createElement(
-                "button",
-                { id: "deleteButton", type: "button", onClick: e => deleteProduct(e) },
-                "Delete"
-            ),
-            React.createElement(
-                "button",
-                { id: "updateButton", type: "button", onClick: e => showUpdateProductForm(e, props.csrf, product._id) },
-                "Update"
-            ),
-            React.createElement(
-                "h3",
-                { className: "productName" },
-                " ",
-                product.name,
-                " "
-            ),
-            React.createElement(
-                "h4",
-                { className: "productDescription" },
-                " ",
-                product.description,
-                " "
-            ),
-            React.createElement(
-                "h3",
-                { className: "productPrice" },
-                " $",
-                product.price,
-                " "
-            ),
-            React.createElement(
                 "div",
-                { id: "togglePrivacy" },
+                { id: "test" },
                 React.createElement(
-                    "p",
-                    null,
-                    " Public/Private"
+                    "div",
+                    { id: "togglePrivacy" },
+                    React.createElement(
+                        "p",
+                        null,
+                        " Public/Private"
+                    ),
+                    React.createElement(
+                        "label",
+                        { className: "switch" },
+                        React.createElement("input", { type: "checkbox" }),
+                        React.createElement("span", { className: "slider" })
+                    )
                 ),
                 React.createElement(
-                    "label",
-                    { className: "switch" },
-                    React.createElement("input", { type: "checkbox" }),
-                    React.createElement("span", { className: "slider" })
+                    "div",
+                    { id: "prodInfo" },
+                    React.createElement(
+                        "button",
+                        { id: "deleteButton", type: "button", onClick: e => deleteProduct(e) },
+                        "Delete"
+                    ),
+                    React.createElement(
+                        "button",
+                        { id: "updateButton", type: "button", onClick: e => showUpdateProductForm(e, props.csrf, product._id) },
+                        "Update"
+                    ),
+                    React.createElement(
+                        "h3",
+                        { className: "productName" },
+                        " ",
+                        product.name,
+                        " "
+                    ),
+                    React.createElement(
+                        "h4",
+                        { className: "productDescription" },
+                        " ",
+                        product.description,
+                        " "
+                    ),
+                    React.createElement(
+                        "h3",
+                        { className: "productPrice" },
+                        " $",
+                        product.price,
+                        " "
+                    )
                 )
             )
         );

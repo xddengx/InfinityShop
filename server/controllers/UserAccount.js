@@ -60,39 +60,38 @@ const getProducts = (request, response) => {
   });
 };
 
-const updateProduct = (req, res) =>{
-  // console.dir(req.body.data);
-  // find product id to update in the db
-  return UserAccount.UserProductsModel.UpdateProductById(req.body.id, (err, doc) =>{
-    if (err) {
-      console.log(err);
-      return res.status(400).json({ error: 'An error occurred' });
-    }
+const updateProduct = (req, res) => UserAccount.UserProductsModel.UpdateProductById(req.body.id, (err, doc) => {
+  if (err) {
+    console.log(err);
+    return res.status(400).json({ error: 'An error occurred' });
+  }
 
-    // console.dir(doc.name);
-    // // the new information for the product
-    const searchedProduct = doc;
-    // console.dir(searchedProduct);
+  // console.dir(doc.name);
+  // // the new information for the product
+  const searchedProduct = doc;
+  searchedProduct.name = req.body.name;
+  searchedProduct.price = req.body.price;
+  searchedProduct.description = req.body.description;
 
-    //const updatedProduct = new UserAccount.UserProductsModel(updatedProductData);
-    const savePromise = searchedProduct.save();
+  // const updatedProduct = new UserAccount.UserProductsModel(updatedProductData);
+  const savePromise = searchedProduct.save();
 
-    savePromise.then(() => res.json({
-      name: searchedProduct.name,
-      price: searchedProduct.price,
-      description: searchedProduct.description
-    }));
 
-    // console.dir(savePromise);
+  savePromise.then(() => res.json({
+    name: searchedProduct.name,
+    price: searchedProduct.price,
+    description: searchedProduct.description,
+  }));
 
-    return savePromise;
-    // return res.json({
-    //   name: searchedProduct.name,
-    //   price: searchedProduct.price,
-    //   description: searchedProduct.description
-    // });
-  });
-}
+  // console.dir(savePromise);
+
+  return savePromise;
+  // return res.json({
+  //   name: searchedProduct.name,
+  //   price: searchedProduct.price,
+  //   description: searchedProduct.description
+  // });
+});
 
 const deleteProduct = (req, res) => {
   // body.data is the productId found
