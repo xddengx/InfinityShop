@@ -87,6 +87,7 @@ const deleteProduct = e => {
     // console.dir(params);
 
     sendAjax('DELETE', '/deleteProduct', params, function () {
+        // TODO: LET USER KNOW THEY UPDATED SUCCESFFULY ~ POP UP MESSAGE
         console.log("success");
     });
 };
@@ -95,9 +96,7 @@ const deleteProduct = e => {
 const updateProductHandle = e => {
     e.preventDefault();
 
-    console.log(e);
     let productId = e.target.parentNode.id;
-    console.log(productId);
 
     if ($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == '') {
         handleError("All fields are required in order to update product.");
@@ -111,16 +110,14 @@ const updateProductHandle = e => {
     console.dir(updatedProduct);
 
     // PUT, /updateProduct, 
-    // sendAjax('PUT', $("#updateProductForm").attr("action"), query, function() {
-    //     console.log("success");
-    // });
-
-    return false;
+    sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function () {
+        console.log("success herererere");
+    });
 };
 
 // rendering the form with a modal
 const UpdateProductForm = props => {
-    console.dir(props);
+    // console.dir(props);
 
     return React.createElement(
         "div",
@@ -229,7 +226,7 @@ const ProductForm = props => {
 };
 
 const ProductList = function (props) {
-    console.dir(props);
+    // console.dir(props);
 
     // no products exist 
     if (props.products.length === 0) {

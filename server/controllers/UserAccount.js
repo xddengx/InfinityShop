@@ -61,19 +61,41 @@ const getProducts = (request, response) => {
 };
 
 const updateProduct = (req, res) =>{
-  UserAccount.UserProductsModel.UpdateProduct(req.body.data, (err, docs) =>{
+  // console.dir(req.body.data);
+  // find product id to update in the db
+  return UserAccount.UserProductsModel.UpdateProductById(req.body.id, (err, doc) =>{
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
 
-    return res.json({successful: 'success'});
-    // return res.json({ products: docs });
+    // console.dir(doc.name);
+    // // the new information for the product
+    const searchedProduct = doc;
+    // console.dir(searchedProduct);
+
+    //const updatedProduct = new UserAccount.UserProductsModel(updatedProductData);
+    const savePromise = searchedProduct.save();
+
+    savePromise.then(() => res.json({
+      name: searchedProduct.name,
+      price: searchedProduct.price,
+      description: searchedProduct.description
+    }));
+
+    // console.dir(savePromise);
+
+    return savePromise;
+    // return res.json({
+    //   name: searchedProduct.name,
+    //   price: searchedProduct.price,
+    //   description: searchedProduct.description
+    // });
   });
 }
 
 const deleteProduct = (req, res) => {
-  // console.dir(req.body);
+  // body.data is the productId found
   UserAccount.UserProductsModel.DeleteProductId(req.body.data, (err) => {
     if (err) {
       console.log(err);
