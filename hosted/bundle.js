@@ -22,7 +22,7 @@ const ProductsList = function (props) {
     const productsNodes = props.products.map(function (products) {
         return React.createElement(
             "div",
-            { className: "productCard", key: products._id, id: products._id, className: "product" },
+            { className: "productCard", key: products._id, id: products._id, className: "buyProduct" },
             React.createElement(
                 "button",
                 { id: "buyButton", type: "button", onClick: e => BuyProduct(e) },
@@ -90,8 +90,8 @@ var csrfToken;
 const handleProduct = e => {
     e.preventDefault();
 
-    if ($("#productName").val() == '' || $("#productPrice").val() == '' || $("#description").val() == '') {
-        handleError("All fields are required");
+    if ($("#productName").val() == '' || $("#productPrice").val() == '' || $("#description").val() == '' || $("#productImage").val() == '') {
+        handleError("1 All fields are required");
         return false;
     }
 
@@ -121,7 +121,7 @@ const updateProductHandle = e => {
 
     let productId = e.target.parentNode.id;
 
-    if ($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == '') {
+    if ($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == '' || $("#updateproductImage").val() == '') {
         handleError("All fields are required in order to update product.");
         return false;
     }
@@ -130,11 +130,9 @@ const updateProductHandle = e => {
     let updatedProduct = $("#updateProductForm").serialize();
     // let query = `&${updatedProduct}`;
 
-    console.dir(updatedProduct);
-
     // PUT, /updateProduct, 
     sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function () {
-        console.log("success herererere");
+        console.log("success");
     });
 };
 
@@ -185,6 +183,12 @@ const UpdateProductForm = props => {
                     "Description: "
                 ),
                 React.createElement("input", { id: "updateDescription", type: "text", name: "description", placeholder: "Description" }),
+                React.createElement(
+                    "label",
+                    { htmlFor: "productImage" },
+                    "Image: "
+                ),
+                React.createElement("input", { id: "updateproductImage", type: "text", name: "productImage", placeholder: "Image URL" }),
                 React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
                 React.createElement("input", { type: "hidden", name: "id", value: props.product }),
                 React.createElement("input", { className: "updateProductSubmit", type: "submit", value: "Update Product" })
@@ -243,6 +247,12 @@ const ProductForm = props => {
             "Description: "
         ),
         React.createElement("input", { className: "inputProds", id: "description", type: "text", name: "description", placeholder: "Description" }),
+        React.createElement(
+            "label",
+            { htmlFor: "productImage" },
+            "Image: "
+        ),
+        React.createElement("input", { className: "inputProds", id: "productImage", type: "text", name: "productImage", placeholder: "Image URL" }),
         React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
         React.createElement("input", { className: "makeProductSubmit", type: "submit", value: "Create Product" })
     );
@@ -292,17 +302,13 @@ const ProductList = function (props) {
                 ),
                 React.createElement(
                     "div",
+                    null,
+                    React.createElement("img", { className: "theProductImage", src: product.productImage, alt: "" }),
+                    " "
+                ),
+                React.createElement(
+                    "div",
                     { id: "prodInfo" },
-                    React.createElement(
-                        "button",
-                        { id: "deleteButton", type: "button", onClick: e => deleteProduct(e) },
-                        "Delete"
-                    ),
-                    React.createElement(
-                        "button",
-                        { id: "updateButton", type: "button", onClick: e => showUpdateProductForm(e, props.csrf, product._id) },
-                        "Update"
-                    ),
                     React.createElement(
                         "h3",
                         { className: "productName" },
@@ -323,6 +329,16 @@ const ProductList = function (props) {
                         " $",
                         product.price,
                         " "
+                    ),
+                    React.createElement(
+                        "button",
+                        { id: "deleteButton", type: "button", onClick: e => deleteProduct(e) },
+                        "Delete"
+                    ),
+                    React.createElement(
+                        "button",
+                        { id: "updateButton", type: "button", onClick: e => showUpdateProductForm(e, props.csrf, product._id) },
+                        "Update"
                     )
                 )
             )

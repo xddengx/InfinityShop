@@ -3,8 +3,8 @@ var csrfToken;
 const handleProduct = (e) => {
     e.preventDefault();
 
-    if($("#productName").val() == '' || $("#productPrice").val() == '' || $("#description").val() == ''){
-        handleError("All fields are required");
+    if($("#productName").val() == '' || $("#productPrice").val() == '' || $("#description").val() == '' || $("#productImage").val() == ''){
+        handleError("1 All fields are required");
         return false;
     }
 
@@ -34,7 +34,7 @@ const updateProductHandle = (e) => {
 
     let productId = e.target.parentNode.id;
 
-    if($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == ''){
+    if($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == '' || $("#updateproductImage").val() == ''){
         handleError("All fields are required in order to update product.");
         return false;
     }
@@ -43,11 +43,9 @@ const updateProductHandle = (e) => {
     let updatedProduct = $("#updateProductForm").serialize();
     // let query = `&${updatedProduct}`;
 
-    console.dir(updatedProduct);
-
     // PUT, /updateProduct, 
     sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function() {
-        console.log("success herererere");
+        console.log("success");
     });
 };
 
@@ -76,6 +74,9 @@ const UpdateProductForm = (props) =>{
 
                 <label htmlFor="description">Description: </label>
                 <input  id ="updateDescription" type="text" name="description" placeholder="Description"/>
+
+                <label htmlFor="productImage">Image: </label>
+                <input id ="updateproductImage" type="text" name="productImage" placeholder="Image URL"/>
 
                 <input type="hidden" name="_csrf" value={props.csrf} />
                 <input type="hidden" name="id" value={props.product} />
@@ -124,6 +125,9 @@ const ProductForm = (props) => {
         <label htmlFor="description">Description: </label>
         <input className="inputProds" id ="description" type="text" name="description" placeholder="Description"/>
 
+        <label htmlFor="productImage">Image: </label>
+        <input className="inputProds" id ="productImage" type="text" name="productImage" placeholder="Image URL"/>
+
         <input type="hidden" name="_csrf" value={props.csrf} />
         <input className="makeProductSubmit" type="submit" value="Create Product" />
         </form>
@@ -157,12 +161,13 @@ const ProductList = function(props){
                             <span className="slider"></span>
                         </label>
                     </div>
+                    <div><img className="theProductImage" src= {product.productImage}alt="" /> </div>
                     <div id="prodInfo">
-                        <button id="deleteButton" type ="button" onClick={(e)=> deleteProduct(e)}>Delete</button>
-                        <button id="updateButton" type ="button" onClick={(e)=> showUpdateProductForm(e, props.csrf, product._id)}>Update</button>
                         <h3 className="productName"> {product.name} </h3>
                         <h4 className="productDescription"> {product.description} </h4>
                         <h3 className="productPrice"> ${product.price} </h3>
+                        <button id="deleteButton" type ="button" onClick={(e)=> deleteProduct(e)}>Delete</button>
+                        <button id="updateButton" type ="button" onClick={(e)=> showUpdateProductForm(e, props.csrf, product._id)}>Update</button>                        
                     </div>
                 </div>
             </div>

@@ -29,6 +29,10 @@ const ProductSchema = new mongoose.Schema({
     trim: true,
     set: setName,
   },
+  productImage: {
+    type: String,
+    required: true,
+  },
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -44,6 +48,7 @@ ProductSchema.statics.toAPI = doc => ({
   name: doc.name,
   price: doc.price,
   description: doc.description,
+  image: doc.productImage,
 });
 
 ProductSchema.statics.findByOwner = (ownerId, callback) => {
@@ -51,7 +56,7 @@ ProductSchema.statics.findByOwner = (ownerId, callback) => {
     owner: convertId(ownerId),
   };
 
-  return UserProductsModel.find(search).select('name price description').exec(callback);
+  return UserProductsModel.find(search).select('name price description productImage').exec(callback);
 };
 
 ProductSchema.statics.DeleteProductId = (productId, callback) => {
@@ -72,19 +77,7 @@ ProductSchema.statics.UpdateProductById = (productId, callback) => {
   return UserProductsModel.findOne(search).exec(callback);
 };
 
-// find all products
-// ProductSchema.statics.findProducts = (name, callback) => {
-//   const search = {
-//     // _id: convertId(productId),
-//     name: name,
-//   };
-
-//   return UserProductsModel.find(search).select('name price description').exec(callback);
-// };
-
-ProductSchema.statics.findProducts = (callback) => {
-  return UserProductsModel.find(callback);
-};
+ProductSchema.statics.findProducts = callback => UserProductsModel.find(callback);
 
 
 UserProductsModel = mongoose.model('Products', ProductSchema);

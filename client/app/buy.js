@@ -17,7 +17,7 @@ const ProductsList = function(props){
     // everytimes the state updates, the page will immediately create UI and show the updates
     const productsNodes = props.products.map(function(products) {
         return(
-            <div className="productCard" key={products._id} id={products._id} className="product">
+            <div className="productCard" key={products._id} id={products._id} className="buyProduct">
                 <button id="buyButton" type ="button" onClick={(e)=> BuyProduct(e)}>Buy</button>
                 <h3 className="productName"> {products.name} </h3>
                 <h4 className="productDescription"> {products.description} </h4>

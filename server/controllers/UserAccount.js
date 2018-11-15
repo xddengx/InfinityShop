@@ -5,11 +5,13 @@ const UserAccount = models.UserAccount;
 // search user's account. and get user's products via their id.
 const makerPage = (req, res) => {
   UserAccount.UserProductsModel.findByOwner(req.session.account._id, (err, docs) => {
+    // console.dir(docs);
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
 
+    console.log(docs);
     return res.render('app', { csrfToken: req.csrfToken(), products: docs });
   });
 };
@@ -17,14 +19,18 @@ const makerPage = (req, res) => {
 // create the product
 const makeProduct = (req, res) => {
   console.dir(req.body);
-  if (!req.body.name || !req.body.price || !req.body.description) {
-    return res.status(400).json({ error: 'All fields are required' });
+  console.dir(req.body.productImage);
+  if (!req.body.name || !req.body.price || !req.body.description || !req.body.productImage) {
+    return res.status(400).json({ error: '2 All fields are required' });
   }
+
+  // console.dir(req.body.productImage);
 
   const productData = {
     name: req.body.name,
     price: req.body.price,
     description: req.body.description,
+    productImage: req.body.productImage,
     owner: req.session.account._id,
   };
 
@@ -72,6 +78,7 @@ const updateProduct = (req, res) => UserAccount.UserProductsModel.UpdateProductB
   searchedProduct.name = req.body.name;
   searchedProduct.price = req.body.price;
   searchedProduct.description = req.body.description;
+  searchedProduct.productImage = req.body.productImage;
 
   // const updatedProduct = new UserAccount.UserProductsModel(updatedProductData);
   const savePromise = searchedProduct.save();
@@ -81,16 +88,10 @@ const updateProduct = (req, res) => UserAccount.UserProductsModel.UpdateProductB
     name: searchedProduct.name,
     price: searchedProduct.price,
     description: searchedProduct.description,
+    image: searchedProduct.productImage,
   }));
 
-  // console.dir(savePromise);
-
   return savePromise;
-  // return res.json({
-  //   name: searchedProduct.name,
-  //   price: searchedProduct.price,
-  //   description: searchedProduct.description
-  // });
 });
 
 const deleteProduct = (req, res) => {
