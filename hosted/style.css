@@ -142,8 +142,8 @@ label{
 }
 
 .product{
-    /* background: #c8e9f5; */
-    background-image: url("img/bkgd.png");
+    background: #c8e9f5;
+    /* background-image: url("img/bkgd.png"); */
     width: 250px;
     padding: 30px;
     margin: 15px;
@@ -330,4 +330,27 @@ input:checked+ .slider .public{
 
 input:checked + .slider .private{
     display: none;
+}
+
+
+/* Storefront */
+#allProductsHead{
+    text-align: center;
+}
+#allProducts{
+    margin-left: 5%;
+}
+
+#buyButton{
+    bottom: 0; 
+    right: 0;
+    position: absolute;
+    background-color: #5fba9e; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }

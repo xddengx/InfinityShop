@@ -1,7 +1,7 @@
 var csrfToken;
 
 const ProductsList = function(props){
-    // console.dir(props);
+    console.dir(props);
     // no products exist 
     if(props.products.length === 0){
         return (
@@ -27,21 +27,21 @@ const ProductsList = function(props){
     });
 
     return(
-        <div className="productList">
+        <div className="productsList">
             {productsNodes}
         </div>
     );
 };
 
 const loadAllProductsFromServer = () => {
-    sendAjax('GET', '/storefront', null, (data) => {
+    sendAjax('GET', '/getAllProducts', null, (data) => {
         ReactDOM.render(
             <ProductsList products={data.products} />, document.querySelector("#allProducts")
         );
     });
 };
 
-const showAllProducts = function(){
+const setupAllProducts = function(){
     // products attribute is empty for now, because we don't have data yet. But
     // it will at least get the HTML onto the page while we wait for the server
     ReactDOM.render(
@@ -54,7 +54,7 @@ const showAllProducts = function(){
 // allows us to get new CSRF token for new submissions
 const getTokenStore = () => {
     sendAjax('GET', '/getToken', null, (result) => {
-        showAllProducts(result.csrfToken);
+        setupAllProducts(result.csrfToken);
         csrfToken = result.csrfToken;
     });
 };
