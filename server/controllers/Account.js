@@ -120,19 +120,13 @@ const changePassword = (request, response) =>{
 
       const newInfo = doc;  
 
-      // res.json({
-      //   username: newInfo.username,
-      //   password: newInfo.newPass, 
-      //   salt: newInfo.salt,
-      // });
-
       return Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
         newInfo.username = req.body.username;
-        newInfo.newPass = hash;
+        newInfo.pass = hash;
         newInfo.salt = salt;
 
         console.dir(newInfo.username);
-        console.dir(newInfo.newPass);
+        console.dir(newInfo.pass);
         console.dir(newInfo.salt);
   
         const savePromise = newInfo.save();
@@ -140,8 +134,12 @@ const changePassword = (request, response) =>{
         savePromise.then(()=> {
           req.session.account = Account.AccountModel.toAPI(newInfo);
           
-
-          res.json({ redirect: '/login' });
+          res.json({
+            username: newInfo.username,
+            password: newInfo.pass, 
+            salt: newInfo.salt,
+          
+          });  
         });
 
         savePromise.catch((err) => {
@@ -149,7 +147,7 @@ const changePassword = (request, response) =>{
           return res.status(400).json({ error: 'An error occured' });
         });
   
-        // return savePromise;
+        return savePromise;
       });
     });
   });
