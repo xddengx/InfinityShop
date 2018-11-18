@@ -40,8 +40,8 @@ const handleChangePassword = e => {
         return false;
     }
 
-    console.dir($("#newPass").val());
-    console.dir($("#newPass2").val());
+    // console.dir($("#newPass").val());
+    // console.dir($("#newPass2").val());
 
     if ($("#newPass").val() !== $("#newPass2").val()) {
         handleError("New passwords do not match");
@@ -49,7 +49,7 @@ const handleChangePassword = e => {
     }
 
     sendAjax('PUT', $("#changePasswordForm").attr("action"), $("#changePasswordForm").serialize(), function () {
-        console.log("successful?");
+        console.log("successful");
     });
 
     return false;
