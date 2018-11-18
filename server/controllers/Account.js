@@ -3,7 +3,7 @@ const models = require('../models');
 const { Account } = models;
 
 const loginPage = (req, res) => {
-  res.render('login', { csrfToken: req.csrfToken()});
+  res.render('login', { csrfToken: req.csrfToken() });
 };
 
 const logout = (req, res) => {
@@ -60,7 +60,7 @@ const signup = (request, response) => {
       username: req.body.username,
       salt,
       password: hash,
-      spirals: 50000
+      spirals: 50000,
     };
 
     const newAccount = new Account.AccountModel(accountData);
@@ -86,7 +86,7 @@ const signup = (request, response) => {
   });
 };
 
-const changePassword = (request, response) =>{
+const changePassword = (request, response) => {
   const req = request;
   const res = response;
 
@@ -112,61 +112,60 @@ const changePassword = (request, response) =>{
     }
 
     // search for user's account
-    return Account.AccountModel.updatePassword(req.body.username, (err, doc) =>{
-      if (err) {
+    return Account.AccountModel.updatePassword(req.body.username, (error, doc) => {
+      if (error) {
         console.log(err);
         return res.status(400).json({ error: 'An error occurred' });
       }
 
       // save their account in a variable
-      const newInfo = doc;  
+      const newInfo = doc;
 
       // update their password and hash it
       return Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
         newInfo.password = hash;
         newInfo.salt = salt;
-  
+
         const savePromise = newInfo.save();
-        
-        savePromise.then(()=> {
-          //req.session.account = Account.AccountModel.toAPI(newInfo);  
-          
+
+        savePromise.then(() => {
+          // req.session.account = Account.AccountModel.toAPI(newInfo);
+
           res.json({
-            redirect: '/login'
-          });  
+            redirect: '/login',
+          });
         });
 
-        savePromise.catch((err) => {
-          console.log(err);
+        savePromise.catch((errPromise) => {
+          console.log(errPromise);
           return res.status(400).json({ error: 'An error occured' });
         });
       });
     });
   });
-
-} 
+};
 
 // Function is used when user buys a product from the storefront
-const updateSpirals = (req, res) => {
-    return Account.AccountModel.findByUsername(req.session.account.username, (err, docs) => {
-      if(err){
-        console.log(err);
-        return res.status(400).json({ error: 'An error occured' });
-      }
+const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
+  req.session.account.username, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
 
-      // update the user's spiral cash
-      const userSpirals = docs;
-      userSpirals.spirals = req.body.spirals;
+    // update the user's spiral cash
+    const userSpirals = docs;
+    userSpirals.spirals = req.body.spirals;
 
-      const savePromise = userSpirals.save();
+    const savePromise = userSpirals.save();
 
-      savePromise.then(() => res.json({
-        spirals: userSpirals.spirals
-      }));
+    savePromise.then(() => res.json({
+      spirals: userSpirals.spirals,
+    }));
 
-      return userSpirals.spirals;
-    });
-};
+    return userSpirals.spirals;
+  },
+);
 
 const getToken = (request, response) => {
   const req = request;

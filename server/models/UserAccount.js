@@ -1,4 +1,4 @@
-/* Model: User Account 
+/* Model: User Account
 The product schema: name of product, price, description, image, owner
 */
 const mongoose = require('mongoose');
@@ -43,7 +43,7 @@ const ProductSchema = new mongoose.Schema({
   createdData: {
     type: Date,
     default: Date.now,
-  }
+  },
 });
 
 ProductSchema.statics.toAPI = doc => ({

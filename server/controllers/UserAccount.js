@@ -10,10 +10,8 @@ const makerPage = (req, res) => {
       return res.status(400).json({ error: 'An error occurred' });
     }
 
-    return res.render('app', { csrfToken: req.csrfToken(), products: docs});
+    return res.render('app', { csrfToken: req.csrfToken(), products: docs });
   });
-
-
 };
 
 const getSpirals = (request, response) => {
@@ -78,32 +76,34 @@ const getProducts = (request, response) => {
 };
 
 // update the chosen product via product id
-const updateProduct = (req, res) => UserAccount.UserProductsModel.UpdateProductById(req.body.id, (err, doc) => {
-  if (err) {
-    console.log(err);
-    return res.status(400).json({ error: 'An error occurred' });
-  }
+const updateProduct = (req, res) => UserAccount.UserProductsModel.UpdateProductById(
+  req.body.id, (err, doc) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
 
-  // the new information for the product
-  const searchedProduct = doc;
-  searchedProduct.name = req.body.name;
-  searchedProduct.price = req.body.price;
-  searchedProduct.description = req.body.description;
-  searchedProduct.productImage = req.body.productImage;
+    // the new information for the product
+    const searchedProduct = doc;
+    searchedProduct.name = req.body.name;
+    searchedProduct.price = req.body.price;
+    searchedProduct.description = req.body.description;
+    searchedProduct.productImage = req.body.productImage;
 
-  // const updatedProduct = new UserAccount.UserProductsModel(updatedProductData);
-  const savePromise = searchedProduct.save();
+    // const updatedProduct = new UserAccount.UserProductsModel(updatedProductData);
+    const savePromise = searchedProduct.save();
 
 
-  savePromise.then(() => res.json({
-    name: searchedProduct.name,
-    price: searchedProduct.price,
-    description: searchedProduct.description,
-    image: searchedProduct.productImage,
-  }));
+    savePromise.then(() => res.json({
+      name: searchedProduct.name,
+      price: searchedProduct.price,
+      description: searchedProduct.description,
+      image: searchedProduct.productImage,
+    }));
 
-  return savePromise;
-});
+    return savePromise;
+  },
+);
 
 // delete the chosen product via the product id
 const deleteProduct = (req, res) => {

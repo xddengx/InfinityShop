@@ -1,9 +1,4 @@
 // Game Center: currently just renders the page
-
-const models = require('../models');
-
-const UserAccount = models.UserAccount;
-
 const gameCenterPage = (req, res) => res.render('gameCenter', { csrfToken: req.csrfToken() });
 
 const getSpirals = (request, response) => {

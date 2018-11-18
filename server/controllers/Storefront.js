@@ -1,12 +1,11 @@
 const models = require('../models');
 
-const UserAccount = models.UserAccount;
+const { UserAccount } = models;
 
 const createPage = (req, res) => res.render('storeFront', { csrfToken: req.csrfToken() });
 
 // get all the products from db
 const getAllProducts = (request, response) => {
-  const req = request;
   const res = response;
 
   return UserAccount.UserProductsModel.findProducts((err, docs) => {
