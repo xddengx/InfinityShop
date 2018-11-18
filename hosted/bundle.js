@@ -1,16 +1,43 @@
 var csrfToken;
+var spirals;
+
+// update spiral cash
+const BuyProduct = e => {
+    let price = e.target.parentNode.id;
+    let productBought = e.target.parentNode.parentNode.id;
+
+    let totalSpirals = spirals - price;
+    spirals = totalSpirals;
+
+    //update
+    let params = `spirals=${spirals}&_csrf=${csrfToken}`;
+
+    // console.dir(e.target);
+
+
+    sendAjax('PUT', '/updateSpirals', params, function () {
+
+        getSpiralsStorefront(); //TODO: not updating 
+        // location.reload();  
+    });
+
+    //TODO: transfer product to new owner
+    //TODO: remove element from page
+
+    return false;
+};
 
 const ProductsList = function (props) {
-    console.dir(props);
+    // console.dir(props);
     // no products exist 
     if (props.products.length === 0) {
         return React.createElement(
-            "div",
-            { className: "productsList" },
+            'div',
+            { className: 'productsList' },
             React.createElement(
-                "h3",
-                { className: "emptyProducts" },
-                "All items are sold out!"
+                'h3',
+                { className: 'emptyProducts' },
+                'All items are sold out!'
             )
         );
     }
@@ -21,56 +48,88 @@ const ProductsList = function (props) {
     // everytimes the state updates, the page will immediately create UI and show the updates
     const productsNodes = props.products.map(function (products) {
         return React.createElement(
-            "div",
-            { className: "productCard", key: products._id, id: products._id, className: "buyProduct" },
+            'div',
+            { className: 'productCard', key: products._id, id: 'prodCard', className: 'buyProduct' },
             React.createElement(
-                "button",
-                { id: "buyButton", type: "button", onClick: e => BuyProduct(e) },
-                "Buy"
+                'div',
+                null,
+                React.createElement('img', { className: 'theProductImage', src: products.productImage, alt: '' }),
+                ' '
             ),
             React.createElement(
-                "h3",
-                { className: "productName" },
-                " ",
-                products.name,
-                " "
-            ),
-            React.createElement(
-                "h4",
-                { className: "productDescription" },
-                " ",
-                products.description,
-                " "
-            ),
-            React.createElement(
-                "h3",
-                { className: "productPrice" },
-                " $",
-                products.price,
-                " "
+                'div',
+                { id: products.price },
+                React.createElement(
+                    'button',
+                    { id: 'buyButton', type: 'button', onClick: e => BuyProduct(e) },
+                    'Buy'
+                ),
+                React.createElement(
+                    'h3',
+                    { className: 'buyProductName' },
+                    ' ',
+                    products.name,
+                    ' '
+                ),
+                React.createElement(
+                    'h4',
+                    { className: 'productDescription' },
+                    ' ',
+                    products.description,
+                    ' '
+                ),
+                React.createElement(
+                    'h3',
+                    { className: 'productPrice' },
+                    ' $',
+                    products.price,
+                    ' '
+                )
             )
         );
     });
 
     return React.createElement(
-        "div",
-        { className: "productsList" },
+        'div',
+        { className: 'productsList' },
         productsNodes
     );
 };
 
-const loadAllProductsFromServer = () => {
-    sendAjax('GET', '/getAllProducts', null, data => {
-        ReactDOM.render(React.createElement(ProductsList, { products: data.products }), document.querySelector("#allProducts"));
+const SpiralsCash = function (obj) {
+    spirals = obj.spiral;
+    // console.dir(spirals);
+    return React.createElement(
+        'div',
+        { className: 'money' },
+        'Spiral Cash: ',
+        obj.spiral
+    );
+};
+
+const getSpiralsStorefront = () => {
+    sendAjax('GET', '/getSpirals', null, data => {
+        // spirals = data.spirals;
+        console.dir(data.spirals);
+        ReactDOM.render(React.createElement(SpiralsCash, { spiral: data.spirals }), document.querySelector("#spiralsStorefront"));
     });
 };
 
-const setupAllProducts = function () {
+const loadAllProductsFromServer = () => {
+    sendAjax('GET', '/getAllProducts', null, data => {
+        ReactDOM.render(React.createElement(ProductsList, { products: data.products, csrf: csrfToken }), document.querySelector("#allProducts"));
+    });
+};
+
+const setupAllProducts = function (csrf) {
     // products attribute is empty for now, because we don't have data yet. But
     // it will at least get the HTML onto the page while we wait for the server
-    ReactDOM.render(React.createElement(ProductsList, { products: [] }), document.querySelector("#allProducts"));
+    ReactDOM.render(React.createElement(ProductsList, { products: [], csrf: csrf }), document.querySelector("#allProducts"));
+
+    ReactDOM.render(React.createElement(SpiralsCash, { spiral: spirals }), document.querySelector('#spiralsStorefront'));
 
     loadAllProductsFromServer();
+    getSpiralsStorefront();
 };
 
 // allows us to get new CSRF token for new submissions
@@ -86,12 +145,13 @@ $(document).ready(function () {
     loadAllProductsFromServer();
 });
 var csrfToken;
+var spirals;
 
 const handleProduct = e => {
     e.preventDefault();
 
     if ($("#productName").val() == '' || $("#productPrice").val() == '' || $("#description").val() == '' || $("#productImage").val() == '') {
-        handleError("1 All fields are required");
+        handleError("All fields are required");
         return false;
     }
 
@@ -105,13 +165,12 @@ const handleProduct = e => {
 const deleteProduct = e => {
     // console.log("hello", e.target.parentNode.id);
     let productId = e.target.parentNode.id;
-    // console.log(csrfToken);
     let params = `data=${productId}&_csrf=${csrfToken}`;
-    // console.dir(params);
+    console.dir(params);
 
     sendAjax('DELETE', '/deleteProduct', params, function () {
-        // TODO: LET USER KNOW THEY UPDATED SUCCESFFULY ~ POP UP MESSAGE
         console.log("success");
+        location.reload(); // TODO: make sure it is successful?
     });
 };
 
@@ -133,6 +192,7 @@ const updateProductHandle = e => {
     // PUT, /updateProduct, 
     sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function () {
         console.log("success");
+        location.reload();
     });
 };
 
@@ -259,8 +319,6 @@ const ProductForm = props => {
 };
 
 const ProductList = function (props) {
-    // console.dir(props);
-
     // no products exist 
     if (props.products.length === 0) {
         return React.createElement(
@@ -287,6 +345,12 @@ const ProductList = function (props) {
                 { id: "test" },
                 React.createElement(
                     "div",
+                    null,
+                    React.createElement("img", { className: "theProductImage", src: product.productImage, alt: "" }),
+                    " "
+                ),
+                React.createElement(
+                    "div",
                     { id: "togglePrivacy" },
                     React.createElement(
                         "p",
@@ -299,12 +363,6 @@ const ProductList = function (props) {
                         React.createElement("input", { type: "checkbox" }),
                         React.createElement("span", { className: "slider" })
                     )
-                ),
-                React.createElement(
-                    "div",
-                    null,
-                    React.createElement("img", { className: "theProductImage", src: product.productImage, alt: "" }),
-                    " "
                 ),
                 React.createElement(
                     "div",
@@ -329,18 +387,18 @@ const ProductList = function (props) {
                         " $",
                         product.price,
                         " "
-                    ),
-                    React.createElement(
-                        "button",
-                        { id: "deleteButton", type: "button", onClick: e => deleteProduct(e) },
-                        "Delete"
-                    ),
-                    React.createElement(
-                        "button",
-                        { id: "updateButton", type: "button", onClick: e => showUpdateProductForm(e, props.csrf, product._id) },
-                        "Update"
                     )
                 )
+            ),
+            React.createElement(
+                "button",
+                { id: "deleteButton", type: "button", onClick: e => deleteProduct(e) },
+                "Delete"
+            ),
+            React.createElement(
+                "button",
+                { id: "updateButton", type: "button", onClick: e => showUpdateProductForm(e, props.csrf, product._id) },
+                "Update"
             )
         );
     });
@@ -350,6 +408,23 @@ const ProductList = function (props) {
         { className: "productList" },
         productNodes
     );
+};
+
+// from result.spirals
+const SpiralCash = function (obj) {
+    console.dir(obj);
+    return React.createElement(
+        "div",
+        { className: "money" },
+        "Spiral Cash: ",
+        obj.spiral
+    );
+};
+
+const getSpirals = () => {
+    sendAjax('GET', '/getSpirals', null, result => {
+        ReactDOM.render(React.createElement(SpiralCash, { spiral: result.spirals }), document.querySelector("#spirals"));
+    });
 };
 
 // add function to grab products from the server and reder a product list
@@ -365,14 +440,16 @@ const loadProductsFromServer = () => {
 // setup function takes a CSRF token in client/userAccount.js
 // function will render out ProductForm to the page and a default product list
 const setup = function (csrf) {
-
     ReactDOM.render(React.createElement(ProductForm, { csrf: csrf }), document.querySelector("#makeProduct"));
 
     // products attribute is empty for now, because we don't have data yet. But
     // it will at least get the HTML onto the page while we wait for the server
     ReactDOM.render(React.createElement(ProductList, { products: [], csrf: csrf }), document.querySelector("#products"));
 
+    ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#spirals'));
+
     loadProductsFromServer();
+    getSpirals();
 };
 
 // allows us to get new CSRF token for new submissions

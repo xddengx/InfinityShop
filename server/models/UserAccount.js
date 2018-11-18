@@ -16,7 +16,6 @@ const ProductSchema = new mongoose.Schema({
     trim: true,
     set: setName,
   },
-
   price: {
     type: Number,
     min: 1,
@@ -41,7 +40,7 @@ const ProductSchema = new mongoose.Schema({
   createdData: {
     type: Date,
     default: Date.now,
-  },
+  }
 });
 
 ProductSchema.statics.toAPI = doc => ({

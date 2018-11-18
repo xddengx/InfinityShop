@@ -1,25 +1,36 @@
 const models = require('../models');
 
-const UserAccount = models.UserAccount;
+const { UserAccount } = models;
 
 // search user's account. and get user's products via their id.
 const makerPage = (req, res) => {
   UserAccount.UserProductsModel.findByOwner(req.session.account._id, (err, docs) => {
-    // console.dir(docs);
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
 
-    console.log(docs);
-    return res.render('app', { csrfToken: req.csrfToken(), products: docs });
+    return res.render('app', { csrfToken: req.csrfToken(), products: docs});
   });
+
+
+};
+
+const getSpirals = (request, response) => {
+  const req = request;
+  const res = response;
+
+  const spiralsJSON = {
+    spirals: req.session.account.spirals,
+  };
+
+  res.json(spiralsJSON);
 };
 
 // create the product
 const makeProduct = (req, res) => {
-  console.dir(req.body);
-  console.dir(req.body.productImage);
+  // console.dir(req.body);
+  // console.dir(req.body.productImage);
   if (!req.body.name || !req.body.price || !req.body.description || !req.body.productImage) {
     return res.status(400).json({ error: '2 All fields are required' });
   }
@@ -111,3 +122,4 @@ module.exports.getProducts = getProducts;
 module.exports.makeProduct = makeProduct;
 module.exports.updateProduct = updateProduct;
 module.exports.deleteProduct = deleteProduct;
+module.exports.getSpirals = getSpirals;

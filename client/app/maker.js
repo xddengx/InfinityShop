@@ -1,10 +1,11 @@
 var csrfToken;
+var spirals;
 
 const handleProduct = (e) => {
     e.preventDefault();
 
     if($("#productName").val() == '' || $("#productPrice").val() == '' || $("#description").val() == '' || $("#productImage").val() == ''){
-        handleError("1 All fields are required");
+        handleError("All fields are required");
         return false;
     }
 
@@ -18,13 +19,12 @@ const handleProduct = (e) => {
 const deleteProduct = (e) =>{
     // console.log("hello", e.target.parentNode.id);
     let productId = e.target.parentNode.id;
-    // console.log(csrfToken);
     let params = `data=${productId}&_csrf=${csrfToken}`;
-    // console.dir(params);
+    console.dir(params);
 
     sendAjax('DELETE', '/deleteProduct', params, function(){
-        // TODO: LET USER KNOW THEY UPDATED SUCCESFFULY ~ POP UP MESSAGE
         console.log("success");
+        location.reload();      // TODO: make sure it is successful?
     });
 }
 
@@ -46,6 +46,7 @@ const updateProductHandle = (e) => {
     // PUT, /updateProduct, 
     sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function() {
         console.log("success");
+        location.reload();
     });
 };
 
@@ -135,8 +136,6 @@ const ProductForm = (props) => {
 };
 
 const ProductList = function(props){
-// console.dir(props);
-
     // no products exist 
     if(props.products.length === 0){
         return (
@@ -154,6 +153,7 @@ const ProductList = function(props){
         return(
             <div className="productCard" key={product._id} id={product._id} className="product">
                 <div id="test"> 
+                    <div><img className="theProductImage" src= {product.productImage}alt="" /> </div>
                     <div id="togglePrivacy">
                         <p> Public/Private</p>
                         <label className="switch">
@@ -161,15 +161,14 @@ const ProductList = function(props){
                             <span className="slider"></span>
                         </label>
                     </div>
-                    <div><img className="theProductImage" src= {product.productImage}alt="" /> </div>
                     <div id="prodInfo">
                         <h3 className="productName"> {product.name} </h3>
                         <h4 className="productDescription"> {product.description} </h4>
-                        <h3 className="productPrice"> ${product.price} </h3>
-                        <button id="deleteButton" type ="button" onClick={(e)=> deleteProduct(e)}>Delete</button>
-                        <button id="updateButton" type ="button" onClick={(e)=> showUpdateProductForm(e, props.csrf, product._id)}>Update</button>                        
+                        <h3 className="productPrice"> ${product.price} </h3>                      
                     </div>
                 </div>
+                <button id="deleteButton" type ="button" onClick={(e)=> deleteProduct(e)}>Delete</button>
+                <button id="updateButton" type ="button" onClick={(e)=> showUpdateProductForm(e, props.csrf, product._id)}>Update</button>  
             </div>
         );
     });
@@ -179,6 +178,26 @@ const ProductList = function(props){
             {productNodes}
         </div>
     );
+};
+
+
+// from result.spirals
+const SpiralCash = function(obj){
+    console.dir(obj);
+    return (
+        <div className="money">
+            Spiral Cash: {obj.spiral}
+        </div>
+    );
+
+}
+
+const getSpirals = () => {
+    sendAjax('GET', '/getSpirals', null, (result) => {
+        ReactDOM.render(
+            <SpiralCash spiral={result.spirals} />, document.querySelector("#spirals"),
+        );
+    });
 };
 
 // add function to grab products from the server and reder a product list
@@ -196,7 +215,6 @@ const loadProductsFromServer = () => {
 // setup function takes a CSRF token in client/userAccount.js
 // function will render out ProductForm to the page and a default product list
 const setup = function(csrf){
-
     ReactDOM.render(
         <ProductForm csrf={csrf} />, document.querySelector("#makeProduct")
     );
@@ -204,10 +222,15 @@ const setup = function(csrf){
     // products attribute is empty for now, because we don't have data yet. But
     // it will at least get the HTML onto the page while we wait for the server
     ReactDOM.render(
-        <ProductList products={[]} csrf={csrf}  />, document.querySelector("#products")
+        <ProductList products={[]} csrf={csrf} />, document.querySelector("#products")
+    );
+
+    ReactDOM.render(
+        <SpiralCash spiral={spirals} />, document.querySelector('#spirals'),
     );
 
     loadProductsFromServer();
+    getSpirals();
 };
 
 // allows us to get new CSRF token for new submissions

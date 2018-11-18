@@ -25,6 +25,10 @@ const AccountSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  spirals: {
+    type: Number,
+    min: 0,
+  },
   createdDate: {
     type: Date,
     default: Date.now,
@@ -37,6 +41,7 @@ AccountSchema.statics.toAPI = doc => ({
   // _id is built into your mongo document and is guaranteed to be unique
   username: doc.username,
   _id: doc._id,
+  spirals: doc.spirals,
 });
 
 const validatePassword = (doc, password, callback) => {
@@ -85,6 +90,15 @@ AccountSchema.statics.authenticate = (username, password, callback) => AccountMo
     return callback();
   });
 });
+
+AccountSchema.statics.updatePassword = (name, callback) =>{
+  const search = {
+    username: name
+  };
+
+  return AccountModel.findOne(search).exec(callback);
+} 
+
 
 AccountModel = mongoose.model('Account', AccountSchema);
 

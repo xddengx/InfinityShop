@@ -1,6 +1,8 @@
 const handleLogin = (e) => {
     e.preventDefault();
 
+    console.log($("#pass").val());
+
     if($("#user").val() == '' || $("#pass").val() == ''){
         handleError("Fields cannot be left blank");
         return false;
@@ -30,22 +32,46 @@ const handleSignup = (e) => {
     return false;
 };
 
+const handleChangePassword = (e) =>{
+    e.preventDefault();
+
+    if($("user").val() == '' || $("#oldPass").val() == '' || $("#newPass").val() == '' || $("newPass2").val() == ''){
+        handleError("All fields are required");
+        return false;
+    }
+
+    console.dir($("#newPass").val());
+    console.dir($("#newPass2").val());
+
+    if($("#newPass").val() !== $("#newPass2").val()){
+        handleError("New passwords do not match");
+        return false;
+    }
+
+    sendAjax('PUT', $("#changePasswordForm").attr("action"), $("#changePasswordForm").serialize(), redirect);
+    // });
+
+    return false;
+};
+
 const LoginWindow = (props) =>{
     return(
-        <form id="loginForm" name="loginForm"
-              onSubmit={handleLogin}
-              action="/login"
-              method="POST"
-              className="mainForm"
-        >
-        
-        <label htmlFor="username">Username: </label>
-        <input id="user" type="text" name="username" placeholder="username"/>
-        <label htmlFor="pass">Password: </label>
-        <input id="pass" type="password" name="pass" placeholder="password"/>
-        <input type="hidden" name="_csrf" value={props.csrf} />
-        <input className="formSubmit" type="submit" value="Sign in"/>
-        </form>
+        <div>
+            <form id="loginForm" name="loginForm"
+                onSubmit={handleLogin}
+                action="/login"
+                method="POST"
+                className="mainForm"
+            >
+            
+            <label htmlFor="username">Username: </label>
+            <input id="user" type="text" name="username" placeholder="username"/>
+            <label htmlFor="pass">Password: </label>
+            <input id="pass" type="password" name="pass" placeholder="password"/>
+            <input type="hidden" name="_csrf" value={props.csrf} />
+            <input className="formSubmit" type="submit" value="Sign in"/>
+            </form>
+        </div>
     );
 };
 
@@ -71,6 +97,35 @@ const SignupWindow = (props) =>{
     );
 };
 
+const ChangePasswordWindow = (props) =>{
+    return(
+        <form id="changePasswordForm"
+            name="changePasswordForm"
+            onSubmit={handleChangePassword}
+            action="/changePassword"
+            method="PUT"
+            className="mainForm"
+        >
+        
+        <label htmlFor="username">Username: </label>
+        <input id="user" type="text" name="username" placeholder="username"/>
+
+        <label htmlFor="oldPass"> Old Password: </label>
+        <input id="oldPass" type="password" name="oldPass" placeholder="old password"/>
+        
+
+        <label htmlFor="newPass">New Password: </label>
+        <input id="newPass" type="password" name="newPass" placeholder="new password"/>
+
+        <label htmlFor="newPass2">New Password: </label>
+        <input id="newPass2" type="password" name="newPass2" placeholder="retype new password"/>
+
+        <input type="hidden" name="_csrf" value={props.csrf} />
+        <input className="formSubmit" type="submit" value="Update Password"/>
+        </form>
+    )
+}
+
 const createLoginWindow = (csrf) =>{
     ReactDOM.render(
         <LoginWindow csrf={csrf} />,
@@ -85,12 +140,20 @@ const createSignupWindow = (csrf) =>{
     );
 };
 
+const createPasswordChangeWindow = (csrf) =>{
+    ReactDOM.render(
+        <ChangePasswordWindow csrf={csrf} />,
+        document.querySelector("#content")
+    );
+}
+
 //setup function attaches events to the page buttons
 //login page is defaulted when user loads page, otherwise no UI will be shown
 //(can be sign up page too)
 const setup = (csrf) => {
     const loginButton = document.querySelector("#loginButton");
     const signupButton = document.querySelector("#signupButton");
+    const changePasswordButton = document.querySelector("#changePassword");
 
     signupButton.addEventListener("click", (e) =>{
         e.preventDefault();
@@ -103,6 +166,14 @@ const setup = (csrf) => {
         createLoginWindow(csrf);
         return false;
     });
+
+    changePasswordButton.addEventListener("click", (e) =>{
+        console.dir(csrf);
+        e.preventDefault();
+        createPasswordChangeWindow(csrf);
+        return false;
+    });
+
     createLoginWindow(csrf); //default view
 };
 

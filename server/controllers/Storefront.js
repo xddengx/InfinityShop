@@ -18,5 +18,18 @@ const getAllProducts = (request, response) => {
   });
 };
 
+const getSpirals = (request, response) => {
+  const req = request;
+  const res = response;
+  console.dir(req.session.account);
+
+  const spiralsJSON = {
+    spirals: req.session.account.spirals,
+  };
+
+  res.json(spiralsJSON);
+};
+
 module.exports.createPage = createPage;
 module.exports.getAllProducts = getAllProducts;
+module.exports.getSpirals = getSpirals;

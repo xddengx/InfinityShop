@@ -272,7 +272,7 @@ label{
 #togglePrivacy{
     font-size: 14px;
     position: absolute;
-    top: 0;
+    /* top: 0; */
     right: 10;
 }
 
@@ -363,10 +363,11 @@ input:checked + .slider .private{
 }
 
 .buyProduct{
+    margin: 0px;
     /* background: #c8e9f5; */
     background-image: url("img/bkgd.png");
     width: 250px;
-    padding: 30px;
+    /* padding: 30px; */
     margin: 15px;
     font-size: 17px;
     /* font-family: 'Open Sans Condensed', sans-serif; */
@@ -375,4 +376,21 @@ input:checked + .slider .private{
     float: left;
     position: relative;
     box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+/* CHANGE PASSWORD */
+#changePassword{
+    margin: 10px;
+    float: right;
+    /* position: absolute; */
+    /* #af7fe6;  */
+    background-color: #32d063;
+    border: none;
+    color: white;
+    padding: 15px 37px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
