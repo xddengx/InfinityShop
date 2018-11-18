@@ -443,3 +443,14 @@ input:checked + .slider .private{
 #changePassword:hover{
     transition: none;
 }
+
+
+
+/* GAME CENTER */
+#games, #message{
+    padding: 40px;
+}
+
+#message{
+    color:red;
+}

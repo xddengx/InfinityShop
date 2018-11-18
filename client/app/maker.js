@@ -186,7 +186,7 @@ const SpiralCash = function(obj){
     console.dir(obj);
     return (
         <div className="money">
-            Spiral Cash: {obj.spiral}
+            <a href="/gameCenter">Spiral Cash: {obj.spiral}</a>
         </div>
     );
 

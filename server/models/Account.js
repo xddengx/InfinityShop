@@ -33,6 +33,9 @@ const AccountSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  // testing: {
+  //   type: Boolean
+  // }
 });
 
 // anything attatched to schema in statics, can be accessible through the Model

@@ -102,8 +102,12 @@ const SpiralsCash = function (obj) {
     return React.createElement(
         'div',
         { className: 'money' },
-        'Spiral Cash: ',
-        obj.spiral
+        React.createElement(
+            'a',
+            { href: '/gameCenter' },
+            'Spiral Cash: ',
+            obj.spiral
+        )
     );
 };
 
@@ -143,6 +147,57 @@ const getTokenStore = () => {
 $(document).ready(function () {
     getTokenStore();
     loadAllProductsFromServer();
+});
+var csrfToken;
+var spirals;
+
+const playChance = () => {
+    let spiralCashWon = 50;
+    let winningNum = Math.floor(Math.random() * 20);
+    let userNum = Math.floor(Math.random() * 20);
+
+    if (winningNum == userNum) {
+        $("#message").text("You won " + spiralCashWon + " Spiral Cash!");
+    } else {
+        $("#message").text("Sorry you did not get the lucky number. Your number: " + userNum + " | Winning number: " + winningNum);
+    }
+};
+
+const DailyReward = function () {
+    return React.createElement(
+        "div",
+        { className: "dailyReward" },
+        React.createElement(
+            "h2",
+            null,
+            " Game of Chance | Will you get the lucky number? "
+        ),
+        React.createElement(
+            "p",
+            null,
+            "Rules: Play to see if your number is our winning number."
+        ),
+        React.createElement(
+            "button",
+            { onClick: e => playChance(e) },
+            " Play "
+        )
+    );
+};
+
+const gameSetup = function (csrf) {
+    ReactDOM.render(React.createElement(DailyReward, { csrf: csrf }), document.querySelector("#games"));
+};
+
+const getTokenGame = () => {
+    sendAjax('GET', '/getToken', null, result => {
+        gameSetup(result.csrfToken);
+        csrfToken = result.csrfToken;
+    });
+};
+
+$(document).ready(function () {
+    getTokenGame();
 });
 var csrfToken;
 var spirals;
@@ -416,8 +471,12 @@ const SpiralCash = function (obj) {
     return React.createElement(
         "div",
         { className: "money" },
-        "Spiral Cash: ",
-        obj.spiral
+        React.createElement(
+            "a",
+            { href: "/gameCenter" },
+            "Spiral Cash: ",
+            obj.spiral
+        )
     );
 };
 

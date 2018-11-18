@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Storefront (test)</title>
+  <script crossorigin src="https://unpkg.com/react@15/dist/react.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+  <script crossorigin src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
+  <link rel="shortcut icon" href="/assets/img/favicon.png"/>
+  <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Open+Sans|Open+Sans+Condensed:300" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
+</head>
+<body>
+  <nav><a href="/userAccount"><img id="logo" src="/assets/img/logo.png" alt="logo"/></a>
+    <div id="logoName">Spiral</div>
+    <div class="navlink"><a href="/logout">Log out</a></div>
+    <div class="navlink" id="spiralsStorefront"></div> {{!-- links to page where user can get more SP (money) --}}
+    <div class="navlink"><a href="/storefront">Main Store</a></div> {{!-- public store --}}
+    <div class="navlink"><a href="/userAccount">Your Account</a></div> {{!-- user's private account --}}
+
+  </nav>
+  
+  <h2 id="allProductsHead"> Game Center </h2>
+  <section id="games">
+  </section>
+    <div id="message"><h4></h4></div>
+  <script src="/assets/bundle.js"></script>
+</body>
+</html>
