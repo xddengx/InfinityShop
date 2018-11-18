@@ -48,9 +48,7 @@ const handleChangePassword = e => {
         return false;
     }
 
-    sendAjax('PUT', $("#changePasswordForm").attr("action"), $("#changePasswordForm").serialize(), function () {
-        console.log("successful");
-    });
+    sendAjax('PUT', $("#changePasswordForm").attr("action"), $("#changePasswordForm").serialize(), redirect);
 
     return false;
 };

@@ -121,24 +121,16 @@ const changePassword = (request, response) =>{
       const newInfo = doc;  
 
       return Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
-        newInfo.username = req.body.username;
-        newInfo.pass = hash;
+        newInfo.password = hash;
         newInfo.salt = salt;
-
-        console.dir(newInfo.username);
-        console.dir(newInfo.pass);
-        console.dir(newInfo.salt);
   
         const savePromise = newInfo.save();
         
         savePromise.then(()=> {
-          req.session.account = Account.AccountModel.toAPI(newInfo);
+          //req.session.account = Account.AccountModel.toAPI(newInfo);
           
           res.json({
-            username: newInfo.username,
-            password: newInfo.pass, 
-            salt: newInfo.salt,
-          
+            redirect: '/login'
           });  
         });
 
@@ -146,8 +138,6 @@ const changePassword = (request, response) =>{
           console.log(err);
           return res.status(400).json({ error: 'An error occured' });
         });
-  
-        return savePromise;
       });
     });
   });
