@@ -103,7 +103,7 @@ const ChangePasswordWindow = (props) =>{
             onSubmit={handleChangePassword}
             action="/changePassword"
             method="PUT"
-            className="mainForm"
+            className="passwordChangeForm"
         >
         
         <label htmlFor="username">Username: </label>
@@ -120,7 +120,7 @@ const ChangePasswordWindow = (props) =>{
         <input id="newPass2" type="password" name="newPass2" placeholder="retype new password"/>
 
         <input type="hidden" name="_csrf" value={props.csrf} />
-        <input className="formSubmit" type="submit" value="Update Password"/>
+        <input className="formSubmit" id="passChangeSub" type="submit" value="Update Password"/>
         </form>
     )
 }

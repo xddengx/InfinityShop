@@ -124,7 +124,7 @@ const ChangePasswordWindow = props => {
             onSubmit: handleChangePassword,
             action: "/changePassword",
             method: "PUT",
-            className: "mainForm"
+            className: "passwordChangeForm"
         },
         React.createElement(
             "label",
@@ -151,7 +151,7 @@ const ChangePasswordWindow = props => {
         ),
         React.createElement("input", { id: "newPass2", type: "password", name: "newPass2", placeholder: "retype new password" }),
         React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-        React.createElement("input", { className: "formSubmit", type: "submit", value: "Update Password" })
+        React.createElement("input", { className: "formSubmit", id: "passChangeSub", type: "submit", value: "Update Password" })
     );
 };
 

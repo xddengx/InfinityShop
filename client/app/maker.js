@@ -35,7 +35,7 @@ const updateProductHandle = (e) => {
     let productId = e.target.parentNode.id;
 
     if($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == '' || $("#updateproductImage").val() == ''){
-        handleError("All fields are required in order to update product.");
+        alert("All fields are required in order to update product.");
         return false;
     }
 
@@ -94,13 +94,13 @@ const closeModal = () =>{
     // console.dir(e.target.parentNode);
 
     ReactDOM.render(
-        <div> </div>, document.querySelector("#testing")
+        <div> </div>, document.querySelector("#modal")
     );
 }
 
 const showUpdateProductForm = function(e, csrf, productId){
     ReactDOM.render(
-        <UpdateProductForm csrf={csrf} product={productId} />, document.querySelector("#testing")
+        <UpdateProductForm csrf={csrf} product={productId} />, document.querySelector("#modal")
     );
 
     
