@@ -16,7 +16,7 @@ const router = (app) => {
   app.delete('/deleteProduct', mid.requiresLogin, controllers.UserAccount.deleteProduct);
   app.put('/updateProduct', mid.requiresLogin, controllers.UserAccount.updateProduct);
   app.get('/getAllProducts', controllers.Storefront.getAllProducts);
-  app.get('/storefront', controllers.Storefront.createPage);
+  app.get('/storefront', mid.requiresLogin, controllers.Storefront.createPage);
   app.put('/updateSpirals', controllers.Account.updateSpirals);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };

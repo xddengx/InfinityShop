@@ -44,7 +44,6 @@ const signup = (request, response) => {
   req.body.username = `${req.body.username}`;
   req.body.pass = `${req.body.pass}`;
   req.body.pass2 = `${req.body.pass2}`;
-  req.body.spirals = 50000;
 
   // check if all fields are filled out
   if (!req.body.username || !req.body.pass || !req.body.pass2) {
@@ -62,6 +61,7 @@ const signup = (request, response) => {
       username: req.body.username,
       salt,
       password: hash,
+      spirals: 50000
     };
 
     const newAccount = new Account.AccountModel(accountData);
@@ -141,10 +141,7 @@ const changePassword = (request, response) =>{
           req.session.account = Account.AccountModel.toAPI(newInfo);
           
 
-          res.json({
-            username: newInfo.username,
-            password: newInfo.newPass, 
-          });
+          res.json({ redirect: '/login' });
         });
 
         savePromise.catch((err) => {
@@ -152,7 +149,7 @@ const changePassword = (request, response) =>{
           return res.status(400).json({ error: 'An error occured' });
         });
   
-        return savePromise;
+        // return savePromise;
       });
     });
   });
