@@ -29,14 +29,11 @@ const getSpirals = (request, response) => {
 
 // create the product
 const makeProduct = (req, res) => {
-  // console.dir(req.body);
-  // console.dir(req.body.productImage);
   if (!req.body.name || !req.body.price || !req.body.description || !req.body.productImage) {
-    return res.status(400).json({ error: '2 All fields are required' });
+    return res.status(400).json({ error: 'All fields are required' });
   }
 
-  // console.dir(req.body.productImage);
-
+  // new product's data
   const productData = {
     name: req.body.name,
     price: req.body.price,
@@ -45,6 +42,7 @@ const makeProduct = (req, res) => {
     owner: req.session.account._id,
   };
 
+  // create the product
   const newProduct = new UserAccount.UserProductsModel(productData);
 
   const productPromise = newProduct.save();
@@ -63,6 +61,8 @@ const makeProduct = (req, res) => {
   return productPromise;
 };
 
+// get products depending on who the user is
+// search by id
 const getProducts = (request, response) => {
   const req = request;
   const res = response;
@@ -77,14 +77,14 @@ const getProducts = (request, response) => {
   });
 };
 
+// update the chosen product via product id
 const updateProduct = (req, res) => UserAccount.UserProductsModel.UpdateProductById(req.body.id, (err, doc) => {
   if (err) {
     console.log(err);
     return res.status(400).json({ error: 'An error occurred' });
   }
 
-  // console.dir(doc.name);
-  // // the new information for the product
+  // the new information for the product
   const searchedProduct = doc;
   searchedProduct.name = req.body.name;
   searchedProduct.price = req.body.price;
@@ -105,8 +105,8 @@ const updateProduct = (req, res) => UserAccount.UserProductsModel.UpdateProductB
   return savePromise;
 });
 
+// delete the chosen product via the product id
 const deleteProduct = (req, res) => {
-  // body.data is the productId found
   UserAccount.UserProductsModel.DeleteProductId(req.body.data, (err) => {
     if (err) {
       console.log(err);

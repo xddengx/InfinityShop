@@ -4,6 +4,7 @@ const UserAccount = models.UserAccount;
 
 const createPage = (req, res) => res.render('storeFront', { csrfToken: req.csrfToken() });
 
+// get all the products from db
 const getAllProducts = (request, response) => {
   const req = request;
   const res = response;
@@ -18,6 +19,7 @@ const getAllProducts = (request, response) => {
   });
 };
 
+// get the user's spirals from db
 const getSpirals = (request, response) => {
   const req = request;
   const res = response;

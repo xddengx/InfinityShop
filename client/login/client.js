@@ -1,7 +1,8 @@
+/* Login Page, Sign Up Page, Change Password Page*/
+
+// send request to login 
 const handleLogin = (e) => {
     e.preventDefault();
-
-    console.log($("#pass").val());
 
     if($("#user").val() == '' || $("#pass").val() == ''){
         handleError("Fields cannot be left blank");
@@ -13,7 +14,7 @@ const handleLogin = (e) => {
     return false;
 };
 
-//handle clicks to the signup button
+// send request to create new account
 const handleSignup = (e) => {
     e.preventDefault();
 
@@ -32,6 +33,7 @@ const handleSignup = (e) => {
     return false;
 };
 
+// send request to change password
 const handleChangePassword = (e) =>{
     e.preventDefault();
 
@@ -39,9 +41,6 @@ const handleChangePassword = (e) =>{
         handleError("All fields are required");
         return false;
     }
-
-    // console.dir($("#newPass").val());
-    // console.dir($("#newPass2").val());
 
     if($("#newPass").val() !== $("#newPass2").val()){
         handleError("New passwords do not match");
@@ -53,6 +52,7 @@ const handleChangePassword = (e) =>{
     return false;
 };
 
+// render the log in page
 const LoginWindow = (props) =>{
     return(
         <div>
@@ -74,6 +74,7 @@ const LoginWindow = (props) =>{
     );
 };
 
+// render the sign up page
 const SignupWindow = (props) =>{
     return(
         <form id="signupForm"
@@ -96,6 +97,8 @@ const SignupWindow = (props) =>{
     );
 };
 
+
+// render change password page
 const ChangePasswordWindow = (props) =>{
     return(
         <form id="changePasswordForm"
@@ -148,7 +151,6 @@ const createPasswordChangeWindow = (csrf) =>{
 
 //setup function attaches events to the page buttons
 //login page is defaulted when user loads page, otherwise no UI will be shown
-//(can be sign up page too)
 const setup = (csrf) => {
     const loginButton = document.querySelector("#loginButton");
     const signupButton = document.querySelector("#signupButton");

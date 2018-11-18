@@ -91,6 +91,7 @@ AccountSchema.statics.authenticate = (username, password, callback) => AccountMo
   });
 });
 
+// used to update users password
 AccountSchema.statics.updatePassword = (name, callback) =>{
   const search = {
     username: name

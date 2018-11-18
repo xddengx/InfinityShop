@@ -1,3 +1,4 @@
+/* Handling if user needs to login to access a certain page*/
 const requiresLogin = (req, res, next) => {
   if (!req.session.account) {
     return res.redirect('/');

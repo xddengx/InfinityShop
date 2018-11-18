@@ -1,14 +1,21 @@
+/* View for User's Account page 
+Displays the user's products to sell
+*/
+
 var csrfToken;
 var spirals;
 
+// adding a product to sell
 const handleProduct = (e) => {
     e.preventDefault();
 
+    // check if user entered all fields
     if($("#productName").val() == '' || $("#productPrice").val() == '' || $("#description").val() == '' || $("#productImage").val() == ''){
         handleError("All fields are required");
         return false;
     }
 
+    // add the product
     sendAjax('POST', $("#productForm").attr("action"), $("#productForm").serialize(), function() {
         loadProductsFromServer();
     });
@@ -16,44 +23,40 @@ const handleProduct = (e) => {
     return false;
 };
 
+// delete product: using the product's unique id
 const deleteProduct = (e) =>{
-    // console.log("hello", e.target.parentNode.id);
     let productId = e.target.parentNode.id;
     let params = `data=${productId}&_csrf=${csrfToken}`;
     console.dir(params);
 
     sendAjax('DELETE', '/deleteProduct', params, function(){
         console.log("success");
-        location.reload();      // TODO: make sure it is successful?
+        location.reload();
     });
 }
 
-// updating the actual product
+// updating the product
 const updateProductHandle = (e) => {
     e.preventDefault();
-
     let productId = e.target.parentNode.id;
 
+    // check if user entered in all fields
     if($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == '' || $("#updateproductImage").val() == ''){
         alert("All fields are required in order to update product.");
         return false;
     }
 
-    // $("#updateProductForm").serialize()
     let updatedProduct = $("#updateProductForm").serialize();
-    // let query = `&${updatedProduct}`;
 
-    // PUT, /updateProduct, 
+    // send request to update product
     sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function() {
         console.log("success");
         location.reload();
     });
 };
 
-// rendering the form with a modal
+// rendering the update product form with a modal
 const UpdateProductForm = (props) =>{
-    // console.dir(props);
-
     return(
         <div id ="updateModal" className="modal"> 
             <div className="formContent">
@@ -88,22 +91,18 @@ const UpdateProductForm = (props) =>{
     );
 };
 
+// closing the modal using empty div
 const closeModal = () =>{
-    // console.log(e);
-    // e.target.parentNode.style.display = "none";
-    // console.dir(e.target.parentNode);
-
     ReactDOM.render(
         <div> </div>, document.querySelector("#modal")
     );
 }
 
+// render the update product form
 const showUpdateProductForm = function(e, csrf, productId){
     ReactDOM.render(
         <UpdateProductForm csrf={csrf} product={productId} />, document.querySelector("#modal")
     );
-
-    
 }
 
 // create React JSX for Add Product form
@@ -135,6 +134,7 @@ const ProductForm = (props) => {
     );
 };
 
+// render the user's product list
 const ProductList = function(props){
     // no products exist 
     if(props.products.length === 0){

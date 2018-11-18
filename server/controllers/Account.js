@@ -39,7 +39,6 @@ const signup = (request, response) => {
   const req = request;
   const res = response;
 
-
   // cast to strings to cover up some security flaws
   req.body.username = `${req.body.username}`;
   req.body.pass = `${req.body.pass}`;
@@ -112,14 +111,17 @@ const changePassword = (request, response) =>{
       return res.status(401).json({ error: 'The username and password do not match a record in our system' });
     }
 
+    // search for user's account
     return Account.AccountModel.updatePassword(req.body.username, (err, doc) =>{
       if (err) {
         console.log(err);
         return res.status(400).json({ error: 'An error occurred' });
       }
 
+      // save their account in a variable
       const newInfo = doc;  
 
+      // update their password and hash it
       return Account.AccountModel.generateHash(req.body.newPass, (salt, hash) => {
         newInfo.password = hash;
         newInfo.salt = salt;
@@ -127,7 +129,7 @@ const changePassword = (request, response) =>{
         const savePromise = newInfo.save();
         
         savePromise.then(()=> {
-          //req.session.account = Account.AccountModel.toAPI(newInfo);
+          //req.session.account = Account.AccountModel.toAPI(newInfo);  
           
           res.json({
             redirect: '/login'
@@ -144,14 +146,15 @@ const changePassword = (request, response) =>{
 
 } 
 
+// Function is used when user buys a product from the storefront
 const updateSpirals = (req, res) => {
-  // console.dir(req);
     return Account.AccountModel.findByUsername(req.session.account.username, (err, docs) => {
       if(err){
         console.log(err);
         return res.status(400).json({ error: 'An error occured' });
       }
 
+      // update the user's spiral cash
       const userSpirals = docs;
       userSpirals.spirals = req.body.spirals;
 

@@ -1,3 +1,6 @@
+/* Model: User Account 
+The product schema: name of product, price, description, image, owner
+*/
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
@@ -67,7 +70,6 @@ ProductSchema.statics.DeleteProductId = (productId, callback) => {
 };
 
 // use for updating product find product via product id .
-// body.data returns productId found
 ProductSchema.statics.UpdateProductById = (productId, callback) => {
   const search = {
     _id: convertId(productId),

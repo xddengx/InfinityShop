@@ -1,8 +1,11 @@
+
+// handle the error message
 const handleError = (message) => {
     $("#errorMessage").text(message);
     console.log(message);
 };
 
+// redirect to the specified page
 const redirect = (response) => {
     window.location = response.redirect;
 };

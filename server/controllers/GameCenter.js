@@ -1,3 +1,5 @@
+// Game Center: currently just renders the page
+
 const models = require('../models');
 
 const UserAccount = models.UserAccount;

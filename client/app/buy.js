@@ -1,22 +1,24 @@
+/* Clients view of the storefront. User is able to view all selling 
+products and buy a product.If user buys a product, the amount will 
+be deducted from their Spirals Cash. *This works, but the actual 
+text is not refreshed until user logs out and logs back in.
+*/
+
 var csrfToken;
 var spirals;
 
 // update spiral cash
 const BuyProduct = (e) =>{
+    // get the price of the product
     let price = e.target.parentNode.id;
-    let productBought = e.target.parentNode.parentNode.id;
-    
+    // how much spirals the user has now after their purchase
     let totalSpirals = spirals - price;
     spirals = totalSpirals;
 
-    //update
-    let params = `spirals=${spirals}&_csrf=${csrfToken}`;
-
-    // console.dir(e.target);
-    
+    // update
+    let params = `spirals=${spirals}&_csrf=${csrfToken}`;    
 
     sendAjax('PUT', '/updateSpirals', params, function(){
-
         getSpiralsStorefront();     //TODO: not updating 
         // location.reload();  
     });
@@ -27,8 +29,8 @@ const BuyProduct = (e) =>{
     return false;
 }
 
+// show all products 
 const ProductsList = function(props){
-    // console.dir(props);
     // no products exist 
     if(props.products.length === 0){
         return (
@@ -41,7 +43,7 @@ const ProductsList = function(props){
     // map function to create UI for EACH product stored
     // every product will generate a product Div and add it to productNodes
     // advantage is that we can update the sate of this component via Ajax.
-    // everytimes the state updates, the page will immediately create UI and show the updates
+    // everytimes the state updates, the page will immediately creates the UI and shows the updates
     const productsNodes = props.products.map(function(products) {
         return(
             <div className="productCard" key={products._id} id="prodCard" className="buyProduct">
@@ -51,7 +53,6 @@ const ProductsList = function(props){
                     <h3 className="buyProductName"> {products.name} </h3>
                     <h4 className="productDescription"> {products.description} </h4>
                     <h3 className="productPrice"> ${products.price} </h3>
-                    {/* <input type="hidden" name="id" value={props.product} /> */}
                 </div>
             </div>
         );
@@ -64,9 +65,9 @@ const ProductsList = function(props){
     );
 };
 
+// display the user's Spiral Cash in the nav bar.
 const SpiralsCash = function(obj){
     spirals = obj.spiral;
-    // console.dir(spirals);
     return (
         <div className="money">
             <a href="/gameCenter">Spiral Cash: {obj.spiral}</a>
@@ -77,7 +78,6 @@ const SpiralsCash = function(obj){
 
 const getSpiralsStorefront = () => {
     sendAjax('GET', '/getSpirals', null, (data) => {
-        // spirals = data.spirals;
         console.dir(data.spirals);
         ReactDOM.render(
             <SpiralsCash spiral={data.spirals} />, document.querySelector("#spiralsStorefront")
@@ -85,6 +85,7 @@ const getSpiralsStorefront = () => {
     });
 };
 
+// load all products from server
 const loadAllProductsFromServer = () => {
     sendAjax('GET', '/getAllProducts', null, (data) => {
         ReactDOM.render(
@@ -93,6 +94,7 @@ const loadAllProductsFromServer = () => {
     });
 };
 
+// set up for rendering the products and spirals
 const setupAllProducts = function(csrf){
     // products attribute is empty for now, because we don't have data yet. But
     // it will at least get the HTML onto the page while we wait for the server
