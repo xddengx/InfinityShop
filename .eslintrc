@@ -1,6 +1,12 @@
 { 
   "extends": "airbnb/base",
   "rules": {
+    "prefer-destructuring": ["error", {
+      "array": false,
+      "object": false
+    }, {
+      "enforceForRenamedProperties": false
+    }],
     "no-underscore-dangle" : "off",
 	"no-plusplus": "off"
   }
