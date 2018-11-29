@@ -26,7 +26,7 @@ const handleProduct = (e) => {
 // delete product: using the product's unique id
 const deleteProduct = (e) =>{
     let productId = e.target.parentNode.id;
-    let params = `data=${productId}&_csrf=${csrfToken}`;
+    let params = `prodId=${productId}&_csrf=${csrfToken}`;
     console.dir(params);
 
     sendAjax('DELETE', '/deleteProduct', params, function(){

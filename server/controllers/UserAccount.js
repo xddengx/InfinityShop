@@ -129,7 +129,7 @@ const updateProduct = (req, res) => UserAccount.UserProductsModel.FindProductByI
 //clone product and update the owner
 const cloneProduct = (req, res) => 
 UserAccount.UserProductsModel.FindProductById(
-  req.body.id, (err, doc) => {
+  req.body.prodId, (err, doc) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
@@ -156,7 +156,7 @@ UserAccount.UserProductsModel.FindProductById(
 
 // delete the chosen product via the product id
 const deleteProduct = (req, res) => {
-  UserAccount.UserProductsModel.DeleteProductId(req.body.data, (err) => {
+  UserAccount.UserProductsModel.DeleteProductId(req.body.prodId, (err) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });

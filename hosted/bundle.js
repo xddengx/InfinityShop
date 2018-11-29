@@ -19,7 +19,7 @@ var BuyProduct = function BuyProduct(e) {
     console.dir(productId);
 
     var param = 'price=' + price + '&_csrf=' + csrfToken;
-    var productIdParam = 'id=' + productId + '&_csrf=' + csrfToken;
+    var productIdParam = 'prodId=' + productId + '&_csrf=' + csrfToken;
 
     sendAjax('PUT', '/updateSpirals', param, function () {
         getSpiralsStorefront(); // update the text/amount displayed
@@ -27,9 +27,12 @@ var BuyProduct = function BuyProduct(e) {
         // if product was bought successfully create clone of product and change ownerId
         sendAjax('PUT', '/updateOwner', productIdParam, function () {
             console.dir('successful');
-        });
 
-        // location.reload();  
+            sendAjax('DELETE', '/deleteProduct', productIdParam, function () {
+                console.dir('successful');
+                location.reload(); // TODO: extra- refreshes a different way. setInterval?
+            });
+        });
     });
 
     //TODO: transfer product to new owner
@@ -256,7 +259,7 @@ var handleProduct = function handleProduct(e) {
 // delete product: using the product's unique id
 var deleteProduct = function deleteProduct(e) {
     var productId = e.target.parentNode.id;
-    var params = "data=" + productId + "&_csrf=" + csrfToken;
+    var params = "prodId=" + productId + "&_csrf=" + csrfToken;
     console.dir(params);
 
     sendAjax('DELETE', '/deleteProduct', params, function () {

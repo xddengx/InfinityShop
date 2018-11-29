@@ -15,7 +15,7 @@ const BuyProduct = (e) =>{
     console.dir(productId);
 
     let param = `price=${price}&_csrf=${csrfToken}`;
-    let productIdParam = `id=${productId}&_csrf=${csrfToken}`;
+    let productIdParam = `prodId=${productId}&_csrf=${csrfToken}`;
 
     sendAjax('PUT', '/updateSpirals', param, function(){
         getSpiralsStorefront();  // update the text/amount displayed
@@ -23,9 +23,12 @@ const BuyProduct = (e) =>{
         // if product was bought successfully create clone of product and change ownerId
         sendAjax('PUT', '/updateOwner', productIdParam, function(){
             console.dir('successful');
-        })
 
-        // location.reload();  
+            sendAjax('DELETE', '/deleteProduct', productIdParam, function(){
+                console.dir('successful');
+                location.reload();  // TODO: extra- refreshes a different way. setInterval?
+            });
+        })
     });
 
     //TODO: transfer product to new owner
