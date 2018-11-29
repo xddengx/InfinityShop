@@ -137,6 +137,7 @@ UserAccount.UserProductsModel.FindProductById(
     // cloning the product
     const prodCopydata = doc;
     prodCopydata._id = mongoose.Types.ObjectId();
+    prodCopydata.owner = req.session.account._id;
     prodCopydata.isNew = true;    // needed to create clone 
     
     const prodCopy = new UserAccount.BoughtProductModel(prodCopydata);
