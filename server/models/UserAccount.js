@@ -7,6 +7,7 @@ mongoose.Promise = global.Promise;
 const _ = require('underscore');
 
 let UserProductsModel = {};
+let BoughtProductModel = {};
 
 // mongoose.Types.ObjectID converts string ID to real mongo ID
 const convertId = mongoose.Types.ObjectId;

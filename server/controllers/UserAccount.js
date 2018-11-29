@@ -1,5 +1,5 @@
-const models = require('../models');
 const mongoose = require('mongoose');
+const models = require('../models');
 
 const { UserAccount } = models;
 const { Account } = models;
@@ -16,7 +16,7 @@ const makerPage = (req, res) => {
   });
 };
 
-// fix this to get the updated value 
+// fix this to get the updated value
 // const getSpirals = (request, response) => {
 //   console.dir(request);
 //   const req = request;
@@ -41,9 +41,10 @@ const getSpirals = (request, response) => {
         return res.status(400).json({ error: 'An error occured' });
       }
 
-    // console.dir(docs.spirals);
-    return res.json(docs.spirals);
-  });
+      // console.dir(docs.spirals);
+      return res.json(docs.spirals);
+    },
+  );
 };
 
 // create the product
@@ -126,9 +127,8 @@ const updateProduct = (req, res) => UserAccount.UserProductsModel.FindProductByI
   },
 );
 
-//clone product and update the owner
-const cloneProduct = (req, res) => 
-UserAccount.UserProductsModel.FindProductById(
+// clone product and update the owner
+const cloneProduct = (req, res) => UserAccount.UserProductsModel.FindProductById(
   req.body.prodId, (err, doc) => {
     if (err) {
       console.log(err);
@@ -138,17 +138,17 @@ UserAccount.UserProductsModel.FindProductById(
     const prodCopydata = doc;
     prodCopydata._id = mongoose.Types.ObjectId();
     prodCopydata.owner = req.session.account._id;
-    prodCopydata.isNew = true;    // needed to create clone 
-    
+    prodCopydata.isNew = true; // needed to create clone
+
     const prodCopy = new UserAccount.BoughtProductModel(prodCopydata);
     const savePromise = prodCopy.save();
-    savePromise.then(() => res.json({message: 'Successful'}));
-    savePromise.catch((error) =>{
-      if(error){
-        return res.status(400).json({error: 'Product already exists'});
+    savePromise.then(() => res.json({ message: 'Successful' }));
+    savePromise.catch((error) => {
+      if (error) {
+        return res.status(400).json({ error: 'Product already exists' });
       }
 
-      return res.status(400).json({error: 'An error occured'});
+      return res.status(400).json({ error: 'An error occured' });
     });
 
     return savePromise;

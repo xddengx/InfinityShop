@@ -21,6 +21,7 @@ const router = (app) => {
   app.put('/updateOwner', controllers.UserAccount.cloneProduct);
   app.get('/gameCenter', mid.requiresLogin, controllers.GameCenter.gameCenterPage);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
+  app.get('/*', mid.requiresSecure, controllers.Account.loginPage); // for now
 };
 
 module.exports = router;

@@ -249,9 +249,17 @@ var handleProduct = function handleProduct(e) {
     }
 
     // add the product
-    sendAjax('POST', $("#productForm").attr("action"), $("#productForm").serialize(), function () {
-        loadProductsFromServer();
-    });
+    var toMatch = /^\$?[0-9]+\.?[0-9]?[0-9]?$/;
+    var isMatch = toMatch.test(document.querySelector('#productPrice').value);
+    // console.dir(document.querySelector('#productPrice').value);
+    // console.dir(isMatch);
+    if (isMatch === true) {
+        sendAjax('POST', $("#productForm").attr("action"), $("#productForm").serialize(), function () {
+            loadProductsFromServer();
+        });
+    } else {
+        alert("Value entered for the price of the product needs to be in numerical form.");
+    }
 
     return false;
 };
@@ -281,11 +289,20 @@ var updateProductHandle = function updateProductHandle(e) {
 
     var updatedProduct = $("#updateProductForm").serialize();
 
-    // send request to update product
-    sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function () {
-        console.log("success");
-        location.reload();
-    });
+    var toMatch = /^\$?[0-9]+\.?[0-9]?[0-9]?$/;
+    var isMatch = toMatch.test(document.querySelector('#updatePrice').value);
+    console.log(document.querySelector('#updatePrice').value);
+    console.log(isMatch);
+
+    if (isMatch === true) {
+        // send request to update product
+        sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function () {
+            console.log("success");
+            location.reload();
+        });
+    } else {
+        alert("Value entered for the price of the product needs to be in numerical form.");
+    }
 };
 
 // rendering the update product form with a modal
@@ -568,6 +585,9 @@ $(document).ready(function () {
         getTokenStore();
         loadAllProductsFromServer();
         getSpiralsStorefront();
+    }
+    if (window.location.pathname == "/gameCenter") {
+        gameSetup();
     }
 });
 "use strict";

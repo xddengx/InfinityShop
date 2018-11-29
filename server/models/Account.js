@@ -1,4 +1,3 @@
-/* eslint eqeqeq:0 */
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 

@@ -1,5 +1,3 @@
-/* eslint eqeqeq:0 */
-
 // set up express MVC functionality, server, db connection
 
 // import libraries
