@@ -26,7 +26,7 @@ const BuyProduct = (e) =>{
 
             sendAjax('DELETE', '/deleteProduct', productIdParam, function(){
                 console.dir('successful');
-                location.reload();  // TODO: extra- refreshes a different way. setInterval?
+                // location.reload();  // TODO: extra- refreshes a different way. setInterval?
             });
         })
     });

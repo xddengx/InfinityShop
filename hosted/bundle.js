@@ -30,7 +30,7 @@ var BuyProduct = function BuyProduct(e) {
 
             sendAjax('DELETE', '/deleteProduct', productIdParam, function () {
                 console.dir('successful');
-                location.reload(); // TODO: extra- refreshes a different way. setInterval?
+                // location.reload();  // TODO: extra- refreshes a different way. setInterval?
             });
         });
     });
@@ -595,7 +595,7 @@ $(document).ready(function () {
 // handle the error message
 var handleError = function handleError(message) {
     $("#errorMessage").text(message);
-    console.log(message);
+    console.log("TODO: include a better eroor handling message");
 };
 
 // redirect to the specified page

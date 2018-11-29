@@ -159,49 +159,51 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
 
     // ensure user has sufficient funds to buy a product
     // if(docs.spirals > productPrice){
-    const newTotal = docs.spirals - productPrice;
-    userSpirals.spirals = newTotal;
+    // const newTotal = docs.spirals - productPrice;
+    // userSpirals.spirals = newTotal;
 
-    const savePromise = userSpirals.save();
+    // const savePromise = userSpirals.save();
 
-    savePromise.then(() => res.json({
-      spirals: userSpirals.spirals,
-    }));
+    // savePromise.then(() => res.json({
+    //   spirals: userSpirals.spirals,
+    // }));
 
-    // throws error if insufficient funds
-    savePromise.catch((error) => {
-      console.dir(error);
-      if (error) {
-        return res.status(400).json({ error: 'Insufficient funds' });
-      }
+    // // throws error if insufficient funds
+    // savePromise.catch((error) => {
+    //   console.dir(error);
+    //   if (error) {
+    //     return res.status(400).json({ error: 'Insufficient funds' });
+    //   }
 
-      return res.status(400).json({ error: 'An error occured' });
-    });
+    //   return res.status(400).json({ error: 'An error occured' });
+    // });
 
     //
     // if user has sufficient funds
-    // if(docs.spirals > productPrice){
-    //   const newTotal = docs.spirals - productPrice;
-    //   userSpirals.spirals = newTotal;
+    if(docs.spirals > productPrice){
+      const newTotal = docs.spirals - productPrice;
+      userSpirals.spirals = newTotal;
   
-    //   const savePromise = userSpirals.save();
+      const savePromise = userSpirals.save();
   
-    //   savePromise.then(() => res.json({
-    //     spirals: userSpirals.spirals,
-    //   }));
+      savePromise.then(() => res.json({
+        spirals: userSpirals.spirals,
+      }));
   
-    //   // throws error if insufficient funds
-    //   savePromise.catch((error) => {
-    //     console.dir(error);
-    //     if (error) {
-    //       return res.status(400).json({ error: 'Insufficient funds' });
-    //     }
+      // throws error if insufficient funds
+      savePromise.catch((error) => {
+        console.dir(error);
+        if (error) {
+          return res.status(400).json({ error: 'Insufficient funds' });
+        }
   
-    //     return res.status(400).json({ error: 'An error occured' });
-    //   });
-    // }
+        return res.status(400).json({ error: 'An error occured' });
+      });
+    }else{
+      return res.status(400).json({ error: 'Insufficient funds' });
+    }
 
-    return savePromise;
+    // return savePromise;
   },
 );
 
