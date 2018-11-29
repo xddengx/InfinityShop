@@ -1,7 +1,9 @@
+"use strict";
+
 /* Login Page, Sign Up Page, Change Password Page*/
 
 // send request to login 
-const handleLogin = e => {
+var handleLogin = function handleLogin(e) {
     e.preventDefault();
 
     if ($("#user").val() == '' || $("#pass").val() == '') {
@@ -15,7 +17,7 @@ const handleLogin = e => {
 };
 
 // send request to create new account
-const handleSignup = e => {
+var handleSignup = function handleSignup(e) {
     e.preventDefault();
 
     if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
@@ -34,7 +36,7 @@ const handleSignup = e => {
 };
 
 // send request to change password
-const handleChangePassword = e => {
+var handleChangePassword = function handleChangePassword(e) {
     e.preventDefault();
 
     if ($("user").val() == '' || $("#oldPass").val() == '' || $("#newPass").val() == '' || $("newPass2").val() == '') {
@@ -53,7 +55,7 @@ const handleChangePassword = e => {
 };
 
 // render the log in page
-const LoginWindow = props => {
+var LoginWindow = function LoginWindow(props) {
     return React.createElement(
         "div",
         null,
@@ -84,7 +86,7 @@ const LoginWindow = props => {
 };
 
 // render the sign up page
-const SignupWindow = props => {
+var SignupWindow = function SignupWindow(props) {
     return React.createElement(
         "form",
         { id: "signupForm",
@@ -118,7 +120,7 @@ const SignupWindow = props => {
 };
 
 // render change password page
-const ChangePasswordWindow = props => {
+var ChangePasswordWindow = function ChangePasswordWindow(props) {
     return React.createElement(
         "form",
         { id: "changePasswordForm",
@@ -157,38 +159,38 @@ const ChangePasswordWindow = props => {
     );
 };
 
-const createLoginWindow = csrf => {
+var createLoginWindow = function createLoginWindow(csrf) {
     ReactDOM.render(React.createElement(LoginWindow, { csrf: csrf }), document.querySelector("#content"));
 };
 
-const createSignupWindow = csrf => {
+var createSignupWindow = function createSignupWindow(csrf) {
     ReactDOM.render(React.createElement(SignupWindow, { csrf: csrf }), document.querySelector("#content"));
 };
 
-const createPasswordChangeWindow = csrf => {
+var createPasswordChangeWindow = function createPasswordChangeWindow(csrf) {
     ReactDOM.render(React.createElement(ChangePasswordWindow, { csrf: csrf }), document.querySelector("#content"));
 };
 
 //setup function attaches events to the page buttons
 //login page is defaulted when user loads page, otherwise no UI will be shown
-const setup = csrf => {
-    const loginButton = document.querySelector("#loginButton");
-    const signupButton = document.querySelector("#signupButton");
-    const changePasswordButton = document.querySelector("#changePassword");
+var setup = function setup(csrf) {
+    var loginButton = document.querySelector("#loginButton");
+    var signupButton = document.querySelector("#signupButton");
+    var changePasswordButton = document.querySelector("#changePassword");
 
-    signupButton.addEventListener("click", e => {
+    signupButton.addEventListener("click", function (e) {
         e.preventDefault();
         createSignupWindow(csrf);
         return false;
     });
 
-    loginButton.addEventListener("click", e => {
+    loginButton.addEventListener("click", function (e) {
         e.preventDefault();
         createLoginWindow(csrf);
         return false;
     });
 
-    changePasswordButton.addEventListener("click", e => {
+    changePasswordButton.addEventListener("click", function (e) {
         console.dir(csrf);
         e.preventDefault();
         createPasswordChangeWindow(csrf);
@@ -201,8 +203,8 @@ const setup = csrf => {
 // since page is never reloaded. requests have to be made to the server
 // to get CSRF tokens 
 // if successful, the rest of the page will be set up
-const getToken = () => {
-    sendAjax('GET', '/getToken', null, result => {
+var getToken = function getToken() {
+    sendAjax('GET', '/getToken', null, function (result) {
         setup(result.csrfToken);
     });
 };
@@ -213,19 +215,20 @@ const getToken = () => {
 $(document).ready(function () {
     getToken();
 });
+"use strict";
 
 // handle the error message
-const handleError = message => {
+var handleError = function handleError(message) {
     $("#errorMessage").text(message);
     console.log(message);
 };
 
 // redirect to the specified page
-const redirect = response => {
+var redirect = function redirect(response) {
     window.location = response.redirect;
 };
 
-const sendAjax = (type, action, data, success) => {
+var sendAjax = function sendAjax(type, action, data, success) {
     $.ajax({
         cache: false,
         type: type,
@@ -233,7 +236,7 @@ const sendAjax = (type, action, data, success) => {
         data: data,
         dataType: "json",
         success: success,
-        error: function (xhr, status, error) {
+        error: function error(xhr, status, _error) {
             var messageObj = JSON.parse(xhr.responseText);
             handleError(messageObj.error);
         }

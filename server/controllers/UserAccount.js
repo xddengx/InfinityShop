@@ -1,6 +1,8 @@
 const models = require('../models');
+const mongoose = require('mongoose');
 
 const { UserAccount } = models;
+const { Account } = models;
 
 // search user's account. and get user's products via their id.
 const makerPage = (req, res) => {
@@ -14,15 +16,34 @@ const makerPage = (req, res) => {
   });
 };
 
+// fix this to get the updated value 
+// const getSpirals = (request, response) => {
+//   console.dir(request);
+//   const req = request;
+//   const res = response;
+
+//   const spiralsJSON = {
+//     spirals: req.session.account.spirals,
+//   };
+
+//   console.dir(spiralsJSON);
+
+//   res.json(spiralsJSON);
+// };
+
 const getSpirals = (request, response) => {
   const req = request;
   const res = response;
+  return Account.AccountModel.findByUsername(
+    req.session.account.username, (err, docs) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({ error: 'An error occured' });
+      }
 
-  const spiralsJSON = {
-    spirals: req.session.account.spirals,
-  };
-
-  res.json(spiralsJSON);
+    // console.dir(docs.spirals);
+    return res.json(docs.spirals);
+  });
 };
 
 // create the product
@@ -76,7 +97,7 @@ const getProducts = (request, response) => {
 };
 
 // update the chosen product via product id
-const updateProduct = (req, res) => UserAccount.UserProductsModel.UpdateProductById(
+const updateProduct = (req, res) => UserAccount.UserProductsModel.FindProductById(
   req.body.id, (err, doc) => {
     if (err) {
       console.log(err);
@@ -105,6 +126,34 @@ const updateProduct = (req, res) => UserAccount.UserProductsModel.UpdateProductB
   },
 );
 
+//clone product and update the owner
+const cloneProduct = (req, res) => 
+UserAccount.UserProductsModel.FindProductById(
+  req.body.id, (err, doc) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+    // cloning the product
+    const prodCopydata = doc;
+    prodCopydata._id = mongoose.Types.ObjectId();
+    prodCopydata.isNew = true;    // needed to create clone 
+    
+    const prodCopy = new UserAccount.BoughtProductModel(prodCopydata);
+    const savePromise = prodCopy.save();
+    savePromise.then(() => res.json({message: 'Successful'}));
+    savePromise.catch((error) =>{
+      if(error){
+        return res.status(400).json({error: 'Product already exists'});
+      }
+
+      return res.status(400).json({error: 'An error occured'});
+    });
+
+    return savePromise;
+  },
+);
+
 // delete the chosen product via the product id
 const deleteProduct = (req, res) => {
   UserAccount.UserProductsModel.DeleteProductId(req.body.data, (err) => {
@@ -122,4 +171,5 @@ module.exports.getProducts = getProducts;
 module.exports.makeProduct = makeProduct;
 module.exports.updateProduct = updateProduct;
 module.exports.deleteProduct = deleteProduct;
+module.exports.cloneProduct = cloneProduct;
 module.exports.getSpirals = getSpirals;

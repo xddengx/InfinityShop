@@ -10,16 +10,21 @@ var spirals;
 // update spiral cash
 const BuyProduct = (e) =>{
     // get the price of the product
-    let price = e.target.parentNode.id;
-    // how much spirals the user has now after their purchase
-    let totalSpirals = spirals - price;
-    spirals = totalSpirals;
+    var price = e.target.parentNode.id;
+    var productId = e.target.parentNode.parentNode.id;
+    console.dir(productId);
 
-    // update
-    let params = `spirals=${spirals}&_csrf=${csrfToken}`;    
+    let param = `price=${price}&_csrf=${csrfToken}`;
+    let productIdParam = `id=${productId}&_csrf=${csrfToken}`;
 
-    sendAjax('PUT', '/updateSpirals', params, function(){
-        getSpiralsStorefront();     //TODO: not updating 
+    sendAjax('PUT', '/updateSpirals', param, function(){
+        getSpiralsStorefront();  // update the text/amount displayed
+
+        // if product was bought successfully create clone of product and change ownerId
+        sendAjax('PUT', '/updateOwner', productIdParam, function(){
+            console.dir('successful');
+        })
+
         // location.reload();  
     });
 
@@ -46,7 +51,7 @@ const ProductsList = function(props){
     // everytimes the state updates, the page will immediately creates the UI and shows the updates
     const productsNodes = props.products.map(function(products) {
         return(
-            <div className="productCard" key={products._id} id="prodCard" className="buyProduct">
+            <div className="productCard" key={products._id} id={products._id} className="buyProduct">
                 <div><img className="theProductImage" src= {products.productImage}alt="" /> </div>
                 <div id={products.price}>
                     <button id="buyButton" type ="button" onClick={(e)=> BuyProduct(e)}>Buy</button>
@@ -67,6 +72,7 @@ const ProductsList = function(props){
 
 // display the user's Spiral Cash in the nav bar.
 const SpiralsCash = function(obj){
+    console.dir(obj);
     spirals = obj.spiral;
     return (
         <div className="money">
@@ -78,9 +84,9 @@ const SpiralsCash = function(obj){
 
 const getSpiralsStorefront = () => {
     sendAjax('GET', '/getSpirals', null, (data) => {
-        console.dir(data.spirals);
+        // console.dir(data);
         ReactDOM.render(
-            <SpiralsCash spiral={data.spirals} />, document.querySelector("#spiralsStorefront")
+            <SpiralsCash spiral={data} />, document.querySelector("#spiralsStorefront")
         );
     });
 };
@@ -119,6 +125,7 @@ const getTokenStore = () => {
 };
 
 $(document).ready(function(){
-    getTokenStore();
-    loadAllProductsFromServer();
+    // console.dir(window.location.pathname);
+    // getTokenStore();
+    // loadAllProductsFromServer();
 });

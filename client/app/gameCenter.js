@@ -36,13 +36,13 @@ const gameSetup = function(csrf){
     )
 }
 
-const getTokenGame = () => {
-    sendAjax('GET', '/getToken', null, (result) => {
-        gameSetup(result.csrfToken);
-        csrfToken = result.csrfToken;
-    });
-};
+// const getTokenGame = () => {
+//     sendAjax('GET', '/getToken', null, (result) => {
+//         gameSetup(result.csrfToken);
+//         csrfToken = result.csrfToken;
+//     });
+// };
 
-$(document).ready(function(){
-    getTokenGame();
-});
+// $(document).ready(function(){
+//     // getTokenGame();
+// });

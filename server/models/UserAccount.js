@@ -46,6 +46,40 @@ const ProductSchema = new mongoose.Schema({
   },
 });
 
+const BoughtProductSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+    set: setName,
+  },
+  price: {
+    type: Number,
+    min: 1,
+    required: true,
+  },
+
+  description: {
+    type: String,
+    required: true,
+    trim: true,
+    set: setName,
+  },
+  productImage: {
+    type: String,
+    required: true,
+  },
+  owner: {
+    type: mongoose.Schema.ObjectId,
+    required: true,
+    ref: 'Account',
+  },
+  createdData: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 ProductSchema.statics.toAPI = doc => ({
   name: doc.name,
   price: doc.price,
@@ -70,7 +104,7 @@ ProductSchema.statics.DeleteProductId = (productId, callback) => {
 };
 
 // use for updating product find product via product id .
-ProductSchema.statics.UpdateProductById = (productId, callback) => {
+ProductSchema.statics.FindProductById = (productId, callback) => {
   const search = {
     _id: convertId(productId),
   };
@@ -78,10 +112,14 @@ ProductSchema.statics.UpdateProductById = (productId, callback) => {
   return UserProductsModel.findOne(search).exec(callback);
 };
 
+
 ProductSchema.statics.findProducts = callback => UserProductsModel.find(callback);
 
-
 UserProductsModel = mongoose.model('Products', ProductSchema);
+BoughtProductModel = mongoose.model('Bought', BoughtProductSchema);
 
 module.exports.UserProductsModel = UserProductsModel;
 module.exports.ProductSchema = ProductSchema;
+module.exports.BoughtProductModel = BoughtProductModel;
+module.exports.ProductSchema = ProductSchema;
+module.exports.BoughtProductSchema = BoughtProductSchema;

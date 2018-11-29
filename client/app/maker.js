@@ -195,7 +195,7 @@ const SpiralCash = function(obj){
 const getSpirals = () => {
     sendAjax('GET', '/getSpirals', null, (result) => {
         ReactDOM.render(
-            <SpiralCash spiral={result.spirals} />, document.querySelector("#spirals"),
+            <SpiralCash spiral={result} />, document.querySelector("#spirals"),
         );
     });
 };
@@ -242,5 +242,13 @@ const getToken = () => {
 };
 
 $(document).ready(function(){
-    getToken();
+    if(window.location.pathname == "/userAccount"){
+        getToken();
+    }
+    
+    if(window.location.pathname == "/storefront"){
+        getTokenStore();
+        loadAllProductsFromServer();
+        getSpiralsStorefront();
+    }
 });

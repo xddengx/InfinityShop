@@ -153,9 +153,15 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
       return res.status(400).json({ error: 'An error occured' });
     }
 
-    // update the user's spiral cash
+    // make calculations on the server side so users cant manipulate changes
+    let productPrice = req.body.price;
     const userSpirals = docs;
-    userSpirals.spirals = req.body.spirals;
+    let msg;
+
+    // ensure user has sufficient funds to buy a product
+    // if(docs.spirals > productPrice){
+    var newTotal = docs.spirals - productPrice;
+    userSpirals.spirals = newTotal;
 
     const savePromise = userSpirals.save();
 
@@ -163,7 +169,17 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
       spirals: userSpirals.spirals,
     }));
 
-    return userSpirals.spirals;
+    // throws error if insufficient funds
+    savePromise.catch((error) => {
+      console.dir(error);
+      if (error) {
+        return res.status(400).json({ error: 'Insufficient funds' });
+      }
+     
+      return res.status(400).json({ error: 'An error occured' });
+    });
+
+    return savePromise;
   },
 );
 

@@ -1,3 +1,7 @@
+'use strict';
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /* Clients view of the storefront. User is able to view all selling 
 products and buy a product.If user buys a product, the amount will 
 be deducted from their Spirals Cash. *This works, but the actual 
@@ -8,18 +12,23 @@ var csrfToken;
 var spirals;
 
 // update spiral cash
-const BuyProduct = e => {
+var BuyProduct = function BuyProduct(e) {
     // get the price of the product
-    let price = e.target.parentNode.id;
-    // how much spirals the user has now after their purchase
-    let totalSpirals = spirals - price;
-    spirals = totalSpirals;
+    var price = e.target.parentNode.id;
+    var productId = e.target.parentNode.parentNode.id;
+    console.dir(productId);
 
-    // update
-    let params = `spirals=${spirals}&_csrf=${csrfToken}`;
+    var param = 'price=' + price + '&_csrf=' + csrfToken;
+    var productIdParam = 'id=' + productId + '&_csrf=' + csrfToken;
 
-    sendAjax('PUT', '/updateSpirals', params, function () {
-        getSpiralsStorefront(); //TODO: not updating 
+    sendAjax('PUT', '/updateSpirals', param, function () {
+        getSpiralsStorefront(); // update the text/amount displayed
+
+        // if product was bought successfully create clone of product and change ownerId
+        sendAjax('PUT', '/updateOwner', productIdParam, function () {
+            console.dir('successful');
+        });
+
         // location.reload();  
     });
 
@@ -30,7 +39,7 @@ const BuyProduct = e => {
 };
 
 // show all products 
-const ProductsList = function (props) {
+var ProductsList = function ProductsList(props) {
     // no products exist 
     if (props.products.length === 0) {
         return React.createElement(
@@ -48,10 +57,10 @@ const ProductsList = function (props) {
     // every product will generate a product Div and add it to productNodes
     // advantage is that we can update the sate of this component via Ajax.
     // everytimes the state updates, the page will immediately creates the UI and shows the updates
-    const productsNodes = props.products.map(function (products) {
+    var productsNodes = props.products.map(function (products) {
         return React.createElement(
             'div',
-            { className: 'productCard', key: products._id, id: 'prodCard', className: 'buyProduct' },
+            _defineProperty({ className: 'productCard', key: products._id, id: products._id }, 'className', 'buyProduct'),
             React.createElement(
                 'div',
                 null,
@@ -63,7 +72,9 @@ const ProductsList = function (props) {
                 { id: products.price },
                 React.createElement(
                     'button',
-                    { id: 'buyButton', type: 'button', onClick: e => BuyProduct(e) },
+                    { id: 'buyButton', type: 'button', onClick: function onClick(e) {
+                            return BuyProduct(e);
+                        } },
                     'Buy'
                 ),
                 React.createElement(
@@ -99,7 +110,8 @@ const ProductsList = function (props) {
 };
 
 // display the user's Spiral Cash in the nav bar.
-const SpiralsCash = function (obj) {
+var SpiralsCash = function SpiralsCash(obj) {
+    console.dir(obj);
     spirals = obj.spiral;
     return React.createElement(
         'div',
@@ -113,22 +125,22 @@ const SpiralsCash = function (obj) {
     );
 };
 
-const getSpiralsStorefront = () => {
-    sendAjax('GET', '/getSpirals', null, data => {
-        console.dir(data.spirals);
-        ReactDOM.render(React.createElement(SpiralsCash, { spiral: data.spirals }), document.querySelector("#spiralsStorefront"));
+var getSpiralsStorefront = function getSpiralsStorefront() {
+    sendAjax('GET', '/getSpirals', null, function (data) {
+        // console.dir(data);
+        ReactDOM.render(React.createElement(SpiralsCash, { spiral: data }), document.querySelector("#spiralsStorefront"));
     });
 };
 
 // load all products from server
-const loadAllProductsFromServer = () => {
-    sendAjax('GET', '/getAllProducts', null, data => {
+var loadAllProductsFromServer = function loadAllProductsFromServer() {
+    sendAjax('GET', '/getAllProducts', null, function (data) {
         ReactDOM.render(React.createElement(ProductsList, { products: data.products, csrf: csrfToken }), document.querySelector("#allProducts"));
     });
 };
 
 // set up for rendering the products and spirals
-const setupAllProducts = function (csrf) {
+var setupAllProducts = function setupAllProducts(csrf) {
     // products attribute is empty for now, because we don't have data yet. But
     // it will at least get the HTML onto the page while we wait for the server
     ReactDOM.render(React.createElement(ProductsList, { products: [], csrf: csrf }), document.querySelector("#allProducts"));
@@ -140,17 +152,20 @@ const setupAllProducts = function (csrf) {
 };
 
 // allows us to get new CSRF token for new submissions
-const getTokenStore = () => {
-    sendAjax('GET', '/getToken', null, result => {
+var getTokenStore = function getTokenStore() {
+    sendAjax('GET', '/getToken', null, function (result) {
         setupAllProducts(result.csrfToken);
         csrfToken = result.csrfToken;
     });
 };
 
 $(document).ready(function () {
-    getTokenStore();
-    loadAllProductsFromServer();
+    // console.dir(window.location.pathname);
+    // getTokenStore();
+    // loadAllProductsFromServer();
 });
+"use strict";
+
 /* Game Center for user to win more Spiral Cash */
 
 var csrfToken;
@@ -158,10 +173,10 @@ var csrfToken;
 // Game of Chance - generate a random winning number and the user's random number
 // if the two numbers match the user wins. 
 // Currently: spiral cash is not added to the user's account
-const playChance = () => {
-    let spiralCashWon = 50;
-    let winningNum = Math.floor(Math.random() * 20);
-    let userNum = Math.floor(Math.random() * 20);
+var playChance = function playChance() {
+    var spiralCashWon = 50;
+    var winningNum = Math.floor(Math.random() * 20);
+    var userNum = Math.floor(Math.random() * 20);
 
     if (winningNum == userNum) {
         $("#message").text("You won " + spiralCashWon + " Spiral Cash!");
@@ -171,7 +186,7 @@ const playChance = () => {
 };
 
 // Game of Chance display
-const DailyReward = function () {
+var DailyReward = function DailyReward() {
     return React.createElement(
         "div",
         { className: "dailyReward" },
@@ -187,26 +202,32 @@ const DailyReward = function () {
         ),
         React.createElement(
             "button",
-            { onClick: e => playChance(e) },
+            { onClick: function onClick(e) {
+                    return playChance(e);
+                } },
             " Play "
         )
     );
 };
 
-const gameSetup = function (csrf) {
+var gameSetup = function gameSetup(csrf) {
     ReactDOM.render(React.createElement(DailyReward, { csrf: csrf }), document.querySelector("#games"));
 };
 
-const getTokenGame = () => {
-    sendAjax('GET', '/getToken', null, result => {
-        gameSetup(result.csrfToken);
-        csrfToken = result.csrfToken;
-    });
-};
+// const getTokenGame = () => {
+//     sendAjax('GET', '/getToken', null, (result) => {
+//         gameSetup(result.csrfToken);
+//         csrfToken = result.csrfToken;
+//     });
+// };
 
-$(document).ready(function () {
-    getTokenGame();
-});
+// $(document).ready(function(){
+//     // getTokenGame();
+// });
+"use strict";
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /* View for User's Account page 
 Displays the user's products to sell
 */
@@ -215,7 +236,7 @@ var csrfToken;
 var spirals;
 
 // adding a product to sell
-const handleProduct = e => {
+var handleProduct = function handleProduct(e) {
     e.preventDefault();
 
     // check if user entered all fields
@@ -233,9 +254,9 @@ const handleProduct = e => {
 };
 
 // delete product: using the product's unique id
-const deleteProduct = e => {
-    let productId = e.target.parentNode.id;
-    let params = `data=${productId}&_csrf=${csrfToken}`;
+var deleteProduct = function deleteProduct(e) {
+    var productId = e.target.parentNode.id;
+    var params = "data=" + productId + "&_csrf=" + csrfToken;
     console.dir(params);
 
     sendAjax('DELETE', '/deleteProduct', params, function () {
@@ -245,9 +266,9 @@ const deleteProduct = e => {
 };
 
 // updating the product
-const updateProductHandle = e => {
+var updateProductHandle = function updateProductHandle(e) {
     e.preventDefault();
-    let productId = e.target.parentNode.id;
+    var productId = e.target.parentNode.id;
 
     // check if user entered in all fields
     if ($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == '' || $("#updateproductImage").val() == '') {
@@ -255,7 +276,7 @@ const updateProductHandle = e => {
         return false;
     }
 
-    let updatedProduct = $("#updateProductForm").serialize();
+    var updatedProduct = $("#updateProductForm").serialize();
 
     // send request to update product
     sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function () {
@@ -265,7 +286,7 @@ const updateProductHandle = e => {
 };
 
 // rendering the update product form with a modal
-const UpdateProductForm = props => {
+var UpdateProductForm = function UpdateProductForm(props) {
     return React.createElement(
         "div",
         { id: "updateModal", className: "modal" },
@@ -274,7 +295,9 @@ const UpdateProductForm = props => {
             { className: "formContent" },
             React.createElement(
                 "button",
-                { id: "closeForm", className: "close", onClick: e => closeModal(e) },
+                { id: "closeForm", className: "close", onClick: function onClick(e) {
+                        return closeModal(e);
+                    } },
                 "\xD7 "
             ),
             React.createElement(
@@ -324,7 +347,7 @@ const UpdateProductForm = props => {
 };
 
 // closing the modal using empty div
-const closeModal = () => {
+var closeModal = function closeModal() {
     ReactDOM.render(React.createElement(
         "div",
         null,
@@ -333,12 +356,12 @@ const closeModal = () => {
 };
 
 // render the update product form
-const showUpdateProductForm = function (e, csrf, productId) {
+var showUpdateProductForm = function showUpdateProductForm(e, csrf, productId) {
     ReactDOM.render(React.createElement(UpdateProductForm, { csrf: csrf, product: productId }), document.querySelector("#modal"));
 };
 
 // create React JSX for Add Product form
-const ProductForm = props => {
+var ProductForm = function ProductForm(props) {
     return React.createElement(
         "form",
         { id: "productForm",
@@ -383,7 +406,7 @@ const ProductForm = props => {
 };
 
 // render the user's product list
-const ProductList = function (props) {
+var ProductList = function ProductList(props) {
     // no products exist 
     if (props.products.length === 0) {
         return React.createElement(
@@ -401,10 +424,10 @@ const ProductList = function (props) {
     // every product will generate a product Div and add it to productNodes
     // advantage is that we can update the sate of this component via Ajax.
     // everytimes the state updates, the page will immediately create UI and show the updates
-    const productNodes = props.products.map(function (product) {
+    var productNodes = props.products.map(function (product) {
         return React.createElement(
             "div",
-            { className: "productCard", key: product._id, id: product._id, className: "product" },
+            _defineProperty({ className: "productCard", key: product._id, id: product._id }, "className", "product"),
             React.createElement(
                 "div",
                 { id: "test" },
@@ -457,12 +480,16 @@ const ProductList = function (props) {
             ),
             React.createElement(
                 "button",
-                { id: "deleteButton", type: "button", onClick: e => deleteProduct(e) },
+                { id: "deleteButton", type: "button", onClick: function onClick(e) {
+                        return deleteProduct(e);
+                    } },
                 "Delete"
             ),
             React.createElement(
                 "button",
-                { id: "updateButton", type: "button", onClick: e => showUpdateProductForm(e, props.csrf, product._id) },
+                { id: "updateButton", type: "button", onClick: function onClick(e) {
+                        return showUpdateProductForm(e, props.csrf, product._id);
+                    } },
                 "Update"
             )
         );
@@ -476,7 +503,7 @@ const ProductList = function (props) {
 };
 
 // from result.spirals
-const SpiralCash = function (obj) {
+var SpiralCash = function SpiralCash(obj) {
     console.dir(obj);
     return React.createElement(
         "div",
@@ -490,9 +517,9 @@ const SpiralCash = function (obj) {
     );
 };
 
-const getSpirals = () => {
-    sendAjax('GET', '/getSpirals', null, result => {
-        ReactDOM.render(React.createElement(SpiralCash, { spiral: result.spirals }), document.querySelector("#spirals"));
+var getSpirals = function getSpirals() {
+    sendAjax('GET', '/getSpirals', null, function (result) {
+        ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#spirals"));
     });
 };
 
@@ -500,15 +527,15 @@ const getSpirals = () => {
 // will need to periodically update the screen with changes(without siwtching pages)
 // since ajax is asynchronous, we will need to do the rendering on the success of the
 // ajax call and pass in the data we get from the server
-const loadProductsFromServer = () => {
-    sendAjax('GET', '/getProducts', null, data => {
+var loadProductsFromServer = function loadProductsFromServer() {
+    sendAjax('GET', '/getProducts', null, function (data) {
         ReactDOM.render(React.createElement(ProductList, { products: data.products, csrf: csrfToken }), document.querySelector("#products"));
     });
 };
 
 // setup function takes a CSRF token in client/userAccount.js
 // function will render out ProductForm to the page and a default product list
-const setup = function (csrf) {
+var setup = function setup(csrf) {
     ReactDOM.render(React.createElement(ProductForm, { csrf: csrf }), document.querySelector("#makeProduct"));
 
     // products attribute is empty for now, because we don't have data yet. But
@@ -522,29 +549,38 @@ const setup = function (csrf) {
 };
 
 // allows us to get new CSRF token for new submissions
-const getToken = () => {
-    sendAjax('GET', '/getToken', null, result => {
+var getToken = function getToken() {
+    sendAjax('GET', '/getToken', null, function (result) {
         setup(result.csrfToken);
         csrfToken = result.csrfToken;
     });
 };
 
 $(document).ready(function () {
-    getToken();
+    if (window.location.pathname == "/userAccount") {
+        getToken();
+    }
+
+    if (window.location.pathname == "/storefront") {
+        getTokenStore();
+        loadAllProductsFromServer();
+        getSpiralsStorefront();
+    }
 });
+"use strict";
 
 // handle the error message
-const handleError = message => {
+var handleError = function handleError(message) {
     $("#errorMessage").text(message);
     console.log(message);
 };
 
 // redirect to the specified page
-const redirect = response => {
+var redirect = function redirect(response) {
     window.location = response.redirect;
 };
 
-const sendAjax = (type, action, data, success) => {
+var sendAjax = function sendAjax(type, action, data, success) {
     $.ajax({
         cache: false,
         type: type,
@@ -552,7 +588,7 @@ const sendAjax = (type, action, data, success) => {
         data: data,
         dataType: "json",
         success: success,
-        error: function (xhr, status, error) {
+        error: function error(xhr, status, _error) {
             var messageObj = JSON.parse(xhr.responseText);
             handleError(messageObj.error);
         }
