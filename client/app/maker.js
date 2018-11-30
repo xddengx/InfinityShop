@@ -327,6 +327,8 @@ const setup = function(csrf){
         createOrderHistoryPage();
         return false;
     });
+
+    createUserAccPage();    //TODO need to fix here. 
 };
 
 // allows us to get new CSRF token for new submissions

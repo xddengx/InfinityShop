@@ -31,7 +31,7 @@ const login = (request, response) => {
     // storing variables/data. attaching all fields from toAPI to session for tracking
     req.session.account = Account.AccountModel.toAPI(account);
 
-    return res.json({ redirect: '/userAccount' });
+    return res.json({ redirect: '/storefront' });
   });
 };
 
