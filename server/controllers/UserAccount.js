@@ -16,21 +16,6 @@ const makerPage = (req, res) => {
   });
 };
 
-// fix this to get the updated value
-// const getSpirals = (request, response) => {
-//   console.dir(request);
-//   const req = request;
-//   const res = response;
-
-//   const spiralsJSON = {
-//     spirals: req.session.account.spirals,
-//   };
-
-//   console.dir(spiralsJSON);
-
-//   res.json(spiralsJSON);
-// };
-
 const getSpirals = (request, response) => {
   const req = request;
   const res = response;
@@ -167,10 +152,28 @@ const deleteProduct = (req, res) => {
   });
 };
 
+// Order History
+const getOrders = (request, response) => {
+  const req = request;
+  const res = response;
+
+  return UserAccount.BoughtProductModel.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.json({ orders: docs });
+  });
+};
+
+
+
 module.exports.makerPage = makerPage;
 module.exports.getProducts = getProducts;
 module.exports.makeProduct = makeProduct;
 module.exports.updateProduct = updateProduct;
 module.exports.deleteProduct = deleteProduct;
 module.exports.cloneProduct = cloneProduct;
+module.exports.getOrders = getOrders;
 module.exports.getSpirals = getSpirals;

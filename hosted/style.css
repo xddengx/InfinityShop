@@ -8,6 +8,41 @@ html, body {
     /* background-image: url("img/bkgd.png"); */
 }
 
+/* NAVBAR */
+.acctDropBtn{
+    /* padding: 18px; */
+    /* color: white; */
+    font-size: 19px;
+    border: none;
+    background: none;
+    color: white;
+}
+.accountDropdown{
+    position: relative;
+    display: inline-block;
+    min-width: 150px;
+}
+
+.dropdownContent{
+    display: none;
+    position: absolute;
+    z-index: 1;
+    min-width: 200px;
+    background: black;
+    /* padding-top: 20px; */
+}
+
+.dropdownContent a{
+    color:black;
+    text-decoration: none;
+    display: block;
+}
+
+.accountDropdown:hover .dropdownContent{
+    display: block;
+}
+
+
 input{
     line-height: 25px;
     width: 150px;
@@ -48,24 +83,34 @@ nav:nth-child(1) {
 }
 
 .navlink {
-    padding: 18px;
+    /* padding: 18px; */
+    margin: 18px;
     color: white;
-    font-size: 1.3em;
+    font-size: 19px;
     float: right;
 }
 
 .navlink a, .navlink a:link, .navlink a:visited, .navlink a:hover, .navlink a:active {
     color: white;
-    text-decoration: none;
     padding: 5px;
     border-radius: 4px;
     transition: background-color 0.8s ease;
+    text-decoration: none;
+
 }
 
-.navlink:hover {
-    transition: background-color 0.8s ease;
-    background-color: rgb(226, 226, 226);
+.navlink::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #c8e9f5;
+    transition: width .5s;
 }
+.navlink:hover::after{
+    width: 100%;
+}
+
 
 /* LOGIN  */
 #logoName{
@@ -187,8 +232,6 @@ nav:nth-child(1) {
     position: relative;
     box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
-
 
 .productName{
     margin-top: 45px;

@@ -113,6 +113,14 @@ ProductSchema.statics.FindProductById = (productId, callback) => {
   return UserProductsModel.findOne(search).exec(callback);
 };
 
+BoughtProductSchema.statics.findByOwner = (ownerId, callback) => {
+  const search = {
+    owner: convertId(ownerId),
+  };
+
+  return BoughtProductModel.find(search).select('name price description productImage').exec(callback);
+};
+
 
 ProductSchema.statics.findProducts = callback => UserProductsModel.find(callback);
 
@@ -122,5 +130,4 @@ BoughtProductModel = mongoose.model('Bought', BoughtProductSchema);
 module.exports.UserProductsModel = UserProductsModel;
 module.exports.ProductSchema = ProductSchema;
 module.exports.BoughtProductModel = BoughtProductModel;
-module.exports.ProductSchema = ProductSchema;
 module.exports.BoughtProductSchema = BoughtProductSchema;

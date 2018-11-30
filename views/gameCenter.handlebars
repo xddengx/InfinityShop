@@ -15,10 +15,17 @@
 <body>
   <nav><a href="/userAccount"><img id="logo" src="/assets/img/logo.png" alt="logo"/></a>
     <div id="logoName">Spiral</div>
-    <div class="navlink"><a href="/logout">Log out</a></div>
+    <div class="accountDropdown navlink">
+      <button class="acctDropBtn">Account</button>
+      <div class="dropdownContent">
+        <a id="userAccButton" href="/userAccount">Your Account</a>{{!-- user's private account --}}
+        <a id="ordersButton" href="/orders">Orders</a>
+        <a href="/logout">Log out</a>
+      </div>
+    </div>
+    {{!-- <div class="navlink"><a href="/logout">Log out</a></div> --}}
     <div class="navlink" id="spiralsStorefront"></div> {{!-- links to page where user can get more SP (money) --}}
     <div class="navlink"><a href="/storefront">Main Store</a></div> {{!-- public store --}}
-    <div class="navlink"><a href="/userAccount">Your Account</a></div> {{!-- user's private account --}}
 
   </nav>
   

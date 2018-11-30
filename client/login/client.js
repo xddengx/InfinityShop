@@ -169,7 +169,6 @@ const setup = (csrf) => {
     });
 
     changePasswordButton.addEventListener("click", (e) =>{
-        console.dir(csrf);
         e.preventDefault();
         createPasswordChangeWindow(csrf);
         return false;

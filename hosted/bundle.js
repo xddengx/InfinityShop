@@ -30,7 +30,7 @@ var BuyProduct = function BuyProduct(e) {
 
             sendAjax('DELETE', '/deleteProduct', productIdParam, function () {
                 console.dir('successful');
-                // location.reload();  // TODO: extra- refreshes a different way. setInterval?
+                location.reload(); // TODO: extra- refreshes a different way. setInterval?
             });
         });
     });
@@ -122,7 +122,7 @@ var SpiralsCash = function SpiralsCash(obj) {
         React.createElement(
             'a',
             { href: '/gameCenter' },
-            'Spiral Cash: ',
+            'Spiral Cash: $ ',
             obj.spiral
         )
     );
@@ -522,6 +522,88 @@ var ProductList = function ProductList(props) {
     );
 };
 
+var OrdersList = function OrdersList(theOrders) {
+    // no products exist 
+    if (theOrders.orders.length === 0) {
+        return React.createElement(
+            "div",
+            { className: "ordersList" },
+            React.createElement(
+                "h3",
+                { className: "emptyOrders" },
+                "No orders to show! No purchases were made."
+            )
+        );
+    }
+
+    // map function to create UI for EACH product stored
+    // every product will generate a product Div and add it to productNodes
+    // advantage is that we can update the sate of this component via Ajax.
+    // everytimes the state updates, the page will immediately create UI and show the updates
+    var orderNodes = theOrders.orders.map(function (order) {
+        return React.createElement(
+            "div",
+            _defineProperty({ className: "productCard", key: order._id, id: order._id }, "className", "product"),
+            React.createElement(
+                "div",
+                { id: "test" },
+                React.createElement(
+                    "div",
+                    null,
+                    React.createElement("img", { className: "theProductImage", src: order.productImage, alt: "" }),
+                    " "
+                ),
+                React.createElement(
+                    "div",
+                    { id: "togglePrivacy" },
+                    React.createElement(
+                        "p",
+                        null,
+                        " Public/Private"
+                    ),
+                    React.createElement(
+                        "label",
+                        { className: "switch" },
+                        React.createElement("input", { type: "checkbox" }),
+                        React.createElement("span", { className: "slider" })
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { id: "prodInfo" },
+                    React.createElement(
+                        "h3",
+                        { className: "productName" },
+                        " ",
+                        order.name,
+                        " "
+                    ),
+                    React.createElement(
+                        "h4",
+                        { className: "productDescription" },
+                        " ",
+                        order.description,
+                        " "
+                    ),
+                    React.createElement(
+                        "h3",
+                        { className: "productPrice" },
+                        " $",
+                        order.price,
+                        " "
+                    )
+                )
+            )
+        );
+    });
+
+    return React.createElement(
+        "div",
+        { className: "productList" },
+        orderNodes
+    );
+};
+
 // from result.spirals
 var SpiralCash = function SpiralCash(obj) {
     console.dir(obj);
@@ -549,23 +631,56 @@ var getSpirals = function getSpirals() {
 // ajax call and pass in the data we get from the server
 var loadProductsFromServer = function loadProductsFromServer() {
     sendAjax('GET', '/getProducts', null, function (data) {
-        ReactDOM.render(React.createElement(ProductList, { products: data.products, csrf: csrfToken }), document.querySelector("#products"));
+        ReactDOM.render(React.createElement(ProductList, { products: data.products, csrf: csrfToken }), document.querySelector("#content"));
     });
 };
 
-// setup function takes a CSRF token in client/userAccount.js
-// function will render out ProductForm to the page and a default product list
-var setup = function setup(csrf) {
-    ReactDOM.render(React.createElement(ProductForm, { csrf: csrf }), document.querySelector("#makeProduct"));
+var loadOrderHistory = function loadOrderHistory() {
+    sendAjax('GET', '/orders', null, function (data) {
+        ReactDOM.render(React.createElement(OrdersList, { orders: data.orders, csrf: csrfToken }), document.querySelector("#content"));
+    });
+};
+
+var createUserAccPage = function createUserAccPage(csrf) {
+    ReactDOM.render(React.createElement(ProductForm, { csrf: csrf }), document.querySelector("#content"));
 
     // products attribute is empty for now, because we don't have data yet. But
     // it will at least get the HTML onto the page while we wait for the server
-    ReactDOM.render(React.createElement(ProductList, { products: [], csrf: csrf }), document.querySelector("#products"));
+    ReactDOM.render(React.createElement(ProductList, { products: [], csrf: csrf }), document.querySelector("#content"));
 
     ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#spirals'));
 
     loadProductsFromServer();
     getSpirals();
+};
+
+var createOrderHistoryPage = function createOrderHistoryPage(csrf) {
+    ReactDOM.render(React.createElement(OrdersList, { orders: [], csrf: csrf }), document.querySelector("#content"));
+
+    loadOrderHistory();
+};
+
+// setup function takes a CSRF token in client/userAccount.js
+// function will render out ProductForm to the page and a default product list
+var setup = function setup(csrf) {
+    // getSpirals();
+
+    var userAccButton = document.querySelector("#userAccButton");
+    var ordersButton = document.querySelector("#ordersButton");
+
+    userAccButton.addEventListener("click", function (e) {
+        console.dir("user account button clicked");
+        e.preventDefault();
+        createUserAccPage(csrf);
+        return false;
+    });
+
+    ordersButton.addEventListener("click", function (e) {
+        console.dir("orders button clicked");
+        e.preventDefault();
+        createOrderHistoryPage();
+        return false;
+    });
 };
 
 // allows us to get new CSRF token for new submissions
@@ -590,6 +705,7 @@ $(document).ready(function () {
         gameSetup();
     }
 });
+"use strict";
 "use strict";
 
 // handle the error message
