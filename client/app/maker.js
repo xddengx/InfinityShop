@@ -20,6 +20,8 @@ const handleProduct = (e) => {
     var isMatch = toMatch.test(document.querySelector('#productPrice').value);
     // console.dir(document.querySelector('#productPrice').value);
     // console.dir(isMatch);
+
+    console.dir($("#productForm").serialize());
     if(isMatch === true){
         sendAjax('POST', $("#productForm").attr("action"), $("#productForm").serialize(), function() {
             loadProductsFromServer();
@@ -281,9 +283,10 @@ const loadOrderHistory = () =>{
 
 const createUserAccPage = (csrf) =>{
     ReactDOM.render(
-        <ProductForm csrf={csrf} />, document.querySelector("#content")
+        <ProductForm csrf={csrf} />, document.querySelector("#testing")
     );
 
+    // loadProductsFromServer();
     // products attribute is empty for now, because we don't have data yet. But
     // it will at least get the HTML onto the page while we wait for the server
     ReactDOM.render(
@@ -291,7 +294,7 @@ const createUserAccPage = (csrf) =>{
     );
 
     ReactDOM.render(
-        <SpiralCash spiral={spirals} />, document.querySelector('#spirals'),
+        <SpiralCash spiral={spirals} />, document.querySelector('#spirals')
     );
 
     loadProductsFromServer();
@@ -299,6 +302,10 @@ const createUserAccPage = (csrf) =>{
 }
 
 const createOrderHistoryPage = (csrf) =>{
+    // console.dir(csrf);
+    ReactDOM.render(
+        <div></div>, document.querySelector("#testing")
+    );
     ReactDOM.render(
         <OrdersList orders={[]} csrf={csrf} />, document.querySelector("#content")
     );
@@ -324,11 +331,11 @@ const setup = function(csrf){
     ordersButton.addEventListener("click", (e) =>{
         console.dir("orders button clicked");
         e.preventDefault();
-        createOrderHistoryPage();
+        createOrderHistoryPage(csrf);
         return false;
     });
 
-    createUserAccPage();    //TODO need to fix here. 
+    createUserAccPage(csrf);    //TODO need to fix here. 
 };
 
 // allows us to get new CSRF token for new submissions
