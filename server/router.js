@@ -19,6 +19,7 @@ const router = (app) => {
   app.get('/getAllProducts', controllers.Storefront.getAllProducts);
   app.get('/storefront', mid.requiresLogin, controllers.Storefront.createPage);
   app.put('/updateSpirals', controllers.Account.updateSpirals);
+  app.put('/updateSpiralsWon', controllers.Account.updateSpiralsWon);
   app.put('/updateOwner', controllers.UserAccount.cloneProduct);
   app.get('/gameCenter', mid.requiresLogin, controllers.GameCenter.gameCenterPage);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);

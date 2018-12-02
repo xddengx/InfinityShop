@@ -362,6 +362,7 @@ $(document).ready(function(){
         getSpiralsStorefront();
     }
     if(window.location.pathname == "/gameCenter"){
+        getTokenGame();
         gameSetup();
     }
 });

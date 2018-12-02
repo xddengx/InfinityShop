@@ -162,67 +162,123 @@ var getTokenStore = function getTokenStore() {
     });
 };
 
-$(document).ready(function () {
-    // console.dir(window.location.pathname);
-    // getTokenStore();
-    // loadAllProductsFromServer();
-});
-"use strict";
+// $(document).ready(function(){
+//     // console.dir(window.location.pathname);
+//     // getTokenStore();
+//     // loadAllProductsFromServer();
+// });
+'use strict';
 
 /* Game Center for user to win more Spiral Cash */
 
 var csrfToken;
+var spirals;
 
 // Game of Chance - generate a random winning number and the user's random number
 // if the two numbers match the user wins. 
 // Currently: spiral cash is not added to the user's account
 var playChance = function playChance() {
     var spiralCashWon = 50;
-    var winningNum = Math.floor(Math.random() * 20);
-    var userNum = Math.floor(Math.random() * 20);
+    var winningNum = Math.floor(Math.random() * 10);
+    var userNum = Math.floor(Math.random() * 10);
 
+    var param = 'won=' + spiralCashWon + '&_csrf=' + csrfToken;
     if (winningNum == userNum) {
+        sendAjax('PUT', '/updateSpiralsWon', param, function () {
+            getSpiralsGC(); // update the spirals text display
+            console.dir("success");
+        });
         $("#message").text("You won " + spiralCashWon + " Spiral Cash!");
     } else {
         $("#message").text("Sorry you did not get the lucky number. Your number: " + userNum + " | Winning number: " + winningNum);
     }
 };
 
+var getDailyReward = function getDailyReward() {
+    // TODO: do time here.
+    // if user clicked && date is still current date -> disable button
+    // else disable = false
+    document.querySelector("#dailyRewardButton").disabled = true;
+    var dailyCollect = 100;
+
+    var param = 'won=' + dailyCollect + '&_csrf=' + csrfToken;
+
+    sendAjax('PUT', '/updateSpiralsWon', param, function () {
+        getSpiralsGC(); // update the spirals text display
+        console.dir("success");
+    });
+};
+
 // Game of Chance display
-var DailyReward = function DailyReward() {
+var Chance = function Chance() {
     return React.createElement(
-        "div",
-        { className: "dailyReward" },
+        'div',
+        { className: 'dailyReward' },
         React.createElement(
-            "h2",
+            'h2',
             null,
-            " Game of Chance | Will you get the lucky number? "
+            ' Game of Chance | Will you get the lucky number? '
         ),
         React.createElement(
-            "p",
+            'p',
             null,
-            "Rules: Play to see if your number is our winning number."
+            'Rules: Play to see if your number is our winning number.'
         ),
         React.createElement(
-            "button",
+            'button',
             { onClick: function onClick(e) {
                     return playChance(e);
                 } },
-            " Play "
+            ' Play '
+        ),
+        React.createElement(
+            'h2',
+            null,
+            ' Collect Your Daily Reward'
+        ),
+        React.createElement(
+            'button',
+            { id: 'dailyRewardButton', onClick: function onClick(e) {
+                    return getDailyReward(e);
+                } },
+            ' Collect Reward '
         )
     );
 };
 
-var gameSetup = function gameSetup(csrf) {
-    ReactDOM.render(React.createElement(DailyReward, { csrf: csrf }), document.querySelector("#games"));
+var SpiralCash = function SpiralCash(obj) {
+    console.dir(obj);
+    return React.createElement(
+        'div',
+        { className: 'money' },
+        React.createElement(
+            'a',
+            { href: '/gameCenter' },
+            'Spiral Cash: ',
+            obj.spiral
+        )
+    );
 };
 
-// const getTokenGame = () => {
-//     sendAjax('GET', '/getToken', null, (result) => {
-//         gameSetup(result.csrfToken);
-//         csrfToken = result.csrfToken;
-//     });
-// };
+var getSpiralsGC = function getSpiralsGC() {
+    sendAjax('GET', '/getSpirals', null, function (result) {
+        ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#spiralsGameCenter"));
+    });
+};
+
+var gameSetup = function gameSetup(csrf) {
+    ReactDOM.render(React.createElement(Chance, { csrf: csrf }), document.querySelector("#games"));
+
+    ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#spiralsGameCenter'));
+    getSpiralsGC();
+};
+
+var getTokenGame = function getTokenGame() {
+    sendAjax('GET', '/getToken', null, function (result) {
+        gameSetup(result.csrfToken);
+        csrfToken = result.csrfToken;
+    });
+};
 
 // $(document).ready(function(){
 //     // getTokenGame();
@@ -727,6 +783,7 @@ $(document).ready(function () {
         getSpiralsStorefront();
     }
     if (window.location.pathname == "/gameCenter") {
+        getTokenGame();
         gameSetup();
     }
 });

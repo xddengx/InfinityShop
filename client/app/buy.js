@@ -127,8 +127,8 @@ const getTokenStore = () => {
     });
 };
 
-$(document).ready(function(){
-    // console.dir(window.location.pathname);
-    // getTokenStore();
-    // loadAllProductsFromServer();
-});
+// $(document).ready(function(){
+//     // console.dir(window.location.pathname);
+//     // getTokenStore();
+//     // loadAllProductsFromServer();
+// });

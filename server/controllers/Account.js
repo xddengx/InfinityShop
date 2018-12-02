@@ -207,6 +207,39 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
   },
 );
 
+const updateSpiralsWon = (req, res) => Account.AccountModel.findByUsername(
+  req.session.account.username, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    // make calculations on the server side so users cant manipulate changes
+    const spiralsWon = req.body.won;
+    const userSpirals = docs;
+
+    //
+    const newTotal = docs.spirals + parseFloat(spiralsWon);
+    userSpirals.spirals = newTotal;
+  
+    const savePromise = userSpirals.save();
+  
+    savePromise.then(() => res.json({
+      spirals: userSpirals.spirals,
+    }));
+  
+    // throws error if insufficient funds
+    savePromise.catch((error) => {
+      if (error) {
+        return res.status(400).json({ error: 'An error occured' });
+      }
+
+    });
+
+    return savePromise;
+  },
+);
+
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -224,4 +257,5 @@ module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.changePassword = changePassword;
 module.exports.updateSpirals = updateSpirals;
+module.exports.updateSpiralsWon = updateSpiralsWon;
 module.exports.getToken = getToken;
