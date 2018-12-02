@@ -193,8 +193,11 @@ const ProductList = function(props){
     });
 
     return(
-        <div className="productList">
-            {productNodes}
+        <div>
+            <h2 id="pageHeader">Your Inventory</h2>
+            <div className="productList">
+                {productNodes}
+            </div>
         </div>
     );
 };
@@ -236,9 +239,11 @@ const OrdersList = function(theOrders){
     });
 
     return(
-        <div className="productList">
+        <div>
+            <h2 id="pageHeader">Order History</h2>
+            <div className="productList">
             {orderNodes}
-        </div>
+        </div></div>
     );
 };
 
@@ -283,7 +288,7 @@ const loadOrderHistory = () =>{
 
 const createUserAccPage = (csrf) =>{
     ReactDOM.render(
-        <ProductForm csrf={csrf} />, document.querySelector("#testing")
+        <ProductForm csrf={csrf} />, document.querySelector("#createProduct")
     );
 
     // loadProductsFromServer();
@@ -304,7 +309,7 @@ const createUserAccPage = (csrf) =>{
 const createOrderHistoryPage = (csrf) =>{
     // console.dir(csrf);
     ReactDOM.render(
-        <div></div>, document.querySelector("#testing")
+        <div></div>, document.querySelector("#createProduct")
     );
     ReactDOM.render(
         <OrdersList orders={[]} csrf={csrf} />, document.querySelector("#content")

@@ -115,9 +115,9 @@ nav:nth-child(1) {
 /* LOGIN  */
 #logoName{
     float: left;
-    font-size: 35px;
-    padding: 17px 0px;;
-    font-family: 'Great Vibes', cursive;
+    font-size: 30px;
+    padding: 17px 10px;;
+    /* font-family: 'Great Vibes', cursive; */
     color: white;
 }
 
@@ -210,7 +210,7 @@ nav:nth-child(1) {
     border: none;
 }
 /* DISPLAY PRODUCTS */
-#yourProductsHead {
+#pageHeader {
     text-align: center;
 }
 

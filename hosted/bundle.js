@@ -519,8 +519,17 @@ var ProductList = function ProductList(props) {
 
     return React.createElement(
         "div",
-        { className: "productList" },
-        productNodes
+        null,
+        React.createElement(
+            "h2",
+            { id: "pageHeader" },
+            "Your Inventory"
+        ),
+        React.createElement(
+            "div",
+            { className: "productList" },
+            productNodes
+        )
     );
 };
 
@@ -601,8 +610,17 @@ var OrdersList = function OrdersList(theOrders) {
 
     return React.createElement(
         "div",
-        { className: "productList" },
-        orderNodes
+        null,
+        React.createElement(
+            "h2",
+            { id: "pageHeader" },
+            "Order History"
+        ),
+        React.createElement(
+            "div",
+            { className: "productList" },
+            orderNodes
+        )
     );
 };
 
@@ -644,7 +662,7 @@ var loadOrderHistory = function loadOrderHistory() {
 };
 
 var createUserAccPage = function createUserAccPage(csrf) {
-    ReactDOM.render(React.createElement(ProductForm, { csrf: csrf }), document.querySelector("#testing"));
+    ReactDOM.render(React.createElement(ProductForm, { csrf: csrf }), document.querySelector("#createProduct"));
 
     // loadProductsFromServer();
     // products attribute is empty for now, because we don't have data yet. But
@@ -659,7 +677,7 @@ var createUserAccPage = function createUserAccPage(csrf) {
 
 var createOrderHistoryPage = function createOrderHistoryPage(csrf) {
     // console.dir(csrf);
-    ReactDOM.render(React.createElement("div", null), document.querySelector("#testing"));
+    ReactDOM.render(React.createElement("div", null), document.querySelector("#createProduct"));
     ReactDOM.render(React.createElement(OrdersList, { orders: [], csrf: csrf }), document.querySelector("#content"));
 
     loadOrderHistory();
