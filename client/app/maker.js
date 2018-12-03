@@ -364,5 +364,6 @@ $(document).ready(function(){
     if(window.location.pathname == "/gameCenter"){
         getTokenGame();
         gameSetup();
+        checkDailyReward();
     }
 });

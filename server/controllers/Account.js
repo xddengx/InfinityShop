@@ -61,6 +61,7 @@ const signup = (request, response) => {
       salt,
       password: hash,
       spirals: 50000,
+      dailyReward: false,
     };
 
     const newAccount = new Account.AccountModel(accountData);
@@ -152,7 +153,6 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
-
     // make calculations on the server side so users cant manipulate changes
     const productPrice = req.body.price;
     const userSpirals = docs;
@@ -180,30 +180,72 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
 
     //
     // if user has sufficient funds
-    if(docs.spirals > productPrice){
+    if (docs.spirals > productPrice) {
       const newTotal = docs.spirals - productPrice;
       userSpirals.spirals = newTotal;
-  
+
       const savePromise = userSpirals.save();
-  
+
       savePromise.then(() => res.json({
         spirals: userSpirals.spirals,
       }));
-  
+
       // throws error if insufficient funds
       savePromise.catch((error) => {
         console.dir(error);
         if (error) {
           return res.status(400).json({ error: 'Insufficient funds' });
         }
-  
+
         return res.status(400).json({ error: 'An error occured' });
       });
-    }else{
+    } else {
       return res.status(400).json({ error: 'Insufficient funds' });
     }
 
     // return savePromise;
+    // return res.json({sucess: 'Success'});
+  },
+);
+
+const getDRStatus = (req, res) => Account.AccountModel.findByUsername(
+  req.session.account.username, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+    return res.json(docs.dailyReward);
+  },
+);
+
+const updateDRStatus = (req, res) => Account.AccountModel.findByUsername(
+  req.session.account.username, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    const rewardStatus = req.body.status;
+    const userReward = docs;
+
+    console.dir(rewardStatus);
+    console.dir(userReward);
+
+    userReward.dailyReward = rewardStatus;
+
+    const savePromise = userReward.save();
+
+    savePromise.then(() => res.json({
+      dailyReward: userReward.dailyReward,
+    }));
+
+    savePromise.catch((error) => {
+      if (error) {
+        return res.status(400).json({ error: 'An error occured' });
+      }
+    });
+
+    return savePromise;
   },
 );
 
@@ -221,19 +263,18 @@ const updateSpiralsWon = (req, res) => Account.AccountModel.findByUsername(
     //
     const newTotal = docs.spirals + parseFloat(spiralsWon);
     userSpirals.spirals = newTotal;
-  
+
     const savePromise = userSpirals.save();
-  
+
     savePromise.then(() => res.json({
       spirals: userSpirals.spirals,
     }));
-  
+
     // throws error if insufficient funds
     savePromise.catch((error) => {
       if (error) {
         return res.status(400).json({ error: 'An error occured' });
       }
-
     });
 
     return savePromise;
@@ -257,5 +298,7 @@ module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.changePassword = changePassword;
 module.exports.updateSpirals = updateSpirals;
+module.exports.getDRStatus = getDRStatus;
+module.exports.updateDRStatus = updateDRStatus;
 module.exports.updateSpiralsWon = updateSpiralsWon;
 module.exports.getToken = getToken;

@@ -24,8 +24,6 @@ const getSpirals = (request, response) => {
         console.log(err);
         return res.status(400).json({ error: 'An error occured' });
       }
-
-      // console.dir(docs.spirals);
       return res.json(docs.spirals);
     },
   );
@@ -165,7 +163,6 @@ const getOrders = (request, response) => {
     return res.json({ orders: docs });
   });
 };
-
 
 
 module.exports.makerPage = makerPage;

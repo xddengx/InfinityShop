@@ -22,6 +22,8 @@ const router = (app) => {
   app.put('/updateSpiralsWon', controllers.Account.updateSpiralsWon);
   app.put('/updateOwner', controllers.UserAccount.cloneProduct);
   app.get('/gameCenter', mid.requiresLogin, controllers.GameCenter.gameCenterPage);
+  app.get('/getDRStatus', mid.requiresLogin, controllers.Account.getDRStatus);
+  app.put('/updateDRStatus', mid.requiresLogin, controllers.Account.updateDRStatus);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.get('/*', mid.requiresSecure, controllers.Account.loginPage); // for now
 };

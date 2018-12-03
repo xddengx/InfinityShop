@@ -29,6 +29,9 @@ const AccountSchema = new mongoose.Schema({
     type: Number,
     min: 0,
   },
+  dailyReward: {
+    type: Boolean,
+  },
   createdDate: {
     type: Date,
     default: Date.now,

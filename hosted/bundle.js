@@ -167,12 +167,66 @@ var getTokenStore = function getTokenStore() {
 //     // getTokenStore();
 //     // loadAllProductsFromServer();
 // });
-'use strict';
+"use strict";
 
 /* Game Center for user to win more Spiral Cash */
 
+// TODO: next day is never stored and next day is only set when button is clicked. so when page
+//refreshes it doesnt know what the next day is. create another object literal in account for storing times...
+
+
 var csrfToken;
 var spirals;
+var currentDate;
+var nextDay;
+
+var checkDailyReward = function checkDailyReward() {
+    var dailyRStatus;
+
+    var currentTime = new Date();
+
+    console.log("current time", currentTime);
+    console.log("next day", nextDay);
+
+    // if(currentTime < test){
+    //     document.querySelector("#dailyRewardButton").disabled = true;
+    // }
+    // if(currentTime > test){
+    //     document.querySelector("#dailyRewardButton").disabled = false;
+    // }
+
+    sendAjax('GET', '/getDRStatus', null, function (result) {
+        dailyRStatus = result; // should be false
+
+        console.log("dailyRStatus", dailyRStatus);
+        // user has not yet clicked
+        if (dailyRStatus == false) {
+            console.dir("1");
+            document.querySelector("#dailyRewardButton").disabled = false;
+        }
+
+        if (dailyRStatus == true) {
+            console.dir("2");
+            document.querySelector("#dailyRewardButton").disabled = true;
+        }
+
+        // user already clicked
+        // it's not the next day
+        // button should be disable (disable = true)
+        if (dailyRStatus === true && currentTime < nextDay) {
+            console.dir("3");
+            document.querySelector("#dailyRewardButton").disabled = true;
+        }
+
+        // user already clicked
+        // it's the next day
+        // button should be clickable (disable = false)
+        if (dailyRStatus === true && currentTime > nextDay) {
+            console.dir("4");
+            document.querySelector("#dailyRewardButton").disabled = false;
+        }
+    });
+};
 
 // Game of Chance - generate a random winning number and the user's random number
 // if the two numbers match the user wins. 
@@ -182,7 +236,7 @@ var playChance = function playChance() {
     var winningNum = Math.floor(Math.random() * 10);
     var userNum = Math.floor(Math.random() * 10);
 
-    var param = 'won=' + spiralCashWon + '&_csrf=' + csrfToken;
+    var param = "won=" + spiralCashWon + "&_csrf=" + csrfToken;
     if (winningNum == userNum) {
         sendAjax('PUT', '/updateSpiralsWon', param, function () {
             getSpiralsGC(); // update the spirals text display
@@ -195,13 +249,26 @@ var playChance = function playChance() {
 };
 
 var getDailyReward = function getDailyReward() {
-    // TODO: do time here.
-    // if user clicked && date is still current date -> disable button
-    // else disable = false
-    document.querySelector("#dailyRewardButton").disabled = true;
     var dailyCollect = 100;
 
-    var param = 'won=' + dailyCollect + '&_csrf=' + csrfToken;
+    // get time when user clicked on reward button
+    currentDate = new Date();
+    // calculate the next day (so button can be enabled again)
+    // nextDay = new Date();
+    // nextDay.setDate(currentDate.getDate()+1);
+    nextDay = new Date("2018-12-03T01:26:00-06:00");
+
+    console.log("currentdate", currentDate);
+    // console.log("nextDay", nextDay);
+
+    // if user clicks on daily reward update the boolean in account. 
+    var paramStatus = "status=" + true + "&_csrf=" + csrfToken;
+    sendAjax('PUT', '/updateDRStatus', paramStatus, function () {
+        console.dir("clicked on daily reward button");
+        checkDailyReward();
+    });
+
+    var param = "won=" + dailyCollect + "&_csrf=" + csrfToken;
 
     sendAjax('PUT', '/updateSpiralsWon', param, function () {
         getSpiralsGC(); // update the spirals text display
@@ -212,36 +279,36 @@ var getDailyReward = function getDailyReward() {
 // Game of Chance display
 var Chance = function Chance() {
     return React.createElement(
-        'div',
-        { className: 'dailyReward' },
+        "div",
+        { className: "dailyReward" },
         React.createElement(
-            'h2',
+            "h2",
             null,
-            ' Game of Chance | Will you get the lucky number? '
+            " Game of Chance | Will you get the lucky number? "
         ),
         React.createElement(
-            'p',
+            "p",
             null,
-            'Rules: Play to see if your number is our winning number.'
+            "Rules: Play to see if your number is our winning number."
         ),
         React.createElement(
-            'button',
+            "button",
             { onClick: function onClick(e) {
                     return playChance(e);
                 } },
-            ' Play '
+            " Play "
         ),
         React.createElement(
-            'h2',
+            "h2",
             null,
-            ' Collect Your Daily Reward'
+            " Collect Your Daily Reward"
         ),
         React.createElement(
-            'button',
-            { id: 'dailyRewardButton', onClick: function onClick(e) {
+            "button",
+            { id: "dailyRewardButton", onClick: function onClick(e) {
                     return getDailyReward(e);
                 } },
-            ' Collect Reward '
+            " Collect Reward "
         )
     );
 };
@@ -249,12 +316,12 @@ var Chance = function Chance() {
 var SpiralCash = function SpiralCash(obj) {
     console.dir(obj);
     return React.createElement(
-        'div',
-        { className: 'money' },
+        "div",
+        { className: "money" },
         React.createElement(
-            'a',
-            { href: '/gameCenter' },
-            'Spiral Cash: ',
+            "a",
+            { href: "/gameCenter" },
+            "Spiral Cash: ",
             obj.spiral
         )
     );
@@ -785,6 +852,7 @@ $(document).ready(function () {
     if (window.location.pathname == "/gameCenter") {
         getTokenGame();
         gameSetup();
+        checkDailyReward();
     }
 });
 "use strict";
