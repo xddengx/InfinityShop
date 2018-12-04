@@ -270,9 +270,9 @@ var getDailyReward = function getDailyReward() {
     // get time when user clicked on reward button
     currentDate = new Date();
     // calculate the next day (so button can be enabled again)
-    // nextDay = new Date();
-    // nextDay.setDate(currentDate.getDate()+1);
-    nextDay = new Date("2018-12-03T23:01:00-06:00");
+    nextDay = new Date();
+    nextDay.setDate(currentDate.getDate() + 1);
+    // nextDay = new Date("2018-12-03T23:16:00-06:00");
 
     console.log("currentdate", currentDate);
     // console.log("nextDay", nextDay);

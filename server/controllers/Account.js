@@ -62,7 +62,7 @@ const signup = (request, response) => {
       password: hash,
       spirals: 50000,
       dailyReward: false,
-      nextDay: Date
+      nextDay: Date.now()
     };
 
     const newAccount = new Account.AccountModel(accountData);
@@ -225,8 +225,6 @@ const getNextDay = (req, res) => Account.AccountModel.findByUsername(
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
-
-    console.dir(docs.nextDay);
     return res.json(docs.nextDay);
   },
 );
