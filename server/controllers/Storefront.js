@@ -13,7 +13,11 @@ const getAllProducts = (request, response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
-
+// console.dir(docs.length);
+// for(let i = 0; i < docs.length; i++){
+//   console.dir(docs[i].price - (docs[i].price * .15));
+// }
+// docs[i].price = docs[i].price - (docs[i].price * .15));
     return res.json({ products: docs });
   });
 };

@@ -249,7 +249,6 @@ const OrdersList = function(theOrders){
 
 // from result.spirals
 const SpiralCash = function(obj){
-    console.dir(obj);
     return (
         <div className="money">
             <a href="/gameCenter">Spiral Cash: {obj.spiral}</a>
@@ -364,6 +363,6 @@ $(document).ready(function(){
     if(window.location.pathname == "/gameCenter"){
         getTokenGame();
         gameSetup();
-        checkDailyReward();
+        afterButtonClicked();
     }
 });

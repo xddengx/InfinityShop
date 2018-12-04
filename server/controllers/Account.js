@@ -62,6 +62,7 @@ const signup = (request, response) => {
       password: hash,
       spirals: 50000,
       dailyReward: false,
+      nextDay: Date
     };
 
     const newAccount = new Account.AccountModel(accountData);
@@ -218,6 +219,18 @@ const getDRStatus = (req, res) => Account.AccountModel.findByUsername(
   },
 );
 
+const getNextDay = (req, res) => Account.AccountModel.findByUsername(
+  req.session.account.username, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    console.dir(docs.nextDay);
+    return res.json(docs.nextDay);
+  },
+);
+
 const updateDRStatus = (req, res) => Account.AccountModel.findByUsername(
   req.session.account.username, (err, docs) => {
     if (err) {
@@ -225,18 +238,22 @@ const updateDRStatus = (req, res) => Account.AccountModel.findByUsername(
       return res.status(400).json({ error: 'An error occured' });
     }
 
+    // console.dir(req.body.nextDay);
+    const theNextDay = req.body.nextDay;
     const rewardStatus = req.body.status;
     const userReward = docs;
 
-    console.dir(rewardStatus);
-    console.dir(userReward);
+    // console.dir(rewardStatus);
+    // console.dir(userReward);
 
     userReward.dailyReward = rewardStatus;
+    userReward.nextDay = theNextDay;
 
     const savePromise = userReward.save();
 
     savePromise.then(() => res.json({
       dailyReward: userReward.dailyReward,
+      nextDay: userReward.theNextDay
     }));
 
     savePromise.catch((error) => {
@@ -300,5 +317,6 @@ module.exports.changePassword = changePassword;
 module.exports.updateSpirals = updateSpirals;
 module.exports.getDRStatus = getDRStatus;
 module.exports.updateDRStatus = updateDRStatus;
+module.exports.getNextDay = getNextDay;
 module.exports.updateSpiralsWon = updateSpiralsWon;
 module.exports.getToken = getToken;

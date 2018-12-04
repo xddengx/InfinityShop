@@ -15,7 +15,6 @@ const checkDailyReward = () =>{
     let currentTime = new Date();
 
     console.log("current time", currentTime);
-    console.log("next day", nextDay);
 
     // if(currentTime < test){
     //     document.querySelector("#dailyRewardButton").disabled = true;
@@ -26,33 +25,48 @@ const checkDailyReward = () =>{
 
     sendAjax('GET', '/getDRStatus', null, (result) =>{
         dailyRStatus = result;  // should be false
+        console.log("point A");
 
-        console.log("dailyRStatus", dailyRStatus);
-        // user has not yet clicked
-        if(dailyRStatus == false){
+        sendAjax('GET', '/getNextDay', null, (retrieve) => {
+            let tomorrow = new Date(retrieve);
+            console.log("tomorrow", tomorrow);
+            // console.log("tomorrow", tomorrow.setDate(retrieve.getDate()));
+
+            console.log("dailyRStatus", dailyRStatus);
+                    // user has not yet clicked
+
+            // user already clicked
+            // it's not the next day
+            // button should be disable (disable = true)
+            if(dailyRStatus === true && (currentTime < tomorrow)){
+                console.dir("3");
+                document.querySelector("#dailyRewardButton").disabled = true;
+            }
+
+            // user already clicked
+            // it's the next day
+            // button should be clickable (disable = false)
+            if(dailyRStatus === true && (currentTime > tomorrow)){
+                console.dir("4");
+                document.querySelector("#dailyRewardButton").disabled = false;
+            }
+        });
+    });
+}
+
+const afterButtonClicked = () =>{
+    let dailyStatus;
+    sendAjax('GET', '/getDRStatus', null, (result) =>{
+        dailyStatus = result;  // should be false
+        if(dailyStatus == false){
             console.dir("1");
             document.querySelector("#dailyRewardButton").disabled = false;
         }
 
-        if(dailyRStatus == true){
+        if(dailyStatus == true){
             console.dir("2");
             document.querySelector("#dailyRewardButton").disabled = true;
-        }
-
-        // user already clicked
-        // it's not the next day
-        // button should be disable (disable = true)
-        if(dailyRStatus === true && (currentTime < nextDay)){
-            console.dir("3");
-            document.querySelector("#dailyRewardButton").disabled = true;
-        }
-
-        // user already clicked
-        // it's the next day
-        // button should be clickable (disable = false)
-        if(dailyRStatus === true && (currentTime > nextDay)){
-            console.dir("4");
-            document.querySelector("#dailyRewardButton").disabled = false;
+            checkDailyReward();
         }
     });
 }
@@ -79,6 +93,8 @@ const playChance = () =>{
 }
 
 const getDailyReward = () =>{
+    document.querySelector("#dailyRewardButton").disabled = true;
+
     let dailyCollect = 100;
 
     // get time when user clicked on reward button
@@ -86,13 +102,13 @@ const getDailyReward = () =>{
     // calculate the next day (so button can be enabled again)
     // nextDay = new Date();
     // nextDay.setDate(currentDate.getDate()+1);
-nextDay = new Date("2018-12-03T01:26:00-06:00");
+nextDay = new Date("2018-12-03T23:01:00-06:00");
 
     console.log("currentdate", currentDate);
     // console.log("nextDay", nextDay);
 
     // if user clicks on daily reward update the boolean in account. 
-    let paramStatus = `status=${true}&_csrf=${csrfToken}`;
+    let paramStatus = `nextDay=${nextDay}&status=${true}&_csrf=${csrfToken}`;
     sendAjax('PUT', '/updateDRStatus', paramStatus, function(){
         console.dir("clicked on daily reward button");
         checkDailyReward();
@@ -122,7 +138,6 @@ const Chance = function(){
 }
 
 const SpiralCash = function(obj){
-    console.dir(obj);
     return (
         <div className="money">
             <a href="/gameCenter">Spiral Cash: {obj.spiral}</a>

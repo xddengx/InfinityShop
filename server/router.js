@@ -23,6 +23,7 @@ const router = (app) => {
   app.put('/updateOwner', controllers.UserAccount.cloneProduct);
   app.get('/gameCenter', mid.requiresLogin, controllers.GameCenter.gameCenterPage);
   app.get('/getDRStatus', mid.requiresLogin, controllers.Account.getDRStatus);
+  app.get('/getNextDay', mid.requiresLogin, controllers.Account.getNextDay);
   app.put('/updateDRStatus', mid.requiresLogin, controllers.Account.updateDRStatus);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.get('/*', mid.requiresSecure, controllers.Account.loginPage); // for now
