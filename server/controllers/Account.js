@@ -62,7 +62,7 @@ const signup = (request, response) => {
       password: hash,
       spirals: 50000,
       dailyReward: false,
-      nextDay: Date.now()
+      nextDay: Date.now(),
     };
 
     const newAccount = new Account.AccountModel(accountData);
@@ -251,7 +251,7 @@ const updateDRStatus = (req, res) => Account.AccountModel.findByUsername(
 
     savePromise.then(() => res.json({
       dailyReward: userReward.dailyReward,
-      nextDay: userReward.theNextDay
+      nextDay: userReward.theNextDay,
     }));
 
     savePromise.catch((error) => {

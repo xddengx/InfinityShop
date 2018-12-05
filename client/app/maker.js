@@ -251,7 +251,7 @@ const OrdersList = function(theOrders){
 const SpiralCash = function(obj){
     return (
         <div className="money">
-            <a href="/gameCenter">Spiral Cash: {obj.spiral}</a>
+            <a href="/gameCenter">Spiral Cash: $ {obj.spiral}</a>
         </div>
     );
 
@@ -359,6 +359,7 @@ $(document).ready(function(){
         getTokenStore();
         loadAllProductsFromServer();
         getSpiralsStorefront();
+        getRemainingTime();
     }
     if(window.location.pathname == "/gameCenter"){
         getTokenGame();

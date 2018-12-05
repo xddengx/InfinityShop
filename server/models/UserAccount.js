@@ -36,6 +36,10 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  sale: {
+    type: Date,
+    default: Date('December 25, 2018')
+  },
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -86,6 +90,7 @@ ProductSchema.statics.toAPI = doc => ({
   price: doc.price,
   description: doc.description,
   image: doc.productImage,
+  sale: doc.sale,
 });
 
 ProductSchema.statics.findByOwner = (ownerId, callback) => {
@@ -121,8 +126,15 @@ BoughtProductSchema.statics.findByOwner = (ownerId, callback) => {
   return BoughtProductModel.find(search).select('name price description productImage').exec(callback);
 };
 
-
 ProductSchema.statics.findProducts = callback => UserProductsModel.find(callback);
+
+ProductSchema.statics.findSaleDate = (ownerId, callback) => {
+  const search = {
+    owner: convertId(ownerId),
+  };
+
+  return UserProductsModel.find(search).select('sale').exec(callback);
+};
 
 UserProductsModel = mongoose.model('Products', ProductSchema);
 BoughtProductModel = mongoose.model('Bought', BoughtProductSchema);

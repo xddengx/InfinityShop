@@ -140,7 +140,7 @@ const Chance = function(){
 const SpiralCash = function(obj){
     return (
         <div className="money">
-            <a href="/gameCenter">Spiral Cash: {obj.spiral}</a>
+            <a href="/gameCenter">Spiral Cash: $ {obj.spiral}</a>
         </div>
     );
 

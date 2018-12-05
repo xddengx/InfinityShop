@@ -112,10 +112,120 @@ var ProductsList = function ProductsList(props) {
     );
 };
 
+var SiteSale = function SiteSale(obj) {
+    // console.log("hiii");
+    // console.dir(obj.saleTime.sale);
+    var saleDate = new Date(obj.saleTime);
+    return (
+        // <div>
+        //     <h2>{saleDate.toDateString()}</h2>
+        // </div>
+        React.createElement(
+            'div',
+            { id: 'splashContainer' },
+            React.createElement(
+                'div',
+                { 'class': 'content' },
+                React.createElement(
+                    'h1',
+                    { 'class': 'msgBlock' },
+                    ' COUNTDOWN TO CHRISTMAS SALE!'
+                ),
+                React.createElement(
+                    'div',
+                    { 'class': 'time', id: 'clockCont' },
+                    React.createElement(
+                        'div',
+                        null,
+                        React.createElement(
+                            'span',
+                            { 'class': 'days' },
+                            ' ',
+                            obj.saleTime.days,
+                            ' '
+                        ),
+                        React.createElement(
+                            'div',
+                            { 'class': 'caption' },
+                            'Days'
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        null,
+                        React.createElement(
+                            'span',
+                            { 'class': 'hours' },
+                            ' ',
+                            obj.saleTime.hours,
+                            ' '
+                        ),
+                        React.createElement(
+                            'div',
+                            { 'class': 'caption' },
+                            'Hours'
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        null,
+                        React.createElement(
+                            'span',
+                            { 'class': 'minutes' },
+                            ' ',
+                            obj.saleTime.minutes,
+                            ' '
+                        ),
+                        React.createElement(
+                            'div',
+                            { 'class': 'caption' },
+                            'Minutes'
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        null,
+                        React.createElement(
+                            'span',
+                            { 'class': 'seconds' },
+                            ' ',
+                            obj.saleTime.seconds,
+                            ' '
+                        ),
+                        React.createElement(
+                            'div',
+                            { 'class': 'caption' },
+                            'Seconds'
+                        )
+                    )
+                )
+            )
+        )
+    );
+};
+
+var getRemainingTime = function getRemainingTime() {
+    requestAnimationFrame(getRemainingTime);
+
+    sendAjax('GET', '/getRemainingTime', null, function (result) {
+        // let saleDate = new Date(result);
+        // console.dir(result);
+        ReactDOM.render(React.createElement(SiteSale, { saleTime: result }), document.querySelector('#saleCont'));
+
+        if (result.sale <= 0) {
+            cancelAnimationFrame(updateClock);
+            days.innerHTML = 0;
+            hours.innerHTML = 0;
+            minutes.innerHTML = 0;
+            seconds.innerHTML = 0;
+        }
+    });
+};
+
 // display the user's Spiral Cash in the nav bar.
 var SpiralsCash = function SpiralsCash(obj) {
-    console.dir(obj);
     spirals = obj.spiral;
+    // console.log(spirals);
     return React.createElement(
         'div',
         { className: 'money' },
@@ -336,7 +446,7 @@ var SpiralCash = function SpiralCash(obj) {
         React.createElement(
             'a',
             { href: '/gameCenter' },
-            'Spiral Cash: ',
+            'Spiral Cash: $ ',
             obj.spiral
         )
     );
@@ -770,7 +880,7 @@ var SpiralCash = function SpiralCash(obj) {
         React.createElement(
             "a",
             { href: "/gameCenter" },
-            "Spiral Cash: ",
+            "Spiral Cash: $ ",
             obj.spiral
         )
     );
@@ -862,6 +972,7 @@ $(document).ready(function () {
         getTokenStore();
         loadAllProductsFromServer();
         getSpiralsStorefront();
+        getRemainingTime();
     }
     if (window.location.pathname == "/gameCenter") {
         getTokenGame();

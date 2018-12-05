@@ -24,10 +24,38 @@ const getSpirals = (request, response) => {
         console.log(err);
         return res.status(400).json({ error: 'An error occured' });
       }
+      // console.dir(docs);
       return res.json(docs.spirals);
     },
   );
 };
+
+// //TODO
+const getRemainingTime = (req,res) =>{
+  // console.dir("inside function");
+  return UserAccount.UserProductsModel.findSaleDate(
+    req.session.account._id, (err, docs) =>{
+      if(err){
+        console.log(err);
+        return res.status(400).json({error: 'An error occured'});
+      }
+
+      // console.dir(docs);
+      // console.dir(docs[0].sale);
+
+      // Sale Day
+      let saleDay = new Date('December 25, 2018');
+      // Time difference from Current Time to Sale Day
+      var time = Date.parse(saleDay) - Date.parse(new Date());
+      // convert the time (in millisecs) to days, hours, minutes, seconds
+      var days = Math.floor(time/(1000*60*60*24));
+      var hours = Math.floor((time/(1000*60*60)) % 24);
+      var minutes = Math.floor((time/1000/60)%60);
+      var seconds = Math.floor((time/1000) % 60);
+
+      return res.json({sale: saleDay, days: days, hours: hours, minutes: minutes, seconds: seconds});
+    });
+}
 
 // create the product
 const makeProduct = (req, res) => {
@@ -41,7 +69,7 @@ const makeProduct = (req, res) => {
     price: req.body.price,
     description: req.body.description,
     productImage: req.body.productImage,
-    owner: req.session.account._id,
+    owner: req.session.account._id
   };
 
   // create the product
@@ -173,3 +201,4 @@ module.exports.deleteProduct = deleteProduct;
 module.exports.cloneProduct = cloneProduct;
 module.exports.getOrders = getOrders;
 module.exports.getSpirals = getSpirals;
+module.exports.getRemainingTime = getRemainingTime;

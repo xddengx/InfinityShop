@@ -32,8 +32,8 @@ const AccountSchema = new mongoose.Schema({
   dailyReward: {
     type: Boolean,
   },
-  nextDay:{
-    type: Date
+  nextDay: {
+    type: Date,
   },
   createdDate: {
     type: Date,

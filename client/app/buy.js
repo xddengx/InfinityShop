@@ -73,10 +73,64 @@ const ProductsList = function(props){
     );
 };
 
+const SiteSale = function(obj){
+    // console.log("hiii");
+    // console.dir(obj.saleTime.sale);
+    let saleDate = new Date(obj.saleTime);
+    return(
+        // <div>
+        //     <h2>{saleDate.toDateString()}</h2>
+        // </div>
+        <div id = "splashContainer">
+            <div class = "content">
+                <h1 class = "msgBlock"> COUNTDOWN TO CHRISTMAS SALE!</h1>
+                <div class = "time" id = "clockCont">
+                    <div>
+                        <span class = "days"> {obj.saleTime.days} </span>
+                        <div class = "caption">Days</div>
+                    </div>
+                    <div>
+                        <span class = "hours"> {obj.saleTime.hours} </span>
+                        <div class = "caption">Hours</div>
+                    </div>
+                    <div>
+                        <span class = "minutes"> {obj.saleTime.minutes} </span>
+                        <div class = "caption">Minutes</div>
+                    </div>
+                    <div>
+                        <span class = "seconds"> {obj.saleTime.seconds} </span>
+                        <div class = "caption">Seconds</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+const getRemainingTime = () =>{
+    requestAnimationFrame(getRemainingTime);
+
+    sendAjax('GET', '/getRemainingTime', null, (result) =>{
+        // let saleDate = new Date(result);
+        // console.dir(result);
+        ReactDOM.render(
+            <SiteSale saleTime = {result} />, document.querySelector('#saleCont')
+        );
+
+        if(result.sale <= 0){
+            cancelAnimationFrame(updateClock);
+            days.innerHTML = 0;
+            hours.innerHTML = 0;
+            minutes.innerHTML = 0;
+            seconds.innerHTML = 0;
+        }
+    });
+}
+
 // display the user's Spiral Cash in the nav bar.
 const SpiralsCash = function(obj){
-    console.dir(obj);
     spirals = obj.spiral;
+    // console.log(spirals);
     return (
         <div className="money">
             <a href="/gameCenter">Spiral Cash: $ {obj.spiral}</a>
