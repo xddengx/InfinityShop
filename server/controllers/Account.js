@@ -158,27 +158,6 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
     const productPrice = req.body.price;
     const userSpirals = docs;
 
-    // ensure user has sufficient funds to buy a product
-    // if(docs.spirals > productPrice){
-    // const newTotal = docs.spirals - productPrice;
-    // userSpirals.spirals = newTotal;
-
-    // const savePromise = userSpirals.save();
-
-    // savePromise.then(() => res.json({
-    //   spirals: userSpirals.spirals,
-    // }));
-
-    // // throws error if insufficient funds
-    // savePromise.catch((error) => {
-    //   console.dir(error);
-    //   if (error) {
-    //     return res.status(400).json({ error: 'Insufficient funds' });
-    //   }
-
-    //   return res.status(400).json({ error: 'An error occured' });
-    // });
-
     //
     // if user has sufficient funds
     if (docs.spirals > productPrice) {
@@ -200,12 +179,10 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
 
         return res.status(400).json({ error: 'An error occured' });
       });
-    } else {
-      return res.status(400).json({ error: 'Insufficient funds' });
+      return savePromise;
     }
 
-    // return savePromise;
-    // return res.json({sucess: 'Success'});
+    return res.status(400).json({ msg: 'success' });
   },
 );
 
@@ -258,9 +235,10 @@ const updateDRStatus = (req, res) => Account.AccountModel.findByUsername(
       if (error) {
         return res.status(400).json({ error: 'An error occured' });
       }
+      return res.status(400).json({ error: 'An error occured' });
     });
 
-    return savePromise;
+    return res.status(200).json({ msg: 'success' });
   },
 );
 
@@ -290,9 +268,10 @@ const updateSpiralsWon = (req, res) => Account.AccountModel.findByUsername(
       if (error) {
         return res.status(400).json({ error: 'An error occured' });
       }
+      return res.status(400).json({ error: 'An error occured' });
     });
 
-    return savePromise;
+    return res.status(200).json({ msg: 'success' });
   },
 );
 

@@ -83,7 +83,7 @@ const SiteSale = function(obj){
         // </div>
         <div id = "splashContainer">
             <div class = "content">
-                <h1 class = "msgBlock"> COUNTDOWN TO CHRISTMAS SALE!</h1>
+                <h1 class = "msgBlock"> CHRISTMAS SALE COUNTDOWN!</h1>
                 <div class = "time" id = "clockCont">
                     <div>
                         <span class = "days"> {obj.saleTime.days} </span>
@@ -108,7 +108,7 @@ const SiteSale = function(obj){
 }
 
 const getRemainingTime = () =>{
-    requestAnimationFrame(getRemainingTime);
+    // requestAnimationFrame(getRemainingTime);
 
     sendAjax('GET', '/getRemainingTime', null, (result) =>{
         // let saleDate = new Date(result);
@@ -118,7 +118,7 @@ const getRemainingTime = () =>{
         );
 
         if(result.sale <= 0){
-            cancelAnimationFrame(updateClock);
+            // cancelAnimationFrame(updateClock);
             days.innerHTML = 0;
             hours.innerHTML = 0;
             minutes.innerHTML = 0;

@@ -129,7 +129,7 @@ var SiteSale = function SiteSale(obj) {
                 React.createElement(
                     'h1',
                     { 'class': 'msgBlock' },
-                    ' COUNTDOWN TO CHRISTMAS SALE!'
+                    ' CHRISTMAS SALE COUNTDOWN!'
                 ),
                 React.createElement(
                     'div',
@@ -205,7 +205,7 @@ var SiteSale = function SiteSale(obj) {
 };
 
 var getRemainingTime = function getRemainingTime() {
-    requestAnimationFrame(getRemainingTime);
+    // requestAnimationFrame(getRemainingTime);
 
     sendAjax('GET', '/getRemainingTime', null, function (result) {
         // let saleDate = new Date(result);
@@ -213,7 +213,7 @@ var getRemainingTime = function getRemainingTime() {
         ReactDOM.render(React.createElement(SiteSale, { saleTime: result }), document.querySelector('#saleCont'));
 
         if (result.sale <= 0) {
-            cancelAnimationFrame(updateClock);
+            // cancelAnimationFrame(updateClock);
             days.innerHTML = 0;
             hours.innerHTML = 0;
             minutes.innerHTML = 0;
@@ -307,6 +307,7 @@ var checkDailyReward = function checkDailyReward() {
     sendAjax('GET', '/getDRStatus', null, function (result) {
         dailyRStatus = result; // should be false
         console.log("point A");
+        console.log("here", dailyRStatus);
 
         sendAjax('GET', '/getNextDay', null, function (retrieve) {
             var tomorrow = new Date(retrieve);

@@ -26,6 +26,7 @@ const checkDailyReward = () =>{
     sendAjax('GET', '/getDRStatus', null, (result) =>{
         dailyRStatus = result;  // should be false
         console.log("point A");
+        console.log("here", dailyRStatus);
 
         sendAjax('GET', '/getNextDay', null, (retrieve) => {
             let tomorrow = new Date(retrieve);
