@@ -18,7 +18,9 @@ const handleLogin = (e) => {
 const handleSignup = (e) => {
     e.preventDefault();
 
-    if($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == ''){
+    console.dir($("#seller").val());
+
+    if($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '' || $("#seller").val() == ''){
         handleError("All fields are required");
         return false;
     }
@@ -62,7 +64,7 @@ const LoginWindow = (props) =>{
                 method="POST"
                 className="mainForm"
             >
-            
+        
             <label htmlFor="username">Username: </label>
             <input id="user" type="text" name="username" placeholder="username"/>
             <label htmlFor="pass">Password: </label>
@@ -84,7 +86,9 @@ const SignupWindow = (props) =>{
               method="POST"
               className="mainForm"
         >
-        
+
+        <label htmlFor="seller">Seller Name: </label>
+        <input id="seller" type="text" name="seller" placeholder="seller name"/>
         <label htmlFor="username">Username: </label>
         <input id="user" type="text" name="username" placeholder="username"/>
         <label htmlFor="pass">Password: </label>

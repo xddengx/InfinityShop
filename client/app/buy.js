@@ -157,6 +157,32 @@ const loadAllProductsFromServer = () => {
     });
 };
 
+// const loadOrderHistoryTest = () =>{
+//     sendAjax('GET', '/orders', null, (data) => {
+//         ReactDOM.render(
+//             <OrdersList orders={data.orders} csrf={csrfToken} />, document.querySelector("#content")
+//         );
+//     });
+// }
+
+// const createOrderHistoryPageTest = (csrf) =>{
+//     // console.dir(csrf);
+//     ReactDOM.render(
+//         <div></div>, document.querySelector("#allProducts")
+//     );
+
+//     ReactDOM.render(
+//         <div></div>, document.querySelector('#saleCont')
+//     );
+
+
+//     ReactDOM.render(
+//         <OrdersList orders={[]} csrf={csrf} />, document.querySelector("#content")
+//     );
+
+//     loadOrderHistoryTest();
+// }
+
 // set up for rendering the products and spirals
 const setupAllProducts = function(csrf){
     // products attribute is empty for now, because we don't have data yet. But
@@ -169,9 +195,17 @@ const setupAllProducts = function(csrf){
         <SpiralsCash spiral={spirals} />, document.querySelector('#spiralsStorefront')
     );
 
+    // ordersButton.addEventListener("click", (e) =>{
+    //     console.dir("orders button clicked");
+    //     e.preventDefault();
+    //     createOrderHistoryPageTest(csrf);
+    //     return false;
+    // });
+
     loadAllProductsFromServer();
     getSpiralsStorefront();
 };
+
 
 // allows us to get new CSRF token for new submissions
 const getTokenStore = () => {

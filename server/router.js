@@ -6,7 +6,6 @@ const router = (app) => {
   app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
   app.get('/getSpirals', mid.requiresSecure, controllers.UserAccount.getSpirals);
   app.get('/getProducts', mid.requiresLogin, controllers.UserAccount.getProducts);
-  app.get('/orders', mid.requiresLogin, controllers.UserAccount.getOrders);
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
@@ -17,6 +16,8 @@ const router = (app) => {
   app.delete('/deleteProduct', mid.requiresLogin, controllers.UserAccount.deleteProduct);
   app.put('/updateProduct', mid.requiresLogin, controllers.UserAccount.updateProduct);
   app.get('/getAllProducts', controllers.Storefront.getAllProducts);
+  app.get('/orderHistory', mid.requiresLogin, controllers.OrderHistory.orderPage);
+  app.get('/orders', mid.requiresLogin, controllers.OrderHistory.getOrders);
   app.get('/storefront', mid.requiresLogin, controllers.Storefront.createPage);
   app.put('/updateSpirals', controllers.Account.updateSpirals);
   app.put('/updateSpiralsWon', controllers.Account.updateSpiralsWon);

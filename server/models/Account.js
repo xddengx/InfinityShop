@@ -25,6 +25,12 @@ const AccountSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  sellerName: {
+    type: String,
+    required: true,
+    trim: true,
+    match: /^[A-Za-z0-9_\-.]{1,16}$/,
+  },
   spirals: {
     type: Number,
     min: 0,
@@ -48,6 +54,7 @@ AccountSchema.statics.toAPI = doc => ({
   username: doc.username,
   _id: doc._id,
   spirals: doc.spirals,
+  sellerName: doc.sellerName,
 });
 
 const validatePassword = (doc, password, callback) => {

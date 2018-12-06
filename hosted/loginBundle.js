@@ -20,7 +20,9 @@ var handleLogin = function handleLogin(e) {
 var handleSignup = function handleSignup(e) {
     e.preventDefault();
 
-    if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
+    console.dir($("#seller").val());
+
+    if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '' || $("#seller").val() == '') {
         handleError("All fields are required");
         return false;
     }
@@ -96,6 +98,12 @@ var SignupWindow = function SignupWindow(props) {
             method: "POST",
             className: "mainForm"
         },
+        React.createElement(
+            "label",
+            { htmlFor: "seller" },
+            "Seller Name: "
+        ),
+        React.createElement("input", { id: "seller", type: "text", name: "seller", placeholder: "seller name" }),
         React.createElement(
             "label",
             { htmlFor: "username" },

@@ -60,6 +60,7 @@ const signup = (request, response) => {
       username: req.body.username,
       salt,
       password: hash,
+      sellerName: req.body.seller,
       spirals: 50000,
       dailyReward: false,
       nextDay: Date.now(),
