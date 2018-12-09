@@ -20,9 +20,7 @@ var handleLogin = function handleLogin(e) {
 var handleSignup = function handleSignup(e) {
     e.preventDefault();
 
-    console.dir($("#seller").val());
-
-    if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '' || $("#seller").val() == '') {
+    if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
         handleError("All fields are required");
         return false;
     }
@@ -98,12 +96,6 @@ var SignupWindow = function SignupWindow(props) {
             method: "POST",
             className: "mainForm"
         },
-        React.createElement(
-            "label",
-            { htmlFor: "seller" },
-            "Seller Name: "
-        ),
-        React.createElement("input", { id: "seller", type: "text", name: "seller", placeholder: "seller name" }),
         React.createElement(
             "label",
             { htmlFor: "username" },
@@ -227,6 +219,7 @@ $(document).ready(function () {
 // handle the error message
 var handleError = function handleError(message) {
     $("#errorMessage").text(message);
+    alert(message);
     console.log("TODO: include a better eroor handling message");
 };
 

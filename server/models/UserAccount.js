@@ -25,7 +25,6 @@ const ProductSchema = new mongoose.Schema({
     min: 1,
     required: true,
   },
-
   description: {
     type: String,
     required: true,
@@ -35,6 +34,7 @@ const ProductSchema = new mongoose.Schema({
   productImage: {
     type: String,
     required: true,
+    match: /\.(jpeg|jpg|gif|png)$/,
   },
   owner: {
     type: mongoose.Schema.ObjectId,

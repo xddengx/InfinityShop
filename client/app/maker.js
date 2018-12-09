@@ -20,14 +20,21 @@ const handleProduct = (e) => {
     var isMatch = toMatch.test(document.querySelector('#productPrice').value);
     // console.dir(document.querySelector('#productPrice').value);
     // console.dir(isMatch);
+    var toMatchImg = /\.(jpeg|jpg|gif|png)$/;
+    var isMatchImg = toMatchImg.test(document.querySelector('#productImage').value);
 
-    console.dir($("#productForm").serialize());
-    if(isMatch === true){
+    // console.dir($("#productForm").serialize());
+    if(isMatch === true && isMatchImg == true){
         sendAjax('POST', $("#productForm").attr("action"), $("#productForm").serialize(), function() {
             loadProductsFromServer();
         });
     }else{
-        alert("Value entered for the price of the product needs to be in numerical form.")
+        if(isMatch === false){
+            alert("Value entered for the price of the product needs to be in numerical form.")
+        }
+        if(isMatchImg === false){
+            alert("Image url is invalid. Accepts jpeg, jpg, gif, and png.")
+        }
     }
 
     return false;
@@ -60,17 +67,24 @@ const updateProductHandle = (e) => {
 
     var toMatch = /^\$?[0-9]+\.?[0-9]?[0-9]?$/;
     var isMatch = toMatch.test(document.querySelector('#updatePrice').value);
-    console.log(document.querySelector('#updatePrice').value);
-    console.log(isMatch);
+    // console.log(document.querySelector('#updatePrice').value);
+    // console.log(isMatch);
+    var toMatchImg = /\.(jpeg|jpg|gif|png)$/;
+    var isMatchImg = toMatchImg.test(document.querySelector('#updateproductImage').value);
     
-    if(isMatch === true){
+    if(isMatch === true && isMatchImg == true){
         // send request to update product
         sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function() {
             console.log("success");
             location.reload();
         });
     }else{
-        alert("Value entered for the price of the product needs to be in numerical form.")
+        if(isMatch === false){
+            alert("Value entered for the price of the product needs to be in numerical form.")
+        }
+        if(isMatchImg === false){
+            alert("Image url is invalid. Accepts jpeg, jpg, gif, and png.")
+        }
     }
 };
 

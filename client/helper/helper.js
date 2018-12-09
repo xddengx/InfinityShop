@@ -2,6 +2,7 @@
 // handle the error message
 const handleError = (message) => {
     $("#errorMessage").text(message);
+    alert(message);
     console.log("TODO: include a better eroor handling message");
 };
 

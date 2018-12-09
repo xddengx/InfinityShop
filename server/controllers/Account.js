@@ -60,7 +60,6 @@ const signup = (request, response) => {
       username: req.body.username,
       salt,
       password: hash,
-      sellerName: req.body.seller,
       spirals: 50000,
       dailyReward: false,
       nextDay: Date.now(),
@@ -155,6 +154,22 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
+
+    // editing
+    const productOwner = req.body.ownerId;
+    const userId = req.session.account._id;
+    console.dir(req.body.ownerId);
+    console.dir(req.session.account._id);
+
+    // check the owner ids
+    if (productOwner === userId) {
+      console.dir('matched ids');
+      // dont let user buy the product. message and alert them
+      return res.status(400).json({ error: 'You are the owner of this product.' });
+    }
+
+    console.dir('not matched');
+
     // make calculations on the server side so users cant manipulate changes
     const productPrice = req.body.price;
     const userSpirals = docs;

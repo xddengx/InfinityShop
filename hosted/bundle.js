@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -14,12 +14,19 @@ var spirals;
 // update spiral cash
 var BuyProduct = function BuyProduct(e) {
     // get the price of the product
+    console.log("test", e.target.id);
+    var ownerId = e.target.id;
     var price = e.target.parentNode.id;
     var productId = e.target.parentNode.parentNode.id;
-    console.dir(productId);
+    console.log("product id", productId);
 
-    var param = 'price=' + price + '&_csrf=' + csrfToken;
-    var productIdParam = 'prodId=' + productId + '&_csrf=' + csrfToken;
+    var param = "price=" + price + "&ownerId=" + ownerId + "&_csrf=" + csrfToken;
+    var productIdParam = "prodId=" + productId + "&_csrf=" + csrfToken;
+
+    // get products owner id to see if its the user's products
+    // sendAjax('PUT', '/getProductSeller', productIdParam, function(){
+
+    // });  
 
     sendAjax('PUT', '/updateSpirals', param, function () {
         getSpiralsStorefront(); // update the text/amount displayed
@@ -33,12 +40,13 @@ var BuyProduct = function BuyProduct(e) {
                 location.reload(); // TODO: extra- refreshes a different way. setInterval?
             });
         });
+        // });
+
+        //TODO: transfer product to new owner
+        //TODO: remove element from page
+
+        return false;
     });
-
-    //TODO: transfer product to new owner
-    //TODO: remove element from page
-
-    return false;
 };
 
 // show all products 
@@ -46,12 +54,12 @@ var ProductsList = function ProductsList(props) {
     // no products exist 
     if (props.products.length === 0) {
         return React.createElement(
-            'div',
-            { className: 'productsList' },
+            "div",
+            { className: "productsList" },
             React.createElement(
-                'h3',
-                { className: 'emptyProducts' },
-                'All items are sold out!'
+                "h3",
+                { className: "emptyProducts" },
+                "All items are sold out!"
             )
         );
     }
@@ -62,52 +70,53 @@ var ProductsList = function ProductsList(props) {
     // everytimes the state updates, the page will immediately creates the UI and shows the updates
     var productsNodes = props.products.map(function (products) {
         return React.createElement(
-            'div',
-            _defineProperty({ className: 'productCard', key: products._id, id: products._id }, 'className', 'buyProduct'),
+            "div",
+            _defineProperty({ className: "productCard", key: products._id, id: products._id }, "className", "buyProduct"),
             React.createElement(
-                'div',
+                "div",
                 null,
-                React.createElement('img', { className: 'theProductImage', src: products.productImage, alt: '' }),
-                ' '
+                React.createElement("img", { className: "theProductImage", src: products.productImage, alt: "" }),
+                " "
             ),
             React.createElement(
-                'div',
+                "div",
                 { id: products.price },
                 React.createElement(
-                    'button',
-                    { id: 'buyButton', type: 'button', onClick: function onClick(e) {
+                    "button",
+                    { id: products.owner, className: "buyButton", type: "button", onClick: function onClick(e) {
                             return BuyProduct(e);
                         } },
-                    'Buy'
+                    "Buy"
                 ),
                 React.createElement(
-                    'h3',
-                    { className: 'buyProductName' },
-                    ' ',
+                    "h3",
+                    { className: "buyProductName" },
+                    " ",
                     products.name,
-                    ' '
+                    " "
                 ),
                 React.createElement(
-                    'h4',
-                    { className: 'productDescription' },
-                    ' ',
+                    "h4",
+                    { className: "productDescription" },
+                    " ",
                     products.description,
-                    ' '
+                    " "
                 ),
                 React.createElement(
-                    'h3',
-                    { className: 'productPrice' },
-                    ' $',
+                    "h3",
+                    { className: "productPrice" },
+                    " $",
                     products.price,
-                    ' '
-                )
+                    " "
+                ),
+                React.createElement("h3", { "class": "ownerIdProduct", id: products.owner })
             )
         );
     });
 
     return React.createElement(
-        'div',
-        { className: 'productsList' },
+        "div",
+        { className: "productsList" },
         productsNodes
     );
 };
@@ -121,81 +130,81 @@ var SiteSale = function SiteSale(obj) {
         //     <h2>{saleDate.toDateString()}</h2>
         // </div>
         React.createElement(
-            'div',
-            { id: 'splashContainer' },
+            "div",
+            { id: "splashContainer" },
             React.createElement(
-                'div',
-                { 'class': 'content' },
+                "div",
+                { "class": "content" },
                 React.createElement(
-                    'h1',
-                    { 'class': 'msgBlock' },
-                    ' CHRISTMAS SALE COUNTDOWN!'
+                    "h1",
+                    { "class": "msgBlock" },
+                    " CHRISTMAS SALE COUNTDOWN!"
                 ),
                 React.createElement(
-                    'div',
-                    { 'class': 'time', id: 'clockCont' },
+                    "div",
+                    { "class": "time", id: "clockCont" },
                     React.createElement(
-                        'div',
+                        "div",
                         null,
                         React.createElement(
-                            'span',
-                            { 'class': 'days' },
-                            ' ',
+                            "span",
+                            { "class": "days" },
+                            " ",
                             obj.saleTime.days,
-                            ' '
+                            " "
                         ),
                         React.createElement(
-                            'div',
-                            { 'class': 'caption' },
-                            'Days'
+                            "div",
+                            { "class": "caption" },
+                            "Days"
                         )
                     ),
                     React.createElement(
-                        'div',
+                        "div",
                         null,
                         React.createElement(
-                            'span',
-                            { 'class': 'hours' },
-                            ' ',
+                            "span",
+                            { "class": "hours" },
+                            " ",
                             obj.saleTime.hours,
-                            ' '
+                            " "
                         ),
                         React.createElement(
-                            'div',
-                            { 'class': 'caption' },
-                            'Hours'
+                            "div",
+                            { "class": "caption" },
+                            "Hours"
                         )
                     ),
                     React.createElement(
-                        'div',
+                        "div",
                         null,
                         React.createElement(
-                            'span',
-                            { 'class': 'minutes' },
-                            ' ',
+                            "span",
+                            { "class": "minutes" },
+                            " ",
                             obj.saleTime.minutes,
-                            ' '
+                            " "
                         ),
                         React.createElement(
-                            'div',
-                            { 'class': 'caption' },
-                            'Minutes'
+                            "div",
+                            { "class": "caption" },
+                            "Minutes"
                         )
                     ),
                     React.createElement(
-                        'div',
+                        "div",
                         null,
                         React.createElement(
-                            'span',
-                            { 'class': 'seconds' },
-                            ' ',
+                            "span",
+                            { "class": "seconds" },
+                            " ",
                             obj.saleTime.seconds,
-                            ' '
+                            " "
                         ),
                         React.createElement(
-                            'div',
-                            { 'class': 'caption' },
-                            'Seconds'
+                            "div",
+                            { "class": "caption" },
+                            "Seconds"
                         )
                     )
                 )
@@ -227,12 +236,12 @@ var SpiralsCash = function SpiralsCash(obj) {
     spirals = obj.spiral;
     // console.log(spirals);
     return React.createElement(
-        'div',
-        { className: 'money' },
+        "div",
+        { className: "money" },
         React.createElement(
-            'a',
-            { href: '/gameCenter' },
-            'Spiral Cash: $ ',
+            "a",
+            { href: "/gameCenter" },
+            "Spiral Cash: $ ",
             obj.spiral
         )
     );
@@ -535,14 +544,21 @@ var handleProduct = function handleProduct(e) {
     var isMatch = toMatch.test(document.querySelector('#productPrice').value);
     // console.dir(document.querySelector('#productPrice').value);
     // console.dir(isMatch);
+    var toMatchImg = /\.(jpeg|jpg|gif|png)$/;
+    var isMatchImg = toMatchImg.test(document.querySelector('#productImage').value);
 
-    console.dir($("#productForm").serialize());
-    if (isMatch === true) {
+    // console.dir($("#productForm").serialize());
+    if (isMatch === true && isMatchImg == true) {
         sendAjax('POST', $("#productForm").attr("action"), $("#productForm").serialize(), function () {
             loadProductsFromServer();
         });
     } else {
-        alert("Value entered for the price of the product needs to be in numerical form.");
+        if (isMatch === false) {
+            alert("Value entered for the price of the product needs to be in numerical form.");
+        }
+        if (isMatchImg === false) {
+            alert("Image url is invalid. Accepts jpeg, jpg, gif, and png.");
+        }
     }
 
     return false;
@@ -575,17 +591,24 @@ var updateProductHandle = function updateProductHandle(e) {
 
     var toMatch = /^\$?[0-9]+\.?[0-9]?[0-9]?$/;
     var isMatch = toMatch.test(document.querySelector('#updatePrice').value);
-    console.log(document.querySelector('#updatePrice').value);
-    console.log(isMatch);
+    // console.log(document.querySelector('#updatePrice').value);
+    // console.log(isMatch);
+    var toMatchImg = /\.(jpeg|jpg|gif|png)$/;
+    var isMatchImg = toMatchImg.test(document.querySelector('#updateproductImage').value);
 
-    if (isMatch === true) {
+    if (isMatch === true && isMatchImg == true) {
         // send request to update product
         sendAjax('PUT', $("#updateProductForm").attr("action"), updatedProduct, function () {
             console.log("success");
             location.reload();
         });
     } else {
-        alert("Value entered for the price of the product needs to be in numerical form.");
+        if (isMatch === false) {
+            alert("Value entered for the price of the product needs to be in numerical form.");
+        }
+        if (isMatchImg === false) {
+            alert("Image url is invalid. Accepts jpeg, jpg, gif, and png.");
+        }
     }
 };
 
@@ -1034,6 +1057,7 @@ var getTokenOrderPage = function getTokenOrderPage() {
 // handle the error message
 var handleError = function handleError(message) {
     $("#errorMessage").text(message);
+    alert(message);
     console.log("TODO: include a better eroor handling message");
 };
 

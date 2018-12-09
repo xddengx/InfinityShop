@@ -30,7 +30,6 @@ const getSpirals = (request, response) => {
   );
 };
 
-// //TODO
 const getRemainingTime = (req, res) => {
   // Sale Day
   const saleDay = new Date('December 25, 2018');

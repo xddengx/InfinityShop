@@ -10,31 +10,39 @@ var spirals;
 // update spiral cash
 const BuyProduct = (e) =>{
     // get the price of the product
+    console.log("test", e.target.id);
+    var ownerId = e.target.id;
     var price = e.target.parentNode.id;
     var productId = e.target.parentNode.parentNode.id;
-    console.dir(productId);
+    console.log("product id", productId);
 
-    let param = `price=${price}&_csrf=${csrfToken}`;
+    let param = `price=${price}&ownerId=${ownerId}&_csrf=${csrfToken}`;
     let productIdParam = `prodId=${productId}&_csrf=${csrfToken}`;
 
-    sendAjax('PUT', '/updateSpirals', param, function(){
-        getSpiralsStorefront();  // update the text/amount displayed
+    // get products owner id to see if its the user's products
+    // sendAjax('PUT', '/getProductSeller', productIdParam, function(){
+        
+    // });  
+         
+        sendAjax('PUT', '/updateSpirals', param, function(){
+            getSpiralsStorefront();  // update the text/amount displayed
 
-        // if product was bought successfully create clone of product and change ownerId
-        sendAjax('PUT', '/updateOwner', productIdParam, function(){
-            console.dir('successful');
-
-            sendAjax('DELETE', '/deleteProduct', productIdParam, function(){
+            // if product was bought successfully create clone of product and change ownerId
+            sendAjax('PUT', '/updateOwner', productIdParam, function(){
                 console.dir('successful');
-                location.reload();  // TODO: extra- refreshes a different way. setInterval?
-            });
-        })
-    });
+
+                sendAjax('DELETE', '/deleteProduct', productIdParam, function(){
+                    console.dir('successful');
+                    location.reload();  // TODO: extra- refreshes a different way. setInterval?
+                });
+            })
+        // });
 
     //TODO: transfer product to new owner
     //TODO: remove element from page
 
-    return false;
+        return false;
+    });
 }
 
 // show all products 
@@ -57,10 +65,11 @@ const ProductsList = function(props){
             <div className="productCard" key={products._id} id={products._id} className="buyProduct">
                 <div><img className="theProductImage" src= {products.productImage}alt="" /> </div>
                 <div id={products.price}>
-                    <button id="buyButton" type ="button" onClick={(e)=> BuyProduct(e)}>Buy</button>
+                    <button id={products.owner} className="buyButton" type ="button" onClick={(e)=> BuyProduct(e)}>Buy</button>
                     <h3 className="buyProductName"> {products.name} </h3>
                     <h4 className="productDescription"> {products.description} </h4>
                     <h3 className="productPrice"> ${products.price} </h3>
+                    <h3 class="ownerIdProduct" id={products.owner}></h3>
                 </div>
             </div>
         );
