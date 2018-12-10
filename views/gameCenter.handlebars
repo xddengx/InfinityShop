@@ -6,13 +6,16 @@
   <script crossorigin src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
   <script crossorigin src="https://unpkg.com/prop-types/prop-types.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
   <link rel="shortcut icon" href="/assets/img/favicon.png"/>
   <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Open+Sans|Open+Sans+Condensed:300" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
 </head>
-<body>
+<body id="gameCenter">
   <nav>
     {{!-- <a href="/userAccount"><img id="logo" src="/assets/img/logo.png" alt="logo"/></a> --}}
     <div id="logoName"> &#8734 INFINITY</div>
@@ -30,10 +33,15 @@
 
   </nav>
   
-  <h2 id="allProductsHead"> Game Center </h2>
-  <section id="games">
+  <div id="gameArea">
+        <div id="message"><h4></h4></div>
+    <h2 id="allProductsHead"> Game Center </h2>
+    <section id="games">
+  </div>
   </section>
-    <div id="message"><h4></h4></div>
+  <div id="errorCont">
+    <p id="errorMessage"> </p>
+  </div>
   <script src="/assets/bundle.js"></script>
 </body>
 </html>

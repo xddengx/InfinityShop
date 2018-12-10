@@ -30,10 +30,10 @@ const handleProduct = (e) => {
         });
     }else{
         if(isMatch === false){
-            alert("Value entered for the price of the product needs to be in numerical form.")
+            handleError("Value entered for the price of the product needs to be in numerical form.")
         }
         if(isMatchImg === false){
-            alert("Image url is invalid. Accepts jpeg, jpg, gif, and png.")
+            handleError("Image url is invalid. Accepts jpeg, jpg, gif, and png, which needs to be included in the url. One of these extensions needs to be in the url.")
         }
     }
 
@@ -59,7 +59,7 @@ const updateProductHandle = (e) => {
 
     // check if user entered in all fields
     if($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == '' || $("#updateproductImage").val() == ''){
-        alert("All fields are required in order to update product.");
+        handleError("All fields are required in order to update product.");
         return false;
     }
 
@@ -80,10 +80,10 @@ const updateProductHandle = (e) => {
         });
     }else{
         if(isMatch === false){
-            alert("Value entered for the price of the product needs to be in numerical form.")
+            handleError("Value entered for the price of the product needs to be in numerical form.")
         }
         if(isMatchImg === false){
-            alert("Image url is invalid. Accepts jpeg, jpg, gif, and png.")
+            handleError("Image url is invalid. Accepts jpeg, jpg, gif, and png.")
         }
     }
 };

@@ -129,10 +129,10 @@ const Chance = function(){
         <div className="dailyReward">
             <h2> Game of Chance | Will you get the lucky number? </h2>
             <p>Rules: Play to see if your number is our winning number.</p>
-            <button onClick={(e)=>playChance(e)}> Play </button>
+            <button className="gameButton" onClick={(e)=>playChance(e)}> Play </button>
 
             <h2> Collect Your Daily Reward</h2>
-            <button id="dailyRewardButton" onClick={(e)=>getDailyReward(e)}> Collect Reward </button>
+            <button className="gameButton" id="dailyRewardButton" onClick={(e)=>getDailyReward(e)}> Collect Reward </button>
         </div>
     );
 

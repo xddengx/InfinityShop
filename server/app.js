@@ -17,7 +17,6 @@ const url = require('url');
 const csrf = require('csurf');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
-
 const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/SpiralShop';
 
 mongoose.set('useCreateIndex', true);
@@ -68,6 +67,7 @@ app.use(session({
     httpOnly: true,
   },
 }));
+
 app.engine('handlebars', expressHandlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 

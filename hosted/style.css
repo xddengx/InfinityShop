@@ -58,9 +58,12 @@ input[type=submit] {
     /* margin-right: 100px; */
 }
 
-#errorMessage{
-    color:red;
-}
+/* #errorMessage{
+    display: none;
+    color:rgb(128, 0, 0);
+    background: rgb(247, 231, 203);
+    padding: 100px;
+} */
 
 /* NAVBAR */
 #logo {
@@ -206,8 +209,11 @@ nav:nth-child(1) {
 }
 .inputProds{
     padding: 8px;
+    background: none;
     border: none;
+    border-bottom: solid 2px black;
 }
+
 /* DISPLAY PRODUCTS */
 #pageHeader {
     text-align: center;
@@ -249,6 +255,7 @@ nav:nth-child(1) {
     font-size: 16px;
     background-color: #e7e7e7; color: black;
     margin-left: 20px;
+    margin-top: 10px;
 }
 
 #deleteButton{
@@ -270,10 +277,10 @@ nav:nth-child(1) {
 }
 
 #errorMessage {
-    top: 50%;
+    /* top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    position: absolute;
+    position: absolute; */
     /* top: 250px;
     width: 250px;
     height: 650px;
@@ -489,14 +496,35 @@ input:checked + .slider .private{
 
 
 /* GAME CENTER */
+#gameCenter{
+    background-image: url("img/game.jpg"); 
+}
+
 #games, #message{
-    padding: 40px;
+    padding-left: 40px;
 }
 
 #message{
+    /* background: white; */
+    padding: 30px;
     color:red;
 }
 
+#gameArea{
+    padding: 20px 0px;
+    margin: 0px;
+    background: white;
+}
+
+.gameButton{
+  background: lightskyblue;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+
+}
 
 /* Countdown */
 #splashContainer{
@@ -557,3 +585,67 @@ h1{
 .ownerIdProduct{
     display: none;
 }
+
+/* 
+#errorMessage h3 {
+    width: 200px;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+}
+ */
+
+
+/* #errorCont {
+    display:none;
+    top: 250px;
+    width: 250px;
+    height: 150px;
+    position: absolute;
+    z-index: 200;
+    right: 0px;
+    overflow: hidden;
+}
+
+#errorCont h3 {
+    width: 200px;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+}
+
+#errorMessage {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: red;
+    font-style: italic;
+} */
+
+
+.myClass{
+    /* display: none; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 500px;
+}
+
+#errorCont{
+    display: none;
+    font-size: 20px;
+    padding:60px;
+}
+
+.ui-dialog{
+    position: absolute;
+    height: auto;
+    width: 500px;
+    top: 246.5px;
+    left: 509px;
+    display: block;
+    /* background: beige; */
+}
+
+.ui-icon-circle-close{background-position:-32px -192px;}
+.ui-icon-close{background-position:-80px -128px;}

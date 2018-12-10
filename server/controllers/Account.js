@@ -177,7 +177,7 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
     //
     // if user has sufficient funds
     if (docs.spirals > productPrice) {
-      const newTotal = docs.spirals - productPrice;
+      const newTotal = (docs.spirals - productPrice).toFixed(2);
       userSpirals.spirals = newTotal;
 
       const savePromise = userSpirals.save();

@@ -218,9 +218,22 @@ $(document).ready(function () {
 
 // handle the error message
 var handleError = function handleError(message) {
-    $("#errorMessage").text(message);
-    alert(message);
-    console.log("TODO: include a better eroor handling message");
+
+    $(function () {
+        $("#errorCont").dialog({
+            height: 250,
+            width: 500,
+            modal: true,
+            resizable: false,
+            draggable: false,
+            dialogClass: "myClass"
+
+        });
+    });
+    $("#errorMessage").text("Error: " + message);
+    // $("#errorCont").animate({width:'toggle'},350);
+    // alert(message);
+    console.log(message);
 };
 
 // redirect to the specified page

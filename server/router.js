@@ -19,7 +19,6 @@ const router = (app) => {
   app.get('/orderHistory', mid.requiresLogin, controllers.OrderHistory.orderPage);
   app.get('/orders', mid.requiresLogin, controllers.OrderHistory.getOrders);
   app.get('/storefront', mid.requiresLogin, controllers.Storefront.createPage);
-  // app.put('/getProductSeller', mid.requiresLogin, controllers.Storefront.getProductSeller);
   app.put('/updateSpirals', controllers.Account.updateSpirals);
   app.put('/updateSpiralsWon', controllers.Account.updateSpiralsWon);
   app.put('/updateOwner', controllers.UserAccount.cloneProduct);

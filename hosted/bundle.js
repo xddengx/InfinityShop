@@ -462,7 +462,7 @@ var Chance = function Chance() {
         ),
         React.createElement(
             'button',
-            { onClick: function onClick(e) {
+            { className: 'gameButton', onClick: function onClick(e) {
                     return playChance(e);
                 } },
             ' Play '
@@ -474,7 +474,7 @@ var Chance = function Chance() {
         ),
         React.createElement(
             'button',
-            { id: 'dailyRewardButton', onClick: function onClick(e) {
+            { className: 'gameButton', id: 'dailyRewardButton', onClick: function onClick(e) {
                     return getDailyReward(e);
                 } },
             ' Collect Reward '
@@ -554,10 +554,10 @@ var handleProduct = function handleProduct(e) {
         });
     } else {
         if (isMatch === false) {
-            alert("Value entered for the price of the product needs to be in numerical form.");
+            handleError("Value entered for the price of the product needs to be in numerical form.");
         }
         if (isMatchImg === false) {
-            alert("Image url is invalid. Accepts jpeg, jpg, gif, and png.");
+            handleError("Image url is invalid. Accepts jpeg, jpg, gif, and png, which needs to be included in the url. One of these extensions needs to be in the url.");
         }
     }
 
@@ -583,7 +583,7 @@ var updateProductHandle = function updateProductHandle(e) {
 
     // check if user entered in all fields
     if ($("#updateName").val() == '' || $("#updatePrice").val() == '' || $("#updateDescription").val() == '' || $("#updateproductImage").val() == '') {
-        alert("All fields are required in order to update product.");
+        handleError("All fields are required in order to update product.");
         return false;
     }
 
@@ -604,10 +604,10 @@ var updateProductHandle = function updateProductHandle(e) {
         });
     } else {
         if (isMatch === false) {
-            alert("Value entered for the price of the product needs to be in numerical form.");
+            handleError("Value entered for the price of the product needs to be in numerical form.");
         }
         if (isMatchImg === false) {
-            alert("Image url is invalid. Accepts jpeg, jpg, gif, and png.");
+            handleError("Image url is invalid. Accepts jpeg, jpg, gif, and png.");
         }
     }
 };
@@ -1056,9 +1056,22 @@ var getTokenOrderPage = function getTokenOrderPage() {
 
 // handle the error message
 var handleError = function handleError(message) {
-    $("#errorMessage").text(message);
-    alert(message);
-    console.log("TODO: include a better eroor handling message");
+
+    $(function () {
+        $("#errorCont").dialog({
+            height: 250,
+            width: 500,
+            modal: true,
+            resizable: false,
+            draggable: false,
+            dialogClass: "myClass"
+
+        });
+    });
+    $("#errorMessage").text("Error: " + message);
+    // $("#errorCont").animate({width:'toggle'},350);
+    // alert(message);
+    console.log(message);
 };
 
 // redirect to the specified page
