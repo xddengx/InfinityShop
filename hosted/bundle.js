@@ -494,7 +494,6 @@ var handleProduct = function handleProduct(e) {
 var deleteProduct = function deleteProduct(e) {
     var productId = e.target.parentNode.id;
     var params = "prodId=" + productId + "&_csrf=" + csrfToken;
-    console.dir(params);
 
     sendAjax('DELETE', '/deleteProduct', params, function () {
         console.log("success");
