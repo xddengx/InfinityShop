@@ -15,22 +15,22 @@ const handleProduct = (e) => {
         return false;
     }
 
-    // add the product
+    // did user input a valid price
     var toMatch = /^\$?[0-9]+\.?[0-9]?[0-9]?$/;
     var isMatch = toMatch.test(document.querySelector('#productPrice').value);
-    // console.dir(document.querySelector('#productPrice').value);
-    // console.dir(isMatch);
+
+    // did user input a valid url image
     var toMatchImg = /\.(jpeg|jpg|gif|png)$/;
     var isMatchImg = toMatchImg.test(document.querySelector('#productImage').value);
 
-    // console.dir($("#productForm").serialize());
+    // check if the user inputs are valid. if valid create product. else notify user.
     if(isMatch === true && isMatchImg == true){
         sendAjax('POST', $("#productForm").attr("action"), $("#productForm").serialize(), function() {
             loadProductsFromServer();
         });
     }else{
         if(isMatch === false){
-            handleError("Value entered for the price of the product needs to be in numerical form.")
+            handleError("Value entered for the price of the product needs to be in numerical form only. Example of valid values: 20, 20. , 20.0, 020.0")
         }
         if(isMatchImg === false){
             handleError("Image url is invalid. Accepts jpeg, jpg, gif, and png, which needs to be included in the url. One of these extensions needs to be in the url.")
@@ -65,10 +65,11 @@ const updateProductHandle = (e) => {
 
     let updatedProduct = $("#updateProductForm").serialize();
 
+    // did user input a valid price
     var toMatch = /^\$?[0-9]+\.?[0-9]?[0-9]?$/;
     var isMatch = toMatch.test(document.querySelector('#updatePrice').value);
-    // console.log(document.querySelector('#updatePrice').value);
-    // console.log(isMatch);
+
+    // did user input a valid url image
     var toMatchImg = /\.(jpeg|jpg|gif|png)$/;
     var isMatchImg = toMatchImg.test(document.querySelector('#updateproductImage').value);
     
@@ -187,13 +188,6 @@ const ProductList = function(props){
             <div className="productCard" key={product._id} id={product._id} className="product">
                 <div id="test"> 
                     <div><img className="theProductImage" src= {product.productImage}alt="" /> </div>
-                    <div id="togglePrivacy">
-                        <p> Public/Private</p>
-                        <label className="switch">
-                            <input type="checkbox"></input>
-                            <span className="slider"></span>
-                        </label>
-                    </div>
                     <div id="prodInfo">
                         <h3 className="productName"> {product.name} </h3>
                         <h4 className="productDescription"> {product.description} </h4>

@@ -1,10 +1,10 @@
-// Game Center: currently just renders the page
+// Game Center
 const gameCenterPage = (req, res) => res.render('gameCenter', { csrfToken: req.csrfToken() });
 
+// get user's spiral cash
 const getSpirals = (request, response) => {
   const req = request;
   const res = response;
-  console.dir(req.session.account);
 
   const spiralsJSON = {
     spirals: req.session.account.spirals,

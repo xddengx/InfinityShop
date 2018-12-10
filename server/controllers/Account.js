@@ -77,8 +77,6 @@ const signup = (request, response) => {
     });
 
     savePromise.catch((err) => {
-      console.log(err);
-
       if (err.code === 11000) {
         return res.status(400).json({ error: 'Username already exists' });
       }
@@ -158,17 +156,12 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
     // editing
     const productOwner = req.body.ownerId;
     const userId = req.session.account._id;
-    console.dir(req.body.ownerId);
-    console.dir(req.session.account._id);
 
     // check the owner ids
     if (productOwner === userId) {
-      console.dir('matched ids');
       // dont let user buy the product. message and alert them
       return res.status(400).json({ error: 'You are the owner of this product.' });
     }
-
-    console.dir('not matched');
 
     // make calculations on the server side so users cant manipulate changes
     const productPrice = req.body.price;
@@ -202,6 +195,7 @@ const updateSpirals = (req, res) => Account.AccountModel.findByUsername(
   },
 );
 
+// return user's daily reward status- boolean.
 const getDRStatus = (req, res) => Account.AccountModel.findByUsername(
   req.session.account.username, (err, docs) => {
     if (err) {
@@ -212,6 +206,7 @@ const getDRStatus = (req, res) => Account.AccountModel.findByUsername(
   },
 );
 
+// return the user next date for getting daily reward
 const getNextDay = (req, res) => Account.AccountModel.findByUsername(
   req.session.account.username, (err, docs) => {
     if (err) {
@@ -222,6 +217,7 @@ const getNextDay = (req, res) => Account.AccountModel.findByUsername(
   },
 );
 
+// update the daily reward status depending on if user clicked on button- boolean
 const updateDRStatus = (req, res) => Account.AccountModel.findByUsername(
   req.session.account.username, (err, docs) => {
     if (err) {
@@ -229,13 +225,9 @@ const updateDRStatus = (req, res) => Account.AccountModel.findByUsername(
       return res.status(400).json({ error: 'An error occured' });
     }
 
-    // console.dir(req.body.nextDay);
     const theNextDay = req.body.nextDay;
     const rewardStatus = req.body.status;
     const userReward = docs;
-
-    // console.dir(rewardStatus);
-    // console.dir(userReward);
 
     userReward.dailyReward = rewardStatus;
     userReward.nextDay = theNextDay;
@@ -258,6 +250,7 @@ const updateDRStatus = (req, res) => Account.AccountModel.findByUsername(
   },
 );
 
+// update the spirals won
 const updateSpiralsWon = (req, res) => Account.AccountModel.findByUsername(
   req.session.account.username, (err, docs) => {
     if (err) {

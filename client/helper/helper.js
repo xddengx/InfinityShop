@@ -1,6 +1,6 @@
 // handle the error message
 const handleError = (message) => {
-
+    // jquery dialog alert box if there is an error message
     $( function() {
         $( "#errorCont" ).dialog({
             height: 250,

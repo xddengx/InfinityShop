@@ -10,36 +10,26 @@ var spirals;
 // update spiral cash
 const BuyProduct = (e) =>{
     // get the price of the product
-    console.log("test", e.target.id);
     var ownerId = e.target.id;
     var price = e.target.parentNode.id;
     var productId = e.target.parentNode.parentNode.id;
-    console.log("product id", productId);
 
     let param = `price=${price}&ownerId=${ownerId}&_csrf=${csrfToken}`;
     let productIdParam = `prodId=${productId}&_csrf=${csrfToken}`;
 
-    // get products owner id to see if its the user's products
-    // sendAjax('PUT', '/getProductSeller', productIdParam, function(){
-        
-    // });  
-         
-        sendAjax('PUT', '/updateSpirals', param, function(){
-            getSpiralsStorefront();  // update the text/amount displayed
+    // also checks to see if the products owner id is the current logged in user
+    sendAjax('PUT', '/updateSpirals', param, function(){
+        getSpiralsStorefront();  // update the text/amount displayed
 
-            // if product was bought successfully create clone of product and change ownerId
-            sendAjax('PUT', '/updateOwner', productIdParam, function(){
+        // if product was bought successfully create clone of product and change ownerId
+        sendAjax('PUT', '/updateOwner', productIdParam, function(){
+            console.dir('successful');
+
+            sendAjax('DELETE', '/deleteProduct', productIdParam, function(){
                 console.dir('successful');
-
-                sendAjax('DELETE', '/deleteProduct', productIdParam, function(){
-                    console.dir('successful');
-                    location.reload();  // TODO: extra- refreshes a different way. setInterval?
-                });
-            })
-        // });
-
-    //TODO: transfer product to new owner
-    //TODO: remove element from page
+                location.reload();  // TODO: extra- refreshes a different way. setInterval?
+            });
+        })
 
         return false;
     });
@@ -82,14 +72,9 @@ const ProductsList = function(props){
     );
 };
 
+// Countdown for the Sitewide sale - currently counting down to Christmas
 const SiteSale = function(obj){
-    // console.log("hiii");
-    // console.dir(obj.saleTime.sale);
-    let saleDate = new Date(obj.saleTime);
     return(
-        // <div>
-        //     <h2>{saleDate.toDateString()}</h2>
-        // </div>
         <div id = "splashContainer">
             <div class = "content">
                 <h1 class = "msgBlock"> CHRISTMAS SALE COUNTDOWN!</h1>
@@ -116,18 +101,18 @@ const SiteSale = function(obj){
     );
 }
 
+// calculating the remaining time and displaying
 const getRemainingTime = () =>{
-    // requestAnimationFrame(getRemainingTime);
+    requestAnimationFrame(getRemainingTime);
 
     sendAjax('GET', '/getRemainingTime', null, (result) =>{
-        // let saleDate = new Date(result);
-        // console.dir(result);
         ReactDOM.render(
             <SiteSale saleTime = {result} />, document.querySelector('#saleCont')
         );
 
+        // if time remaining reaches 0. stop the countdown
         if(result.sale <= 0){
-            // cancelAnimationFrame(updateClock);
+            cancelAnimationFrame(updateClock);
             days.innerHTML = 0;
             hours.innerHTML = 0;
             minutes.innerHTML = 0;
@@ -139,7 +124,6 @@ const getRemainingTime = () =>{
 // display the user's Spiral Cash in the nav bar.
 const SpiralsCash = function(obj){
     spirals = obj.spiral;
-    // console.log(spirals);
     return (
         <div className="money">
             <a href="/gameCenter">Spiral Cash: $ {obj.spiral}</a>
@@ -150,7 +134,6 @@ const SpiralsCash = function(obj){
 
 const getSpiralsStorefront = () => {
     sendAjax('GET', '/getSpirals', null, (data) => {
-        // console.dir(data);
         ReactDOM.render(
             <SpiralsCash spiral={data} />, document.querySelector("#spiralsStorefront")
         );
@@ -166,32 +149,6 @@ const loadAllProductsFromServer = () => {
     });
 };
 
-// const loadOrderHistoryTest = () =>{
-//     sendAjax('GET', '/orders', null, (data) => {
-//         ReactDOM.render(
-//             <OrdersList orders={data.orders} csrf={csrfToken} />, document.querySelector("#content")
-//         );
-//     });
-// }
-
-// const createOrderHistoryPageTest = (csrf) =>{
-//     // console.dir(csrf);
-//     ReactDOM.render(
-//         <div></div>, document.querySelector("#allProducts")
-//     );
-
-//     ReactDOM.render(
-//         <div></div>, document.querySelector('#saleCont')
-//     );
-
-
-//     ReactDOM.render(
-//         <OrdersList orders={[]} csrf={csrf} />, document.querySelector("#content")
-//     );
-
-//     loadOrderHistoryTest();
-// }
-
 // set up for rendering the products and spirals
 const setupAllProducts = function(csrf){
     // products attribute is empty for now, because we don't have data yet. But
@@ -203,13 +160,6 @@ const setupAllProducts = function(csrf){
     ReactDOM.render(
         <SpiralsCash spiral={spirals} />, document.querySelector('#spiralsStorefront')
     );
-
-    // ordersButton.addEventListener("click", (e) =>{
-    //     console.dir("orders button clicked");
-    //     e.preventDefault();
-    //     createOrderHistoryPageTest(csrf);
-    //     return false;
-    // });
 
     loadAllProductsFromServer();
     getSpiralsStorefront();
@@ -223,9 +173,3 @@ const getTokenStore = () => {
         csrfToken = result.csrfToken;
     });
 };
-
-// $(document).ready(function(){
-//     // console.dir(window.location.pathname);
-//     // getTokenStore();
-//     // loadAllProductsFromServer();
-// });

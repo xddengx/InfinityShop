@@ -1,46 +1,31 @@
 /* Game Center for user to win more Spiral Cash */
 
-// TODO: next day is never stored and next day is only set when button is clicked. so when page
-//refreshes it doesnt know what the next day is. create another object literal in account for storing times...
-
-
 var csrfToken;
 var spirals;
 var currentDate; 
 var nextDay;
 
+// Daily Reward - user is able to collect a daily reward every 24hours
+// function is called when page is loaded to ensure button is disabled/enabled
 const checkDailyReward = () =>{
     var dailyRStatus;
-
     let currentTime = new Date();
 
-    console.log("current time", currentTime);
-
-    // if(currentTime < test){
-    //     document.querySelector("#dailyRewardButton").disabled = true;
-    // }
-    // if(currentTime > test){
-    //     document.querySelector("#dailyRewardButton").disabled = false;
-    // }
+    // console.log("current time", currentTime);
 
     sendAjax('GET', '/getDRStatus', null, (result) =>{
-        dailyRStatus = result;  // should be false
-        console.log("point A");
-        console.log("here", dailyRStatus);
+        dailyRStatus = result; 
 
+        // get the next time user is allowed to collect reward (specific to each user)
         sendAjax('GET', '/getNextDay', null, (retrieve) => {
+            // save the next day as a Date object
             let tomorrow = new Date(retrieve);
-            console.log("tomorrow", tomorrow);
-            // console.log("tomorrow", tomorrow.setDate(retrieve.getDate()));
-
-            console.log("dailyRStatus", dailyRStatus);
-                    // user has not yet clicked
 
             // user already clicked
             // it's not the next day
             // button should be disable (disable = true)
             if(dailyRStatus === true && (currentTime < tomorrow)){
-                console.dir("3");
+                // console.dir("3");
                 document.querySelector("#dailyRewardButton").disabled = true;
             }
 
@@ -48,24 +33,25 @@ const checkDailyReward = () =>{
             // it's the next day
             // button should be clickable (disable = false)
             if(dailyRStatus === true && (currentTime > tomorrow)){
-                console.dir("4");
+                // console.dir("4");
                 document.querySelector("#dailyRewardButton").disabled = false;
             }
         });
     });
 }
 
+// wWhen button is clicked enable/disable button
 const afterButtonClicked = () =>{
     let dailyStatus;
     sendAjax('GET', '/getDRStatus', null, (result) =>{
-        dailyStatus = result;  // should be false
+        dailyStatus = result;
         if(dailyStatus == false){
-            console.dir("1");
+            // console.dir("1");
             document.querySelector("#dailyRewardButton").disabled = false;
         }
 
         if(dailyStatus == true){
-            console.dir("2");
+            // console.dir("2");
             document.querySelector("#dailyRewardButton").disabled = true;
             checkDailyReward();
         }
@@ -76,9 +62,9 @@ const afterButtonClicked = () =>{
 // if the two numbers match the user wins. 
 // Currently: spiral cash is not added to the user's account
 const playChance = () =>{
-    let spiralCashWon = 50;
-    let winningNum = Math.floor(Math.random() * 10);
-    let userNum = Math.floor(Math.random() * 10);
+    let spiralCashWon = 50; // default of spiral cash won
+    let winningNum = Math.floor(Math.random() * 10);    // random winning number
+    let userNum = Math.floor(Math.random() * 10);       // users generated number
 
     let param = `won=${spiralCashWon}&_csrf=${csrfToken}`;
     if(winningNum == userNum){
@@ -95,7 +81,6 @@ const playChance = () =>{
 
 const getDailyReward = () =>{
     document.querySelector("#dailyRewardButton").disabled = true;
-
     let dailyCollect = 100;
 
     // get time when user clicked on reward button
@@ -103,15 +88,15 @@ const getDailyReward = () =>{
     // calculate the next day (so button can be enabled again)
     nextDay = new Date();
     nextDay.setDate(currentDate.getDate()+1);
-// nextDay = new Date("2018-12-03T23:16:00-06:00");
+    // nextDay = new Date("2018-12-03T23:16:00-06:00");
 
-    console.log("currentdate", currentDate);
+    // console.log("currentdate", currentDate);
     // console.log("nextDay", nextDay);
 
     // if user clicks on daily reward update the boolean in account. 
     let paramStatus = `nextDay=${nextDay}&status=${true}&_csrf=${csrfToken}`;
     sendAjax('PUT', '/updateDRStatus', paramStatus, function(){
-        console.dir("clicked on daily reward button");
+        // console.dir("clicked on daily reward button");
         checkDailyReward();
     });
 
@@ -138,6 +123,7 @@ const Chance = function(){
 
 }
 
+// Display Sprial Cash
 const SpiralCash = function(obj){
     return (
         <div className="money">
@@ -147,6 +133,7 @@ const SpiralCash = function(obj){
 
 }
 
+// Get spiral cash
 const getSpiralsGC = () => {
     sendAjax('GET', '/getSpirals', null, (result) => {
         ReactDOM.render(
@@ -155,6 +142,7 @@ const getSpiralsGC = () => {
     });
 };
 
+// setup
 const gameSetup = function(csrf){
     ReactDOM.render(
         <Chance csrf={csrf} />, document.querySelector("#games")
@@ -172,7 +160,3 @@ const getTokenGame = () => {
         csrfToken = result.csrfToken;
     });
 };
-
-// $(document).ready(function(){
-//     // getTokenGame();
-// });

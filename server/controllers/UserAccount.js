@@ -15,6 +15,7 @@ const makerPage = (req, res) => {
   });
 };
 
+// get the user's spiral cash
 const getSpirals = (request, response) => {
   const req = request;
   const res = response;
@@ -24,12 +25,12 @@ const getSpirals = (request, response) => {
         console.log(err);
         return res.status(400).json({ error: 'An error occured' });
       }
-      // console.dir(docs);
       return res.json(docs.spirals);
     },
   );
 };
 
+// calculate the remaning time until the next sale
 const getRemainingTime = (req, res) => {
   // Sale Day
   const saleDay = new Date('December 25, 2018');

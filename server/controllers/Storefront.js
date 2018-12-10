@@ -13,6 +13,9 @@ const getAllProducts = (request, response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
+    
+    // sale discount get the price of products
+
     // console.dir(docs.length);
     // for(let i = 0; i < docs.length; i++){
     //   console.dir(docs[i].price - (docs[i].price * .15));
@@ -22,32 +25,19 @@ const getAllProducts = (request, response) => {
   });
 };
 
-// const deleteProduct = (req, res) => {
-//   UserAccount.UserProductsModel.DeleteProductId(req.body.prodId, (err) => {
+
+// get the user's seller name
+// const getProductSeller = (req, res) => {
+//   UserAccount.UserProductsModel.FindProductById(req.body.prodId, (err, doc) => {
 //     if (err) {
 //       console.log(err);
-//       return res.status(400).json({ error: 'An error occurred' });
+//       return res.status(400).json({ error: 'An error occured' });
 //     }
 
-//     return res.json({ successful: 'success' });
+//     // console.dir(doc);
+//     return res.json({ test: doc });
 //   });
 // };
-// const updateProduct = (req, res) => UserAccount.UserProductsModel.FindProductById(
-//   req.body.id, (err, doc) => {
-
-const getProductSeller = (req, res) => {
-  console.dir(req.body);
-  UserAccount.UserProductsModel.FindProductById(req.body.prodId, (err, doc) => {
-    // console.dir(req.body.prodId);
-    if (err) {
-      console.log(err);
-      return res.status(400).json({ error: 'An error occured' });
-    }
-
-    // console.dir(doc);
-    return res.json({ test: doc });
-  });
-};
 
 // get the user's spirals from db
 const getSpirals = (request, response) => {
@@ -65,4 +55,4 @@ const getSpirals = (request, response) => {
 module.exports.createPage = createPage;
 module.exports.getAllProducts = getAllProducts;
 module.exports.getSpirals = getSpirals;
-module.exports.getProductSeller = getProductSeller;
+// module.exports.getProductSeller = getProductSeller;

@@ -21,13 +21,6 @@ const OrdersList = function(theOrders){
             <div className="productCard" key={order._id} id={order._id} className="product">
                 <div id="test"> 
                     <div><img className="theProductImage" src= {order.productImage}alt="" /> </div>
-                    <div id="togglePrivacy">
-                        <p> Public/Private</p>
-                        <label className="switch">
-                            <input type="checkbox"></input>
-                            <span className="slider"></span>
-                        </label>
-                    </div>
                     <div id="prodInfo">
                         <h3 className="productName"> {order.name} </h3>
                         <h4 className="productDescription"> {order.description} </h4>

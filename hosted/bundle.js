@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -14,20 +14,14 @@ var spirals;
 // update spiral cash
 var BuyProduct = function BuyProduct(e) {
     // get the price of the product
-    console.log("test", e.target.id);
     var ownerId = e.target.id;
     var price = e.target.parentNode.id;
     var productId = e.target.parentNode.parentNode.id;
-    console.log("product id", productId);
 
-    var param = "price=" + price + "&ownerId=" + ownerId + "&_csrf=" + csrfToken;
-    var productIdParam = "prodId=" + productId + "&_csrf=" + csrfToken;
+    var param = 'price=' + price + '&ownerId=' + ownerId + '&_csrf=' + csrfToken;
+    var productIdParam = 'prodId=' + productId + '&_csrf=' + csrfToken;
 
-    // get products owner id to see if its the user's products
-    // sendAjax('PUT', '/getProductSeller', productIdParam, function(){
-
-    // });  
-
+    // also checks to see if the products owner id is the current logged in user
     sendAjax('PUT', '/updateSpirals', param, function () {
         getSpiralsStorefront(); // update the text/amount displayed
 
@@ -40,10 +34,6 @@ var BuyProduct = function BuyProduct(e) {
                 location.reload(); // TODO: extra- refreshes a different way. setInterval?
             });
         });
-        // });
-
-        //TODO: transfer product to new owner
-        //TODO: remove element from page
 
         return false;
     });
@@ -54,12 +44,12 @@ var ProductsList = function ProductsList(props) {
     // no products exist 
     if (props.products.length === 0) {
         return React.createElement(
-            "div",
-            { className: "productsList" },
+            'div',
+            { className: 'productsList' },
             React.createElement(
-                "h3",
-                { className: "emptyProducts" },
-                "All items are sold out!"
+                'h3',
+                { className: 'emptyProducts' },
+                'All items are sold out!'
             )
         );
     }
@@ -70,142 +60,135 @@ var ProductsList = function ProductsList(props) {
     // everytimes the state updates, the page will immediately creates the UI and shows the updates
     var productsNodes = props.products.map(function (products) {
         return React.createElement(
-            "div",
-            _defineProperty({ className: "productCard", key: products._id, id: products._id }, "className", "buyProduct"),
+            'div',
+            _defineProperty({ className: 'productCard', key: products._id, id: products._id }, 'className', 'buyProduct'),
             React.createElement(
-                "div",
+                'div',
                 null,
-                React.createElement("img", { className: "theProductImage", src: products.productImage, alt: "" }),
-                " "
+                React.createElement('img', { className: 'theProductImage', src: products.productImage, alt: '' }),
+                ' '
             ),
             React.createElement(
-                "div",
+                'div',
                 { id: products.price },
                 React.createElement(
-                    "button",
-                    { id: products.owner, className: "buyButton", type: "button", onClick: function onClick(e) {
+                    'button',
+                    { id: products.owner, className: 'buyButton', type: 'button', onClick: function onClick(e) {
                             return BuyProduct(e);
                         } },
-                    "Buy"
+                    'Buy'
                 ),
                 React.createElement(
-                    "h3",
-                    { className: "buyProductName" },
-                    " ",
+                    'h3',
+                    { className: 'buyProductName' },
+                    ' ',
                     products.name,
-                    " "
+                    ' '
                 ),
                 React.createElement(
-                    "h4",
-                    { className: "productDescription" },
-                    " ",
+                    'h4',
+                    { className: 'productDescription' },
+                    ' ',
                     products.description,
-                    " "
+                    ' '
                 ),
                 React.createElement(
-                    "h3",
-                    { className: "productPrice" },
-                    " $",
+                    'h3',
+                    { className: 'productPrice' },
+                    ' $',
                     products.price,
-                    " "
+                    ' '
                 ),
-                React.createElement("h3", { "class": "ownerIdProduct", id: products.owner })
+                React.createElement('h3', { 'class': 'ownerIdProduct', id: products.owner })
             )
         );
     });
 
     return React.createElement(
-        "div",
-        { className: "productsList" },
+        'div',
+        { className: 'productsList' },
         productsNodes
     );
 };
 
+// Countdown for the Sitewide sale - currently counting down to Christmas
 var SiteSale = function SiteSale(obj) {
-    // console.log("hiii");
-    // console.dir(obj.saleTime.sale);
-    var saleDate = new Date(obj.saleTime);
-    return (
-        // <div>
-        //     <h2>{saleDate.toDateString()}</h2>
-        // </div>
+    return React.createElement(
+        'div',
+        { id: 'splashContainer' },
         React.createElement(
-            "div",
-            { id: "splashContainer" },
+            'div',
+            { 'class': 'content' },
             React.createElement(
-                "div",
-                { "class": "content" },
+                'h1',
+                { 'class': 'msgBlock' },
+                ' CHRISTMAS SALE COUNTDOWN!'
+            ),
+            React.createElement(
+                'div',
+                { 'class': 'time', id: 'clockCont' },
                 React.createElement(
-                    "h1",
-                    { "class": "msgBlock" },
-                    " CHRISTMAS SALE COUNTDOWN!"
+                    'div',
+                    null,
+                    React.createElement(
+                        'span',
+                        { 'class': 'days' },
+                        ' ',
+                        obj.saleTime.days,
+                        ' '
+                    ),
+                    React.createElement(
+                        'div',
+                        { 'class': 'caption' },
+                        'Days'
+                    )
                 ),
                 React.createElement(
-                    "div",
-                    { "class": "time", id: "clockCont" },
+                    'div',
+                    null,
                     React.createElement(
-                        "div",
-                        null,
-                        React.createElement(
-                            "span",
-                            { "class": "days" },
-                            " ",
-                            obj.saleTime.days,
-                            " "
-                        ),
-                        React.createElement(
-                            "div",
-                            { "class": "caption" },
-                            "Days"
-                        )
+                        'span',
+                        { 'class': 'hours' },
+                        ' ',
+                        obj.saleTime.hours,
+                        ' '
                     ),
                     React.createElement(
-                        "div",
-                        null,
-                        React.createElement(
-                            "span",
-                            { "class": "hours" },
-                            " ",
-                            obj.saleTime.hours,
-                            " "
-                        ),
-                        React.createElement(
-                            "div",
-                            { "class": "caption" },
-                            "Hours"
-                        )
+                        'div',
+                        { 'class': 'caption' },
+                        'Hours'
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    null,
+                    React.createElement(
+                        'span',
+                        { 'class': 'minutes' },
+                        ' ',
+                        obj.saleTime.minutes,
+                        ' '
                     ),
                     React.createElement(
-                        "div",
-                        null,
-                        React.createElement(
-                            "span",
-                            { "class": "minutes" },
-                            " ",
-                            obj.saleTime.minutes,
-                            " "
-                        ),
-                        React.createElement(
-                            "div",
-                            { "class": "caption" },
-                            "Minutes"
-                        )
+                        'div',
+                        { 'class': 'caption' },
+                        'Minutes'
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    null,
+                    React.createElement(
+                        'span',
+                        { 'class': 'seconds' },
+                        ' ',
+                        obj.saleTime.seconds,
+                        ' '
                     ),
                     React.createElement(
-                        "div",
-                        null,
-                        React.createElement(
-                            "span",
-                            { "class": "seconds" },
-                            " ",
-                            obj.saleTime.seconds,
-                            " "
-                        ),
-                        React.createElement(
-                            "div",
-                            { "class": "caption" },
-                            "Seconds"
-                        )
+                        'div',
+                        { 'class': 'caption' },
+                        'Seconds'
                     )
                 )
             )
@@ -213,16 +196,16 @@ var SiteSale = function SiteSale(obj) {
     );
 };
 
+// calculating the remaining time and displaying
 var getRemainingTime = function getRemainingTime() {
-    // requestAnimationFrame(getRemainingTime);
+    requestAnimationFrame(getRemainingTime);
 
     sendAjax('GET', '/getRemainingTime', null, function (result) {
-        // let saleDate = new Date(result);
-        // console.dir(result);
         ReactDOM.render(React.createElement(SiteSale, { saleTime: result }), document.querySelector('#saleCont'));
 
+        // if time remaining reaches 0. stop the countdown
         if (result.sale <= 0) {
-            // cancelAnimationFrame(updateClock);
+            cancelAnimationFrame(updateClock);
             days.innerHTML = 0;
             hours.innerHTML = 0;
             minutes.innerHTML = 0;
@@ -234,14 +217,13 @@ var getRemainingTime = function getRemainingTime() {
 // display the user's Spiral Cash in the nav bar.
 var SpiralsCash = function SpiralsCash(obj) {
     spirals = obj.spiral;
-    // console.log(spirals);
     return React.createElement(
-        "div",
-        { className: "money" },
+        'div',
+        { className: 'money' },
         React.createElement(
-            "a",
-            { href: "/gameCenter" },
-            "Spiral Cash: $ ",
+            'a',
+            { href: '/gameCenter' },
+            'Spiral Cash: $ ',
             obj.spiral
         )
     );
@@ -249,7 +231,6 @@ var SpiralsCash = function SpiralsCash(obj) {
 
 var getSpiralsStorefront = function getSpiralsStorefront() {
     sendAjax('GET', '/getSpirals', null, function (data) {
-        // console.dir(data);
         ReactDOM.render(React.createElement(SpiralsCash, { spiral: data }), document.querySelector("#spiralsStorefront"));
     });
 };
@@ -261,32 +242,6 @@ var loadAllProductsFromServer = function loadAllProductsFromServer() {
     });
 };
 
-// const loadOrderHistoryTest = () =>{
-//     sendAjax('GET', '/orders', null, (data) => {
-//         ReactDOM.render(
-//             <OrdersList orders={data.orders} csrf={csrfToken} />, document.querySelector("#content")
-//         );
-//     });
-// }
-
-// const createOrderHistoryPageTest = (csrf) =>{
-//     // console.dir(csrf);
-//     ReactDOM.render(
-//         <div></div>, document.querySelector("#allProducts")
-//     );
-
-//     ReactDOM.render(
-//         <div></div>, document.querySelector('#saleCont')
-//     );
-
-
-//     ReactDOM.render(
-//         <OrdersList orders={[]} csrf={csrf} />, document.querySelector("#content")
-//     );
-
-//     loadOrderHistoryTest();
-// }
-
 // set up for rendering the products and spirals
 var setupAllProducts = function setupAllProducts(csrf) {
     // products attribute is empty for now, because we don't have data yet. But
@@ -294,13 +249,6 @@ var setupAllProducts = function setupAllProducts(csrf) {
     ReactDOM.render(React.createElement(ProductsList, { products: [], csrf: csrf }), document.querySelector("#allProducts"));
 
     ReactDOM.render(React.createElement(SpiralsCash, { spiral: spirals }), document.querySelector('#spiralsStorefront'));
-
-    // ordersButton.addEventListener("click", (e) =>{
-    //     console.dir("orders button clicked");
-    //     e.preventDefault();
-    //     createOrderHistoryPageTest(csrf);
-    //     return false;
-    // });
 
     loadAllProductsFromServer();
     getSpiralsStorefront();
@@ -313,57 +261,36 @@ var getTokenStore = function getTokenStore() {
         csrfToken = result.csrfToken;
     });
 };
-
-// $(document).ready(function(){
-//     // console.dir(window.location.pathname);
-//     // getTokenStore();
-//     // loadAllProductsFromServer();
-// });
 'use strict';
 
 /* Game Center for user to win more Spiral Cash */
-
-// TODO: next day is never stored and next day is only set when button is clicked. so when page
-//refreshes it doesnt know what the next day is. create another object literal in account for storing times...
-
 
 var csrfToken;
 var spirals;
 var currentDate;
 var nextDay;
 
+// Daily Reward - user is able to collect a daily reward every 24hours
+// function is called when page is loaded to ensure button is disabled/enabled
 var checkDailyReward = function checkDailyReward() {
     var dailyRStatus;
-
     var currentTime = new Date();
 
-    console.log("current time", currentTime);
-
-    // if(currentTime < test){
-    //     document.querySelector("#dailyRewardButton").disabled = true;
-    // }
-    // if(currentTime > test){
-    //     document.querySelector("#dailyRewardButton").disabled = false;
-    // }
+    // console.log("current time", currentTime);
 
     sendAjax('GET', '/getDRStatus', null, function (result) {
-        dailyRStatus = result; // should be false
-        console.log("point A");
-        console.log("here", dailyRStatus);
+        dailyRStatus = result;
 
+        // get the next time user is allowed to collect reward (specific to each user)
         sendAjax('GET', '/getNextDay', null, function (retrieve) {
+            // save the next day as a Date object
             var tomorrow = new Date(retrieve);
-            console.log("tomorrow", tomorrow);
-            // console.log("tomorrow", tomorrow.setDate(retrieve.getDate()));
-
-            console.log("dailyRStatus", dailyRStatus);
-            // user has not yet clicked
 
             // user already clicked
             // it's not the next day
             // button should be disable (disable = true)
             if (dailyRStatus === true && currentTime < tomorrow) {
-                console.dir("3");
+                // console.dir("3");
                 document.querySelector("#dailyRewardButton").disabled = true;
             }
 
@@ -371,24 +298,25 @@ var checkDailyReward = function checkDailyReward() {
             // it's the next day
             // button should be clickable (disable = false)
             if (dailyRStatus === true && currentTime > tomorrow) {
-                console.dir("4");
+                // console.dir("4");
                 document.querySelector("#dailyRewardButton").disabled = false;
             }
         });
     });
 };
 
+// wWhen button is clicked enable/disable button
 var afterButtonClicked = function afterButtonClicked() {
     var dailyStatus = void 0;
     sendAjax('GET', '/getDRStatus', null, function (result) {
-        dailyStatus = result; // should be false
+        dailyStatus = result;
         if (dailyStatus == false) {
-            console.dir("1");
+            // console.dir("1");
             document.querySelector("#dailyRewardButton").disabled = false;
         }
 
         if (dailyStatus == true) {
-            console.dir("2");
+            // console.dir("2");
             document.querySelector("#dailyRewardButton").disabled = true;
             checkDailyReward();
         }
@@ -399,9 +327,9 @@ var afterButtonClicked = function afterButtonClicked() {
 // if the two numbers match the user wins. 
 // Currently: spiral cash is not added to the user's account
 var playChance = function playChance() {
-    var spiralCashWon = 50;
-    var winningNum = Math.floor(Math.random() * 10);
-    var userNum = Math.floor(Math.random() * 10);
+    var spiralCashWon = 50; // default of spiral cash won
+    var winningNum = Math.floor(Math.random() * 10); // random winning number
+    var userNum = Math.floor(Math.random() * 10); // users generated number
 
     var param = 'won=' + spiralCashWon + '&_csrf=' + csrfToken;
     if (winningNum == userNum) {
@@ -417,7 +345,6 @@ var playChance = function playChance() {
 
 var getDailyReward = function getDailyReward() {
     document.querySelector("#dailyRewardButton").disabled = true;
-
     var dailyCollect = 100;
 
     // get time when user clicked on reward button
@@ -427,13 +354,13 @@ var getDailyReward = function getDailyReward() {
     nextDay.setDate(currentDate.getDate() + 1);
     // nextDay = new Date("2018-12-03T23:16:00-06:00");
 
-    console.log("currentdate", currentDate);
+    // console.log("currentdate", currentDate);
     // console.log("nextDay", nextDay);
 
     // if user clicks on daily reward update the boolean in account. 
     var paramStatus = 'nextDay=' + nextDay + '&status=' + true + '&_csrf=' + csrfToken;
     sendAjax('PUT', '/updateDRStatus', paramStatus, function () {
-        console.dir("clicked on daily reward button");
+        // console.dir("clicked on daily reward button");
         checkDailyReward();
     });
 
@@ -482,6 +409,7 @@ var Chance = function Chance() {
     );
 };
 
+// Display Sprial Cash
 var SpiralCash = function SpiralCash(obj) {
     return React.createElement(
         'div',
@@ -495,12 +423,14 @@ var SpiralCash = function SpiralCash(obj) {
     );
 };
 
+// Get spiral cash
 var getSpiralsGC = function getSpiralsGC() {
     sendAjax('GET', '/getSpirals', null, function (result) {
         ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#spiralsGameCenter"));
     });
 };
 
+// setup
 var gameSetup = function gameSetup(csrf) {
     ReactDOM.render(React.createElement(Chance, { csrf: csrf }), document.querySelector("#games"));
 
@@ -514,10 +444,6 @@ var getTokenGame = function getTokenGame() {
         csrfToken = result.csrfToken;
     });
 };
-
-// $(document).ready(function(){
-//     // getTokenGame();
-// });
 "use strict";
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -539,22 +465,22 @@ var handleProduct = function handleProduct(e) {
         return false;
     }
 
-    // add the product
+    // did user input a valid price
     var toMatch = /^\$?[0-9]+\.?[0-9]?[0-9]?$/;
     var isMatch = toMatch.test(document.querySelector('#productPrice').value);
-    // console.dir(document.querySelector('#productPrice').value);
-    // console.dir(isMatch);
+
+    // did user input a valid url image
     var toMatchImg = /\.(jpeg|jpg|gif|png)$/;
     var isMatchImg = toMatchImg.test(document.querySelector('#productImage').value);
 
-    // console.dir($("#productForm").serialize());
+    // check if the user inputs are valid. if valid create product. else notify user.
     if (isMatch === true && isMatchImg == true) {
         sendAjax('POST', $("#productForm").attr("action"), $("#productForm").serialize(), function () {
             loadProductsFromServer();
         });
     } else {
         if (isMatch === false) {
-            handleError("Value entered for the price of the product needs to be in numerical form.");
+            handleError("Value entered for the price of the product needs to be in numerical form only. Example of valid values: 20, 20. , 20.0, 020.0");
         }
         if (isMatchImg === false) {
             handleError("Image url is invalid. Accepts jpeg, jpg, gif, and png, which needs to be included in the url. One of these extensions needs to be in the url.");
@@ -589,10 +515,11 @@ var updateProductHandle = function updateProductHandle(e) {
 
     var updatedProduct = $("#updateProductForm").serialize();
 
+    // did user input a valid price
     var toMatch = /^\$?[0-9]+\.?[0-9]?[0-9]?$/;
     var isMatch = toMatch.test(document.querySelector('#updatePrice').value);
-    // console.log(document.querySelector('#updatePrice').value);
-    // console.log(isMatch);
+
+    // did user input a valid url image
     var toMatchImg = /\.(jpeg|jpg|gif|png)$/;
     var isMatchImg = toMatchImg.test(document.querySelector('#updateproductImage').value);
 
@@ -766,21 +693,6 @@ var ProductList = function ProductList(props) {
                 ),
                 React.createElement(
                     "div",
-                    { id: "togglePrivacy" },
-                    React.createElement(
-                        "p",
-                        null,
-                        " Public/Private"
-                    ),
-                    React.createElement(
-                        "label",
-                        { className: "switch" },
-                        React.createElement("input", { type: "checkbox" }),
-                        React.createElement("span", { className: "slider" })
-                    )
-                ),
-                React.createElement(
-                    "div",
                     { id: "prodInfo" },
                     React.createElement(
                         "h3",
@@ -950,21 +862,6 @@ var OrdersList = function OrdersList(theOrders) {
                 ),
                 React.createElement(
                     "div",
-                    { id: "togglePrivacy" },
-                    React.createElement(
-                        "p",
-                        null,
-                        " Public/Private"
-                    ),
-                    React.createElement(
-                        "label",
-                        { className: "switch" },
-                        React.createElement("input", { type: "checkbox" }),
-                        React.createElement("span", { className: "slider" })
-                    )
-                ),
-                React.createElement(
-                    "div",
                     { id: "prodInfo" },
                     React.createElement(
                         "h3",
@@ -1056,7 +953,7 @@ var getTokenOrderPage = function getTokenOrderPage() {
 
 // handle the error message
 var handleError = function handleError(message) {
-
+    // jquery dialog alert box if there is an error message
     $(function () {
         $("#errorCont").dialog({
             height: 250,
