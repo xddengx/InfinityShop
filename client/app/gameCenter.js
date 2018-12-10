@@ -117,6 +117,7 @@ const Chance = function(){
             <button className="gameButton" onClick={(e)=>playChance(e)}> Play </button>
 
             <h2> Collect Your Daily Reward</h2>
+            <p> Collect a reward every 24 hours.</p>
             <button className="gameButton" id="dailyRewardButton" onClick={(e)=>getDailyReward(e)}> Collect Reward </button>
         </div>
     );

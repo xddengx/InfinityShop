@@ -400,6 +400,11 @@ var Chance = function Chance() {
             ' Collect Your Daily Reward'
         ),
         React.createElement(
+            'p',
+            null,
+            ' Collect a reward every 24 hours.'
+        ),
+        React.createElement(
             'button',
             { className: 'gameButton', id: 'dailyRewardButton', onClick: function onClick(e) {
                     return getDailyReward(e);
