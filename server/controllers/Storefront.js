@@ -13,7 +13,7 @@ const getAllProducts = (request, response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
-    
+
     // sale discount get the price of products
 
     // console.dir(docs.length);

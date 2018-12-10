@@ -246,7 +246,7 @@ const updateDRStatus = (req, res) => Account.AccountModel.findByUsername(
       return res.status(400).json({ error: 'An error occured' });
     });
 
-    return res.status(200).json({ msg: 'success' });
+    return savePromise;
   },
 );
 
@@ -268,9 +268,7 @@ const updateSpiralsWon = (req, res) => Account.AccountModel.findByUsername(
 
     const savePromise = userSpirals.save();
 
-    savePromise.then(() => res.json({
-      spirals: userSpirals.spirals,
-    }));
+    savePromise.then(() => res.json({ message: 'Successful' }));
 
     // throws error if insufficient funds
     savePromise.catch((error) => {
@@ -280,7 +278,7 @@ const updateSpiralsWon = (req, res) => Account.AccountModel.findByUsername(
       return res.status(400).json({ error: 'An error occured' });
     });
 
-    return res.status(200).json({ msg: 'success' });
+    return savePromise;
   },
 );
 

@@ -70,7 +70,7 @@ const playChance = () =>{
     if(winningNum == userNum){
         sendAjax('PUT', '/updateSpiralsWon', param, function(){
             getSpiralsGC(); // update the spirals text display
-            console.dir("success");
+            // console.dir("success");
         });
         $("#message").text("You won " + spiralCashWon + " Spiral Cash!");
     }else{
