@@ -2,12 +2,6 @@
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* Clients view of the storefront. User is able to view all selling 
-products and buy a product.If user buys a product, the amount will 
-be deducted from their Spirals Cash. *This works, but the actual 
-text is not refreshed until user logs out and logs back in.
-*/
-
 var csrfToken;
 var spirals;
 
@@ -122,7 +116,7 @@ var SiteSale = function SiteSale(obj) {
             React.createElement(
                 'h1',
                 { 'class': 'msgBlock' },
-                ' CHRISTMAS SALE COUNTDOWN!'
+                ' SALE COUNTDOWN!'
             ),
             React.createElement(
                 'div',
@@ -132,7 +126,7 @@ var SiteSale = function SiteSale(obj) {
                     null,
                     React.createElement(
                         'span',
-                        { 'class': 'days' },
+                        { id: 'theDays', 'class': 'days' },
                         ' ',
                         obj.saleTime.days,
                         ' '
@@ -148,7 +142,7 @@ var SiteSale = function SiteSale(obj) {
                     null,
                     React.createElement(
                         'span',
-                        { 'class': 'hours' },
+                        { id: 'theHours', 'class': 'hours' },
                         ' ',
                         obj.saleTime.hours,
                         ' '
@@ -164,7 +158,7 @@ var SiteSale = function SiteSale(obj) {
                     null,
                     React.createElement(
                         'span',
-                        { 'class': 'minutes' },
+                        { id: 'theMinutes', 'class': 'minutes' },
                         ' ',
                         obj.saleTime.minutes,
                         ' '
@@ -180,7 +174,7 @@ var SiteSale = function SiteSale(obj) {
                     null,
                     React.createElement(
                         'span',
-                        { 'class': 'seconds' },
+                        { id: 'theSeconds', 'class': 'seconds' },
                         ' ',
                         obj.saleTime.seconds,
                         ' '
@@ -196,20 +190,22 @@ var SiteSale = function SiteSale(obj) {
     );
 };
 
-// calculating the remaining time and displaying
+// calculating the remaining time and display
 var getRemainingTime = function getRemainingTime() {
-    requestAnimationFrame(getRemainingTime);
-
     sendAjax('GET', '/getRemainingTime', null, function (result) {
         ReactDOM.render(React.createElement(SiteSale, { saleTime: result }), document.querySelector('#saleCont'));
 
         // if time remaining reaches 0. stop the countdown
-        if (result.sale <= 0) {
-            cancelAnimationFrame(updateClock);
-            days.innerHTML = 0;
-            hours.innerHTML = 0;
-            minutes.innerHTML = 0;
-            seconds.innerHTML = 0;
+        if (result.time <= 0) {
+            console.log(result.time);
+            cancelAnimationFrame(getRemainingTime);
+            document.querySelector('#theDays').textContent = 0;
+            document.querySelector('#theHours').textContent = 0;
+            document.querySelector('#theMinutes').textContent = 0;
+            document.querySelector('#theSeconds').textContent = 0;
+            return;
+        } else {
+            requestAnimationFrame(getRemainingTime);
         }
     });
 };

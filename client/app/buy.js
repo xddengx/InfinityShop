@@ -1,9 +1,3 @@
-/* Clients view of the storefront. User is able to view all selling 
-products and buy a product.If user buys a product, the amount will 
-be deducted from their Spirals Cash. *This works, but the actual 
-text is not refreshed until user logs out and logs back in.
-*/
-
 var csrfToken;
 var spirals;
 
@@ -77,22 +71,22 @@ const SiteSale = function(obj){
     return(
         <div id = "splashContainer">
             <div class = "content">
-                <h1 class = "msgBlock"> CHRISTMAS SALE COUNTDOWN!</h1>
+                <h1 class = "msgBlock"> SALE COUNTDOWN!</h1>
                 <div class = "time" id = "clockCont">
                     <div>
-                        <span class = "days"> {obj.saleTime.days} </span>
+                        <span id="theDays" class = "days"> {obj.saleTime.days} </span>
                         <div class = "caption">Days</div>
                     </div>
                     <div>
-                        <span class = "hours"> {obj.saleTime.hours} </span>
+                        <span id="theHours" class = "hours"> {obj.saleTime.hours} </span>
                         <div class = "caption">Hours</div>
                     </div>
                     <div>
-                        <span class = "minutes"> {obj.saleTime.minutes} </span>
+                        <span id="theMinutes" class = "minutes"> {obj.saleTime.minutes} </span>
                         <div class = "caption">Minutes</div>
                     </div>
                     <div>
-                        <span class = "seconds"> {obj.saleTime.seconds} </span>
+                        <span id="theSeconds" class = "seconds"> {obj.saleTime.seconds} </span>
                         <div class = "caption">Seconds</div>
                     </div>
                 </div>
@@ -101,22 +95,24 @@ const SiteSale = function(obj){
     );
 }
 
-// calculating the remaining time and displaying
+// calculating the remaining time and display
 const getRemainingTime = () =>{
-    requestAnimationFrame(getRemainingTime);
-
     sendAjax('GET', '/getRemainingTime', null, (result) =>{
         ReactDOM.render(
             <SiteSale saleTime = {result} />, document.querySelector('#saleCont')
         );
 
         // if time remaining reaches 0. stop the countdown
-        if(result.sale <= 0){
-            cancelAnimationFrame(updateClock);
-            days.innerHTML = 0;
-            hours.innerHTML = 0;
-            minutes.innerHTML = 0;
-            seconds.innerHTML = 0;
+        if(result.time <= 0){
+            console.log(result.time);
+            cancelAnimationFrame(getRemainingTime);
+            document.querySelector('#theDays').textContent = 0
+            document.querySelector('#theHours').textContent = 0
+            document.querySelector('#theMinutes').textContent = 0
+            document.querySelector('#theSeconds').textContent = 0
+            return;
+        }else{
+            requestAnimationFrame(getRemainingTime);
         }
     });
 }
