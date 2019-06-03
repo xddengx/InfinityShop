@@ -2,7 +2,6 @@
 
 /* Login Page, Sign Up Page, Change Password Page*/
 
-// send request to login 
 var handleLogin = function handleLogin(e) {
     e.preventDefault();
 
@@ -58,29 +57,48 @@ var handleChangePassword = function handleChangePassword(e) {
 var LoginWindow = function LoginWindow(props) {
     return React.createElement(
         "div",
-        null,
+        { className: "mainForm" },
         React.createElement(
             "form",
-            { id: "loginForm", name: "loginForm",
+            { id: "no", name: "loginForm",
                 onSubmit: handleLogin,
                 action: "/login",
-                method: "POST",
-                className: "mainForm"
+                method: "POST"
+                // className="mainForm"
             },
             React.createElement(
                 "label",
                 { htmlFor: "username" },
-                "Username: "
+                "Username"
             ),
-            React.createElement("input", { id: "user", type: "text", name: "username", placeholder: "username" }),
+            React.createElement("input", { id: "user", type: "text", name: "username" }),
             React.createElement(
                 "label",
                 { htmlFor: "pass" },
-                "Password: "
+                "Password"
             ),
-            React.createElement("input", { id: "pass", type: "password", name: "pass", placeholder: "password" }),
+            React.createElement("input", { id: "pass", type: "password", name: "pass" }),
+            React.createElement(
+                "a",
+                { id: "changePassword", href: "/changePassword" },
+                "forgot password?"
+            ),
             React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-            React.createElement("input", { className: "formSubmit", type: "submit", value: "Sign in" })
+            React.createElement("input", { className: "formSubmit", type: "submit", value: "Sign In" })
+        ),
+        React.createElement(
+            "div",
+            { className: "switchScreens" },
+            React.createElement(
+                "p",
+                null,
+                "Don't have an account?"
+            ),
+            React.createElement(
+                "a",
+                { id: "signupButton", href: "/signup" },
+                "Sign up"
+            )
         )
     );
 };
@@ -88,114 +106,151 @@ var LoginWindow = function LoginWindow(props) {
 // render the sign up page
 var SignupWindow = function SignupWindow(props) {
     return React.createElement(
-        "form",
-        { id: "signupForm",
-            name: "signupForm",
-            onSubmit: handleSignup,
-            action: "/signup",
-            method: "POST",
-            className: "mainForm"
-        },
+        "div",
+        { className: "mainForm" },
         React.createElement(
-            "label",
-            { htmlFor: "username" },
-            "Username: "
+            "form",
+            { id: "signupForm",
+                name: "signupForm",
+                onSubmit: handleSignup,
+                action: "/signup",
+                method: "POST"
+                // className="mainForm"
+            },
+            React.createElement(
+                "label",
+                { htmlFor: "username" },
+                "Username "
+            ),
+            React.createElement("input", { id: "user", type: "text", name: "username" }),
+            React.createElement(
+                "label",
+                { htmlFor: "pass" },
+                "Password"
+            ),
+            React.createElement("input", { id: "pass", type: "password", name: "pass" }),
+            React.createElement(
+                "label",
+                { htmlFor: "pass2" },
+                "Retype Password "
+            ),
+            React.createElement("input", { id: "pass2", type: "password", name: "pass2" }),
+            React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+            React.createElement("input", { className: "formSubmit", type: "submit", value: "Sign Up" })
         ),
-        React.createElement("input", { id: "user", type: "text", name: "username", placeholder: "username" }),
         React.createElement(
-            "label",
-            { htmlFor: "pass" },
-            "Password: "
-        ),
-        React.createElement("input", { id: "pass", type: "password", name: "pass", placeholder: "password" }),
-        React.createElement(
-            "label",
-            { htmlFor: "pass2" },
-            "Password: "
-        ),
-        React.createElement("input", { id: "pass2", type: "password", name: "pass2", placeholder: "retype password" }),
-        React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-        React.createElement("input", { className: "formSubmit", type: "submit", value: "Sign Up" })
+            "div",
+            { className: "switchScreens" },
+            React.createElement(
+                "p",
+                null,
+                "Already have an account?"
+            ),
+            React.createElement(
+                "a",
+                { className: "loginButton", href: "/login" },
+                "Login"
+            )
+        )
     );
 };
 
 // render change password page
 var ChangePasswordWindow = function ChangePasswordWindow(props) {
     return React.createElement(
-        "form",
-        { id: "changePasswordForm",
-            name: "changePasswordForm",
-            onSubmit: handleChangePassword,
-            action: "/changePassword",
-            method: "PUT",
-            className: "passwordChangeForm"
-        },
+        "div",
+        { className: "mainForm", id: "changePswdForm" },
         React.createElement(
-            "label",
-            { htmlFor: "username" },
-            "Username: "
+            "div",
+            { className: "switchScreens" },
+            React.createElement(
+                "a",
+                { className: "loginButton", id: "pswdLoginBtn", href: "/login" },
+                "\u25C2 Login"
+            )
         ),
-        React.createElement("input", { id: "user", type: "text", name: "username", placeholder: "username" }),
         React.createElement(
-            "label",
-            { htmlFor: "oldPass" },
-            " Old Password: "
-        ),
-        React.createElement("input", { id: "oldPass", type: "password", name: "oldPass", placeholder: "old password" }),
-        React.createElement(
-            "label",
-            { htmlFor: "newPass" },
-            "New Password: "
-        ),
-        React.createElement("input", { id: "newPass", type: "password", name: "newPass", placeholder: "new password" }),
-        React.createElement(
-            "label",
-            { htmlFor: "newPass2" },
-            "New Password: "
-        ),
-        React.createElement("input", { id: "newPass2", type: "password", name: "newPass2", placeholder: "retype new password" }),
-        React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-        React.createElement("input", { className: "formSubmit", id: "passChangeSub", type: "submit", value: "Update Password" })
+            "form",
+            { id: "changePasswordForm",
+                name: "changePasswordForm",
+                onSubmit: handleChangePassword,
+                action: "/changePassword",
+                method: "PUT",
+                className: "passwordChangeForm"
+            },
+            React.createElement(
+                "label",
+                { htmlFor: "username" },
+                "Username"
+            ),
+            React.createElement("input", { id: "user", type: "text", name: "username" }),
+            React.createElement(
+                "label",
+                { htmlFor: "oldPass" },
+                " Old Password"
+            ),
+            React.createElement("input", { id: "oldPass", type: "password", name: "oldPass" }),
+            React.createElement(
+                "label",
+                { htmlFor: "newPass" },
+                "New Password"
+            ),
+            React.createElement("input", { id: "newPass", type: "password", name: "newPass" }),
+            React.createElement(
+                "label",
+                { htmlFor: "newPass2" },
+                "Retype New Password"
+            ),
+            React.createElement("input", { id: "newPass2", type: "password", name: "newPass2" }),
+            React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+            React.createElement("input", { className: "formSubmit", id: "passChangeSub", type: "submit", value: "Update Password" })
+        )
     );
 };
 
 var createLoginWindow = function createLoginWindow(csrf) {
     ReactDOM.render(React.createElement(LoginWindow, { csrf: csrf }), document.querySelector("#content"));
-};
 
-var createSignupWindow = function createSignupWindow(csrf) {
-    ReactDOM.render(React.createElement(SignupWindow, { csrf: csrf }), document.querySelector("#content"));
-};
-
-var createPasswordChangeWindow = function createPasswordChangeWindow(csrf) {
-    ReactDOM.render(React.createElement(ChangePasswordWindow, { csrf: csrf }), document.querySelector("#content"));
-};
-
-//setup function attaches events to the page buttons
-//login page is defaulted when user loads page, otherwise no UI will be shown
-var setup = function setup(csrf) {
-    var loginButton = document.querySelector("#loginButton");
     var signupButton = document.querySelector("#signupButton");
-    var changePasswordButton = document.querySelector("#changePassword");
-
     signupButton.addEventListener("click", function (e) {
         e.preventDefault();
         createSignupWindow(csrf);
         return false;
     });
 
-    loginButton.addEventListener("click", function (e) {
-        e.preventDefault();
-        createLoginWindow(csrf);
-        return false;
-    });
+    var changePasswordButton = document.querySelector("#changePassword");
 
     changePasswordButton.addEventListener("click", function (e) {
         e.preventDefault();
         createPasswordChangeWindow(csrf);
         return false;
     });
+};
 
+var createSignupWindow = function createSignupWindow(csrf) {
+    ReactDOM.render(React.createElement(SignupWindow, { csrf: csrf }), document.querySelector("#content"));
+    var loginButton = document.querySelector(".loginButton");
+    loginButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        createLoginWindow(csrf);
+        return false;
+    });
+};
+
+var createPasswordChangeWindow = function createPasswordChangeWindow(csrf) {
+    ReactDOM.render(React.createElement(ChangePasswordWindow, { csrf: csrf }), document.querySelector("#content"));
+
+    var loginButton = document.querySelector(".loginButton");
+    loginButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        createLoginWindow(csrf);
+        return false;
+    });
+};
+
+//setup function attaches events to the page buttons
+//login page is defaulted when user loads page, otherwise no UI will be shown
+var setup = function setup(csrf) {
     createLoginWindow(csrf); //default view
 };
 
