@@ -1,6 +1,7 @@
 <html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8" />
   <title>Infinity</title>
   <script crossorigin src="https://unpkg.com/react@15/dist/react.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
@@ -11,27 +12,33 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Open+Sans" rel="stylesheet">
-  <link rel="shortcut icon" href="/assets/img/favicon.png"/>
-  <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
+  <link rel="shortcut icon" href="/assets/img/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
 </head>
-<body> 
+
+<body>
   <nav>
     {{!-- <a href="/login"><img id="logo" src="/assets/img/logo.png" alt="face logo"/></a> --}}
-    <div id="logoName"> &#8734 INFINITY</div>
-    <div class="navlink"><a id="loginButton" href="/login">Login</a></div>
-    <div class="navlink"><a id="signupButton" href="/signup">Sign up</a></div>
+    <div id="logoName">Infinity</div>
+    <div class="navlink"><a id="join" href="/">Join & Discover</a></div>
     {{!-- <div class="navlink"><a href="/storefront">Storefront</a></div> public store --}}
   </nav>
 
   <div>
-    <div><a id="changePassword" href="/changePassword">Change Password</a></div>
     <section id="content"></section>
+    {{!-- <div id="forgotPass">
+      <a id="changePassword" href="/changePassword">forgot password?</a>
+    </div> --}}
+    <div id="signupCont">
+    </div>
     {{!-- <div id="errorMessage"><h4></h4></div> --}}
   </div>
 
   <div id="errorCont">
-  <p id="errorMessage"> </p></div>
+    <p id="errorMessage"> </p>
+  </div>
 
   <script src="/assets/loginBundle.js"></script>
 </body>
+
 </html>

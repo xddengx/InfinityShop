@@ -1,15 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 html, body {
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    font-family: 'Open Sans', sans-serif;
-    /* background-image: url("img/bkgd.png"); */
+    font-family: 'Roboto', sans-serif;
 }
 
 /* NAVBAR */
-.acctDropBtn{
+
+.acctDropBtn {
     /* padding: 18px; */
     /* color: white; */
     font-size: 19px;
@@ -17,13 +18,14 @@ html, body {
     background: none;
     color: white;
 }
-.accountDropdown{
+
+.accountDropdown {
     position: relative;
     display: inline-block;
     min-width: 150px;
 }
 
-.dropdownContent{
+.dropdownContent {
     display: none;
     position: absolute;
     z-index: 1;
@@ -32,30 +34,14 @@ html, body {
     /* padding-top: 20px; */
 }
 
-.dropdownContent a{
-    color:black;
+.dropdownContent a {
+    color: black;
     text-decoration: none;
     display: block;
 }
 
-.accountDropdown:hover .dropdownContent{
+.accountDropdown:hover .dropdownContent {
     display: block;
-}
-
-
-input{
-    line-height: 25px;
-    width: 150px;
-}
-input[type=submit] {
-    background-color: #000000;
-    color: white;
-    padding: 10px 10px;
-    /* margin: 18px 0; */
-    border: none;
-    font-size: 20px;
-    /* float: right; */
-    /* margin-right: 100px; */
 }
 
 /* #errorMessage{
@@ -66,11 +52,12 @@ input[type=submit] {
 } */
 
 /* NAVBAR */
+
 #logo {
     height: 40px;
     width: 40px;
     padding: 15px 20px;
-    float:left;
+    float: left;
     border-radius: 8px;
 }
 
@@ -81,8 +68,7 @@ nav {
 }
 
 nav:nth-child(1) {
-    float:right;
-    
+    float: right;
 }
 
 .navlink {
@@ -99,7 +85,6 @@ nav:nth-child(1) {
     border-radius: 4px;
     transition: background-color 0.8s ease;
     text-decoration: none;
-
 }
 
 .navlink::after {
@@ -110,62 +95,87 @@ nav:nth-child(1) {
     background: #c8e9f5;
     transition: width .5s;
 }
-.navlink:hover::after{
+
+.navlink:hover::after {
     width: 100%;
 }
 
 /* LOGIN  */
-#logoName{
+
+#logoName {
     float: left;
     font-size: 30px;
-    padding: 17px 10px;;
+    padding: 17px 10px;
     /* font-family: 'Great Vibes', cursive; */
-    color: white;
+    color: #FDEA85;
+    margin-left: 25px;
 }
 
-#logoName a{
+#logoName a {
     text-decoration: none;
-    color:white;
-}
-
-.loginForm label {
-    display: inline-block;
-    width: 75px;
-    margin-left: 10px;
-    font-size: 1.2em;
-    float: left;
     color: white;
 }
 
- .loginForm {
-    border: 2px solid #338acc;
-    height: 35px;
-    width: 700px;
-    margin-top:0px;
-    padding-top:10px;
-    background-color: #55acee;
-    border-bottom-right-radius: 4px;
-    border-top-right-radius: 4px;
-}
-
-.mainForm, .passwordChangeForm {
-    height: 300px;
-    width: 350px;
+.mainForm {
+    width: 280px;
     margin: 0 auto;
-    padding-top: 350px;
     font-size: 1.2em;
-}
-
-.mainForm h3, .passwordChangeForm h3 {
-    text-align: center;
+    padding: 20px 30px;
+    margin-top: 80px;
+    background-image: linear-gradient(rgb(255, 255, 255), rgba(255, 255, 255, 0.5));
+    border: 1px solid white;
+    right: 0px;
+    margin-right: 50px;
 }
 
 .mainForm label {
-    display: inline-block;
-    width: 100px;
-    margin-right: 35px;
-    text-align: right;
-    font-size: 1.2em;
+    display: block;
+    font-size: 1em;
+    line-height: 2.5em;
+}
+
+.mainform input {
+    line-height: 35px;
+    width: 100%;
+    padding: 5px 10px;
+    /* margin: 8px 0; */
+    box-sizing: border-box;
+    border: 1px solid grey;
+    border-radius: 4px;
+    background: white;
+    font-size: 16px;
+}
+
+input[type=submit] {
+    background-color: #000000;
+    color: white;
+    padding: 10px 10px;
+    /* margin: 18px 0; */
+    border: none;
+    font-size: 18px;
+    /* float: right; */
+    /* margin-right: 100px; */
+    width: 50%;
+}
+
+#changePassword {
+    text-decoration: none;
+    font-size: 14px;
+    color: black;
+}
+
+.switchScreens {
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.switchScreens a {
+    text-decoration: none;
+    background-color: #0052AB;
+    color: white;
+    font-size: 18px;
+    padding: 10px 10px;
+    border-radius: 4px
 }
 
 .formSubmit {
@@ -173,33 +183,32 @@ nav:nth-child(1) {
     margin: 18 auto;
 }
 
-#changePasswordForm input{
-    display: block;
-    width: 100%;
+#changePasswordForm label {
+    font-size: 16px;
 }
 
-.passwordChangeForm label{
-    width: 100px;
-    margin-right: 35px;
-    text-align: right;
+#passChangeSub {
+    padding: 5px;
+    font-size: 16px;
 }
 
-#passChangeSub{
-    margin: 20px 0px;
-    float: none;
-    width: 100%;
+#pswdLoginBtn {
+    background: none;
+    color: #0052AB;
+    float: right;
+    padding-bottom: 15px;
 }
 
-/* .productForm input[type="text"]{ 
-    padding: 20px 10px; 
-    line-height: 28px; 
-} */
+#changePasswordForm {
+    padding-top: 15px;
+}
 
 
 /* PRODUCTS PAGE -------*/
 
 /* PRODUCT FORM */
-#productForm{
+
+#productForm {
     /* #b2e4a3; */
     background: #c8e9f5;
     /* background-image: url("img/bkgd.png"); */
@@ -207,7 +216,8 @@ nav:nth-child(1) {
     font-size: 17px;
     border-width: 0;
 }
-.inputProds{
+
+.inputProds {
     padding: 8px;
     background: none;
     border: none;
@@ -215,15 +225,16 @@ nav:nth-child(1) {
 }
 
 /* DISPLAY PRODUCTS */
+
 #pageHeader {
     text-align: center;
 }
 
-.emptyProduct{
+.emptyProduct {
     text-align: center;
 }
 
-.product{
+.product {
     /* background: #c8e9f5; */
     background-image: url("img/bkgd.png");
     width: 250px;
@@ -238,14 +249,16 @@ nav:nth-child(1) {
     box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.productName{
+.productName {
     margin-top: 45px;
     color: #4d4d4d;
 }
-.productDescription{
+
+.productDescription {
     font-size: 13px;
 }
-.makeProductSubmit{
+
+.makeProductSubmit {
     border: none;
     color: white;
     padding: 8px 32px;
@@ -253,16 +266,17 @@ nav:nth-child(1) {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    background-color: #e7e7e7; color: black;
+    background-color: #e7e7e7;
+    color: black;
     margin-left: 20px;
     margin-top: 10px;
 }
 
-#deleteButton{
-    bottom: 0; 
+#deleteButton {
+    bottom: 0;
     right: 0;
     position: absolute;
-    background-color: #f44336; 
+    background-color: #f44336;
     border: none;
     color: white;
     padding: 15px 37px;
@@ -272,7 +286,7 @@ nav:nth-child(1) {
     font-size: 16px;
 }
 
-#prodInfo{
+#prodInfo {
     padding: 0px 30px 50px 30px;
 }
 
@@ -288,18 +302,19 @@ nav:nth-child(1) {
     right: 0px; */
 }
 
-.emptyProduct{
+.emptyProduct {
     font-size: 15px;
 }
 
-.theProductImage{
+.theProductImage {
     width: 100%;
     height: 30%;
 }
 
 /* Update Form */
-#updateButton{
-    bottom: 0; 
+
+#updateButton {
+    bottom: 0;
     /* left: 0; */
     right: 123;
     position: absolute;
@@ -314,52 +329,61 @@ nav:nth-child(1) {
     font-size: 16px;
 }
 
-.modal{
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+.modal {
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
 }
 
-#updateProductForm input{
+#updateProductForm input {
     display: block;
     width: 100%;
     height: 50px;
 }
-.updateProductSubmit{
+
+.updateProductSubmit {
     margin-top: 20px;
 }
 
-.formContent{
+.formContent {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 15% auto;
+    /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%;
+    /* Could be more or less, depending on screen size */
 }
 
-.close{
+.close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
 
-
 /* The product card */
-#togglePrivacy{
+
+#togglePrivacy {
     font-size: 14px;
     position: absolute;
     /* top: 0; */
@@ -367,82 +391,85 @@ nav:nth-child(1) {
 }
 
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 26px;
-  padding: 0px;
-  float: right;
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 26px;
+    padding: 0px;
+    float: right;
 }
 
 /* Hide default HTML checkbox */
+
 .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
 /* The slider */
+
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
-input:checked + .slider {
-  background-color: #2196F3;
+input:checked+.slider {
+    background-color: #2196F3;
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
 }
 
-input:checked+ .slider .public{
+input:checked+.slider .public {
     display: block;
 }
 
-input:checked + .slider .private{
+input:checked+.slider .private {
     display: none;
 }
 
-
 /* Storefront */
-#allProductsHead{
+
+#allProductsHead {
     text-align: center;
 }
-#allProducts{
+
+#allProducts {
     margin-left: 5%;
 }
 
-.buyButton{
-    bottom: 0; 
+.buyButton {
+    bottom: 0;
     right: 0;
     position: absolute;
-    background-color: #5fba9e; 
+    background-color: #5fba9e;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -452,7 +479,7 @@ input:checked + .slider .private{
     font-size: 16px;
 }
 
-.buyProduct{
+.buyProduct {
     margin: 0px;
     /* background: #c8e9f5; */
     background-image: url("img/bkgd.png");
@@ -468,66 +495,50 @@ input:checked + .slider .private{
     box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.buyProduct h3,h4{
+.buyProduct h3, h4 {
     padding: 0px 20px;
 }
 
+body {
+    background-image: url(img/main.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
-/* CHANGE PASSWORD */
-#changePassword{
-    margin: 10px;
-    float: right;
-    /* position: absolute; */
-    /* #af7fe6;  */
-    background-color: #32d063;
-    border: none;
-    color: white;
-    padding: 15px 37px;
+/* GAME CENTER */
+
+#gameCenter {
+    background-image: url("img/game.jpg");
+}
+
+#games, #message {
+    padding-left: 40px;
+}
+
+#message {
+    /* background: white; */
+    padding: 30px;
+    color: red;
+}
+
+#gameArea {
+    padding: 20px 0px;
+    margin: 0px;
+    background: white;
+}
+
+.gameButton {
+    background: lightskyblue;
+    padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
 }
 
-#changePassword:hover{
-    transition: none;
-}
-
-
-
-/* GAME CENTER */
-#gameCenter{
-    background-image: url("img/game.jpg"); 
-}
-
-#games, #message{
-    padding-left: 40px;
-}
-
-#message{
-    /* background: white; */
-    padding: 30px;
-    color:red;
-}
-
-#gameArea{
-    padding: 20px 0px;
-    margin: 0px;
-    background: white;
-}
-
-.gameButton{
-  background: lightskyblue;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-
-}
-
 /* Countdown */
-#splashContainer{
+
+#splashContainer {
     background: url("img/sale.jpg");
     background-position: center;
     background-repeat: no-repeat;
@@ -535,54 +546,54 @@ input:checked + .slider .private{
     text-align: center;
 }
 
-.content{
+.content {
     width: 100%;
     text-align: center;
     padding-bottom: 50px;
 }
 
-h1{
+h1 {
     font-family: sans-serif;
     font-size: 70px;
     padding: 100px;
     margin: 0px;
-    color:#ed4c4c;
+    color: #ed4c4c;
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: #ffffff;
 }
 
 /* Countdown CSS */
-#clockCont{
+
+#clockCont {
     width: 100%;
-	font-family: sans-serif;
-	color: black;
-	/* display: inline-block; */
-	font-weight: 100;
-	text-align: center;
-	font-size: 30px;
+    font-family: sans-serif;
+    color: black;
+    /* display: inline-block; */
+    font-weight: 100;
+    text-align: center;
+    font-size: 30px;
     font-weight: bold;
-    background-color: rgba(240,248,255,0.5);
+    background-color: rgba(240, 248, 255, 0.5);
     /* margin: 0px 200px 0px 200px; */
 }
 
-#clockCont > div{
-	padding: 30px;
-	/* border-radius: 3px; */
+#clockCont>div {
+    padding: 30px;
+    /* border-radius: 3px; */
     /* background: rgb(3, 44, 51); */
     display: inline-block;
 }
 
-#clockCont div > span{
-	padding: 15px;
-	display: inline-block;
+#clockCont div>span {
+    padding: 15px;
+    display: inline-block;
 }
 
-.caption{
+.caption {
     padding: 5px;
-    
 }
 
-.ownerIdProduct{
+.ownerIdProduct {
     display: none;
 }
 
@@ -594,7 +605,6 @@ h1{
     left: 20px;
 }
  */
-
 
 /* #errorCont {
     display:none;
@@ -621,8 +631,7 @@ h1{
     font-style: italic;
 } */
 
-
-.myClass{
+.myClass {
     /* display: none; */
     top: 50%;
     left: 50%;
@@ -631,13 +640,13 @@ h1{
     width: 500px;
 }
 
-#errorCont{
+#errorCont {
     display: none;
     font-size: 20px;
-    padding:60px;
+    padding: 60px;
 }
 
-.ui-dialog{
+.ui-dialog {
     position: absolute;
     height: auto;
     width: 500px;
@@ -647,5 +656,10 @@ h1{
     /* background: beige; */
 }
 
-.ui-icon-circle-close{background-position:-32px -192px;}
-.ui-icon-close{background-position:-80px -128px;}
+.ui-icon-circle-close {
+    background-position: -32px -192px;
+}
+
+.ui-icon-close {
+    background-position: -80px -128px;
+}
