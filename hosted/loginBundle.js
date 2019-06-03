@@ -9,6 +9,7 @@ var handleLogin = function handleLogin(e) {
         handleError("Fields cannot be left blank");
         return false;
     }
+    console.log($("#loginForm").attr("action"), $("#loginForm").serialize());
 
     sendAjax('POST', $("#loginForm").attr("action"), $("#loginForm").serialize(), redirect);
 
@@ -60,7 +61,7 @@ var LoginWindow = function LoginWindow(props) {
         { className: "mainForm" },
         React.createElement(
             "form",
-            { id: "no", name: "loginForm",
+            { id: "loginForm", name: "loginForm",
                 onSubmit: handleLogin,
                 action: "/login",
                 method: "POST"

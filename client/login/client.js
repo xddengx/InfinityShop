@@ -7,6 +7,7 @@ const handleLogin = (e) => {
         handleError("Fields cannot be left blank");
         return false;
     }
+    console.log($("#loginForm").attr("action"), $("#loginForm").serialize());
 
     sendAjax('POST', $("#loginForm").attr("action"), $("#loginForm").serialize(), redirect);
 
@@ -56,7 +57,7 @@ const handleChangePassword = (e) => {
 const LoginWindow = (props) => {
     return (
         <div className="mainForm">
-            <form id="no" name="loginForm"
+            <form id="loginForm" name="loginForm"
                 onSubmit={handleLogin}
                 action="/login"
                 method="POST"
