@@ -138,7 +138,7 @@ const SpiralCash = function(obj){
 const getSpiralsGC = () => {
     sendAjax('GET', '/getSpirals', null, (result) => {
         ReactDOM.render(
-            <SpiralCash spiral={result} />, document.querySelector("#spiralsGameCenter"),
+            <SpiralCash spiral={result} />, document.querySelector("#infinityCoins"),
         );
     });
 };
@@ -150,7 +150,7 @@ const gameSetup = function(csrf){
     )
 
     ReactDOM.render(
-        <SpiralCash spiral={spirals} />, document.querySelector('#spiralsGameCenter')
+        <SpiralCash spiral={spirals} />, document.querySelector('#infinityCoins')
     );
     getSpiralsGC();
 }
