@@ -7,255 +7,279 @@ var spirals;
 
 // update spiral cash
 var BuyProduct = function BuyProduct(e) {
-    // get the price of the product
-    var ownerId = e.target.id;
-    var price = e.target.parentNode.id;
-    var productId = e.target.parentNode.parentNode.id;
+  // get the price of the product
+  var ownerId = e.target.id;
+  var price = e.target.parentNode.id;
+  var productId = e.target.parentNode.parentNode.id;
 
-    var param = 'price=' + price + '&ownerId=' + ownerId + '&_csrf=' + csrfToken;
-    var productIdParam = 'prodId=' + productId + '&_csrf=' + csrfToken;
+  var param = 'price=' + price + '&ownerId=' + ownerId + '&_csrf=' + csrfToken;
+  var productIdParam = 'prodId=' + productId + '&_csrf=' + csrfToken;
 
-    // also checks to see if the products owner id is the current logged in user
-    sendAjax('PUT', '/updateSpirals', param, function () {
-        getSpiralsStorefront(); // update the text/amount displayed
+  // also checks to see if the products owner id is the current logged in user
+  sendAjax('PUT', '/updateSpirals', param, function () {
+    getSpiralsStorefront(); // update the text/amount displayed
 
-        // if product was bought successfully create clone of product and change ownerId
-        sendAjax('PUT', '/updateOwner', productIdParam, function () {
-            console.dir('successful');
+    // if product was bought successfully create clone of product and change ownerId
+    sendAjax('PUT', '/updateOwner', productIdParam, function () {
+      console.dir('successful');
 
-            sendAjax('DELETE', '/deleteProduct', productIdParam, function () {
-                console.dir('successful');
-                location.reload(); // TODO: extra- refreshes a different way. setInterval?
-            });
-        });
-
-        return false;
+      sendAjax('DELETE', '/deleteProduct', productIdParam, function () {
+        console.dir('successful');
+        location.reload(); // TODO: extra- refreshes a different way. setInterval?
+      });
     });
+
+    return false;
+  });
 };
 
 // show all products 
 var ProductsList = function ProductsList(props) {
-    // no products exist 
-    if (props.products.length === 0) {
-        return React.createElement(
-            'div',
-            { className: 'productsList' },
-            React.createElement(
-                'h3',
-                { className: 'emptyProducts' },
-                'All items are sold out!'
-            )
-        );
-    }
-
-    // map function to create UI for EACH product stored
-    // every product will generate a product Div and add it to productNodes
-    // advantage is that we can update the sate of this component via Ajax.
-    // everytimes the state updates, the page will immediately creates the UI and shows the updates
-    var productsNodes = props.products.map(function (products) {
-        return React.createElement(
-            'div',
-            _defineProperty({ className: 'productCard', key: products._id, id: products._id }, 'className', 'buyProduct'),
-            React.createElement(
-                'div',
-                null,
-                React.createElement('img', { className: 'theProductImage', src: products.productImage, alt: '' }),
-                ' '
-            ),
-            React.createElement(
-                'div',
-                { id: products.price },
-                React.createElement(
-                    'button',
-                    { id: products.owner, className: 'buyButton', type: 'button', onClick: function onClick(e) {
-                            return BuyProduct(e);
-                        } },
-                    'Buy'
-                ),
-                React.createElement(
-                    'h3',
-                    { className: 'buyProductName' },
-                    ' ',
-                    products.name,
-                    ' '
-                ),
-                React.createElement(
-                    'h4',
-                    { className: 'productDescription' },
-                    ' ',
-                    products.description,
-                    ' '
-                ),
-                React.createElement(
-                    'h3',
-                    { className: 'productPrice' },
-                    ' $',
-                    products.price,
-                    ' '
-                ),
-                React.createElement('h3', { 'class': 'ownerIdProduct', id: products.owner })
-            )
-        );
-    });
-
+  // no products exist 
+  if (props.products.length === 0) {
     return React.createElement(
-        'div',
-        { className: 'productsList' },
-        productsNodes
+      'div',
+      { className: 'productsList' },
+      React.createElement(
+        'h3',
+        { className: 'emptyProducts' },
+        'All items are sold out!'
+      )
     );
+  }
+
+  // map function to create UI for EACH product stored
+  // every product will generate a product Div and add it to productNodes
+  // advantage is that we can update the sate of this component via Ajax.
+  // everytimes the state updates, the page will immediately creates the UI and shows the updates
+  var productsNodes = props.products.map(function (products) {
+    return React.createElement(
+      'div',
+      _defineProperty({ className: 'productCard', key: products._id, id: products._id }, 'className', 'buyProduct'),
+      React.createElement(
+        'div',
+        null,
+        React.createElement('img', { className: 'theProductImage', src: products.productImage, alt: '' }),
+        ' '
+      ),
+      React.createElement(
+        'div',
+        { id: products.price },
+        React.createElement(
+          'button',
+          { id: products.owner, className: 'buyButton', type: 'button', onClick: function onClick(e) {
+              return BuyProduct(e);
+            } },
+          'Buy'
+        ),
+        React.createElement(
+          'h3',
+          { className: 'buyProductName' },
+          ' ',
+          products.name,
+          ' '
+        ),
+        React.createElement(
+          'h4',
+          { className: 'productDescription' },
+          ' ',
+          products.description,
+          ' '
+        ),
+        React.createElement(
+          'h3',
+          { className: 'productPrice' },
+          ' $',
+          products.price,
+          ' '
+        ),
+        React.createElement('h3', { 'class': 'ownerIdProduct', id: products.owner })
+      )
+    );
+  });
+
+  return React.createElement(
+    'div',
+    { className: 'productsList' },
+    productsNodes
+  );
 };
 
 // Countdown for the Sitewide sale - currently counting down to Christmas
 var SiteSale = function SiteSale(obj) {
-    return React.createElement(
+  return React.createElement(
+    'div',
+    { id: 'splashContainer' },
+    React.createElement(
+      'div',
+      { 'class': 'content' },
+      React.createElement(
+        'h1',
+        { 'class': 'msgBlock' },
+        ' SUMMER SALE'
+      ),
+      React.createElement(
         'div',
-        { id: 'splashContainer' },
+        { 'class': 'time', id: 'clockCont' },
         React.createElement(
+          'div',
+          null,
+          React.createElement(
+            'span',
+            { id: 'theDays', 'class': 'days' },
+            ' ',
+            obj.saleTime.days,
+            ' '
+          ),
+          React.createElement(
             'div',
-            { 'class': 'content' },
-            React.createElement(
-                'h1',
-                { 'class': 'msgBlock' },
-                ' SALE COUNTDOWN!'
-            ),
-            React.createElement(
-                'div',
-                { 'class': 'time', id: 'clockCont' },
-                React.createElement(
-                    'div',
-                    null,
-                    React.createElement(
-                        'span',
-                        { id: 'theDays', 'class': 'days' },
-                        ' ',
-                        obj.saleTime.days,
-                        ' '
-                    ),
-                    React.createElement(
-                        'div',
-                        { 'class': 'caption' },
-                        'Days'
-                    )
-                ),
-                React.createElement(
-                    'div',
-                    null,
-                    React.createElement(
-                        'span',
-                        { id: 'theHours', 'class': 'hours' },
-                        ' ',
-                        obj.saleTime.hours,
-                        ' '
-                    ),
-                    React.createElement(
-                        'div',
-                        { 'class': 'caption' },
-                        'Hours'
-                    )
-                ),
-                React.createElement(
-                    'div',
-                    null,
-                    React.createElement(
-                        'span',
-                        { id: 'theMinutes', 'class': 'minutes' },
-                        ' ',
-                        obj.saleTime.minutes,
-                        ' '
-                    ),
-                    React.createElement(
-                        'div',
-                        { 'class': 'caption' },
-                        'Minutes'
-                    )
-                ),
-                React.createElement(
-                    'div',
-                    null,
-                    React.createElement(
-                        'span',
-                        { id: 'theSeconds', 'class': 'seconds' },
-                        ' ',
-                        obj.saleTime.seconds,
-                        ' '
-                    ),
-                    React.createElement(
-                        'div',
-                        { 'class': 'caption' },
-                        'Seconds'
-                    )
-                )
-            )
+            { 'class': 'caption' },
+            'Days'
+          )
+        ),
+        React.createElement(
+          'div',
+          null,
+          React.createElement(
+            'span',
+            { id: 'theHours', 'class': 'hours' },
+            ' ',
+            obj.saleTime.hours,
+            ' '
+          ),
+          React.createElement(
+            'div',
+            { 'class': 'caption' },
+            'Hours'
+          )
+        ),
+        React.createElement(
+          'div',
+          null,
+          React.createElement(
+            'span',
+            { id: 'theMinutes', 'class': 'minutes' },
+            ' ',
+            obj.saleTime.minutes,
+            ' '
+          ),
+          React.createElement(
+            'div',
+            { 'class': 'caption' },
+            'Minutes'
+          )
+        ),
+        React.createElement(
+          'div',
+          null,
+          React.createElement(
+            'span',
+            { id: 'theSeconds', 'class': 'seconds' },
+            ' ',
+            obj.saleTime.seconds,
+            ' '
+          ),
+          React.createElement(
+            'div',
+            { 'class': 'caption' },
+            'Seconds'
+          )
         )
-    );
+      )
+    )
+  );
+};
+
+var calculateTime = function calculateTime(result) {
+  // Sale Day
+  var saleDay = new Date('July 4, 2019');
+  // Time difference from Current Time to Sale Day
+  var time = Date.parse(saleDay) - Date.parse(new Date());
+  // convert the time (in millisecs) to days, hours, minutes, seconds
+  var days = Math.floor(time / (1000 * 60 * 60 * 24));
+  var hours = Math.floor(time / (1000 * 60 * 60) % 24);
+  var minutes = Math.floor(time / 1000 / 60 % 60);
+  var seconds = Math.floor(time / 1000 % 60);
+
+  return {
+    sale: saleDay, time: time, days: days, hours: hours, minutes: minutes, seconds: seconds
+  };
+};
+
+var showTheClock = function showTheClock(result) {
+  var theResult = calculateTime(result);
+  ReactDOM.render(React.createElement(SiteSale, { saleTime: theResult }), document.querySelector('#saleCont'));
+
+  requestAnimationFrame(showTheClock);
 };
 
 // calculating the remaining time and display
 var getRemainingTime = function getRemainingTime() {
-    sendAjax('GET', '/getRemainingTime', null, function (result) {
-        ReactDOM.render(React.createElement(SiteSale, { saleTime: result }), document.querySelector('#saleCont'));
 
-        // if time remaining reaches 0. stop the countdown
-        if (result.time <= 0) {
-            console.log(result.time);
-            cancelAnimationFrame(getRemainingTime);
-            document.querySelector('#theDays').textContent = 0;
-            document.querySelector('#theHours').textContent = 0;
-            document.querySelector('#theMinutes').textContent = 0;
-            document.querySelector('#theSeconds').textContent = 0;
-            return;
-        } else {
-            requestAnimationFrame(getRemainingTime);
-        }
-    });
+  sendAjax('GET', '/getRemainingTime', null, function (result) {
+    ReactDOM.render(React.createElement(SiteSale, { saleTime: result }), document.querySelector('#saleCont'));
+
+    // if time remaining reaches 0. stop the countdown
+    if (result.time <= 0) {
+      console.log(timeRemaining);
+      cancelAnimationFrame(getRemainingTime);
+      document.querySelector('#theDays').textContent = 0;
+      document.querySelector('#theHours').textContent = 0;
+      document.querySelector('#theMinutes').textContent = 0;
+      document.querySelector('#theSeconds').textContent = 0;
+      return;
+    } else {
+      showTheClock(result.time);
+    }
+  });
 };
 
 // display the user's Spiral Cash in the nav bar.
 var SpiralsCash = function SpiralsCash(obj) {
-    spirals = obj.spiral;
-    return React.createElement(
-        'div',
-        { className: 'money' },
-        React.createElement(
-            'a',
-            { href: '/gameCenter' },
-            'Spiral Cash: $ ',
-            obj.spiral
-        )
-    );
+  spirals = obj.spiral;
+  return React.createElement(
+    'div',
+    { className: 'money' },
+    React.createElement(
+      'p',
+      null,
+      'Infinity Coins: ',
+      obj.spiral
+    )
+  );
 };
 
 var getSpiralsStorefront = function getSpiralsStorefront() {
-    sendAjax('GET', '/getSpirals', null, function (data) {
-        ReactDOM.render(React.createElement(SpiralsCash, { spiral: data }), document.querySelector("#spiralsStorefront"));
-    });
+  sendAjax('GET', '/getSpirals', null, function (data) {
+    ReactDOM.render(React.createElement(SpiralsCash, { spiral: data }), document.querySelector("#infinityCoins"));
+  });
 };
 
 // load all products from server
 var loadAllProductsFromServer = function loadAllProductsFromServer() {
-    sendAjax('GET', '/getAllProducts', null, function (data) {
-        ReactDOM.render(React.createElement(ProductsList, { products: data.products, csrf: csrfToken }), document.querySelector("#allProducts"));
-    });
+  sendAjax('GET', '/getAllProducts', null, function (data) {
+    ReactDOM.render(React.createElement(ProductsList, { products: data.products, csrf: csrfToken }), document.querySelector("#allProducts"));
+  });
 };
 
 // set up for rendering the products and spirals
 var setupAllProducts = function setupAllProducts(csrf) {
-    // products attribute is empty for now, because we don't have data yet. But
-    // it will at least get the HTML onto the page while we wait for the server
-    ReactDOM.render(React.createElement(ProductsList, { products: [], csrf: csrf }), document.querySelector("#allProducts"));
+  // products attribute is empty for now, because we don't have data yet. But
+  // it will at least get the HTML onto the page while we wait for the server
+  ReactDOM.render(React.createElement(ProductsList, { products: [], csrf: csrf }), document.querySelector("#allProducts"));
 
-    ReactDOM.render(React.createElement(SpiralsCash, { spiral: spirals }), document.querySelector('#spiralsStorefront'));
+  ReactDOM.render(React.createElement(SpiralsCash, { spiral: spirals }), document.querySelector('#infinityCoins'));
 
-    loadAllProductsFromServer();
-    getSpiralsStorefront();
+  loadAllProductsFromServer();
+  getSpiralsStorefront();
 };
 
 // allows us to get new CSRF token for new submissions
 var getTokenStore = function getTokenStore() {
-    sendAjax('GET', '/getToken', null, function (result) {
-        setupAllProducts(result.csrfToken);
-        csrfToken = result.csrfToken;
-    });
+  sendAjax('GET', '/getToken', null, function (result) {
+    setupAllProducts(result.csrfToken);
+    csrfToken = result.csrfToken;
+  });
 };
 'use strict';
 
@@ -427,7 +451,7 @@ var SpiralCash = function SpiralCash(obj) {
 // Get spiral cash
 var getSpiralsGC = function getSpiralsGC() {
     sendAjax('GET', '/getSpirals', null, function (result) {
-        ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#spiralsGameCenter"));
+        ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#infinityCoins"));
     });
 };
 
@@ -435,7 +459,7 @@ var getSpiralsGC = function getSpiralsGC() {
 var gameSetup = function gameSetup(csrf) {
     ReactDOM.render(React.createElement(Chance, { csrf: csrf }), document.querySelector("#games"));
 
-    ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#spiralsGameCenter'));
+    ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#infinityCoins'));
     getSpiralsGC();
 };
 
@@ -756,9 +780,9 @@ var SpiralCash = function SpiralCash(obj) {
         "div",
         { className: "money" },
         React.createElement(
-            "a",
-            { href: "/gameCenter" },
-            "Spiral Cash: $ ",
+            "p",
+            null,
+            "Infinity Coins: ",
             obj.spiral
         )
     );
@@ -766,7 +790,7 @@ var SpiralCash = function SpiralCash(obj) {
 
 var getSpirals = function getSpirals() {
     sendAjax('GET', '/getSpirals', null, function (result) {
-        ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#spirals"));
+        ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#infinityCoins"));
     });
 };
 
@@ -787,7 +811,7 @@ var setup = function setup(csrf) {
     // it will at least get the HTML onto the page while we wait for the server
     ReactDOM.render(React.createElement(ProductList, { products: [], csrf: csrf }), document.querySelector("#products"));
 
-    ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#spirals'));
+    ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#infinityCoins'));
 
     loadProductsFromServer();
     getSpirals();
@@ -911,9 +935,9 @@ var SpiralCash = function SpiralCash(obj) {
         "div",
         { className: "money" },
         React.createElement(
-            "a",
-            { href: "/gameCenter" },
-            "Spiral Cash: $ ",
+            "p",
+            null,
+            "Infinity Coins: ",
             obj.spiral
         )
     );
@@ -921,7 +945,7 @@ var SpiralCash = function SpiralCash(obj) {
 
 var getSpiralsOrdersPage = function getSpiralsOrdersPage() {
     sendAjax('GET', '/getSpirals', null, function (result) {
-        ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#spiralsOrderHistory"));
+        ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#infinityCoins"));
     });
 };
 
@@ -936,7 +960,7 @@ var loadOrderHistory = function loadOrderHistory() {
 var orderPageSetup = function orderPageSetup(csrf) {
     ReactDOM.render(React.createElement(OrdersList, { orders: [], csrf: csrf }), document.querySelector("#orders"));
 
-    ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#spiralsOrderHistory'));
+    ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#infinityCoins'));
 
     loadOrderHistory();
     getSpiralsOrdersPage();

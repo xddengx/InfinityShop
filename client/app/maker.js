@@ -213,7 +213,7 @@ const ProductList = function(props){
 const SpiralCash = function(obj){
     return (
         <div className="money">
-            <a href="/gameCenter">Spiral Cash: $ {obj.spiral}</a>
+            <p>Infinity Coins: {obj.spiral}</p>
         </div>
     );
 
@@ -222,7 +222,7 @@ const SpiralCash = function(obj){
 const getSpirals = () => {
     sendAjax('GET', '/getSpirals', null, (result) => {
         ReactDOM.render(
-            <SpiralCash spiral={result} />, document.querySelector("#spirals"),
+            <SpiralCash spiral={result} />, document.querySelector("#infinityCoins"),
         );
     });
 };
@@ -251,7 +251,7 @@ const setup = function(csrf){
     );
 
     ReactDOM.render(
-        <SpiralCash spiral={spirals} />, document.querySelector('#spirals'),
+        <SpiralCash spiral={spirals} />, document.querySelector('#infinityCoins'),
     );
 
     loadProductsFromServer();

@@ -17,7 +17,8 @@
 <body>
   <nav>
     {{!-- <a href="/userAccount"><img id="logo" src="/assets/img/logo.png" alt="logo"/></a> --}}
-    <div id="logoName"> &#8734 INFINITY</div>
+    <div id="infinityCoins"></div> {{!-- show the users their amount of IC --}}
+    <div id="logoName"><a href="/storefront">Infinity</a></div>
     <div class="accountDropdown navlink">
       <button class="acctDropBtn">Account</button>
       <div class="dropdownContent">
@@ -26,8 +27,9 @@
         <a href="/logout">Log out</a>
       </div>
     </div>
-    <div class="navlink" id="spirals"></div> {{!-- links to page where user can get more SP (money) --}}
-    <div class="navlink"><a href="/storefront">Storefront</a></div> {{!-- public store --}}
+    {{!-- <div class="navlink" id="spirals"></div> links to page where user can get more SP (money) --}}
+    {{!-- <div class="navlink"><a href="/storefront">Storefront</a></div> public store --}}
+    <div class="navlink"><a href="/gameCenter">Game Center</a></div>
   </nav>
   <section id="makeProduct">
   </section>
