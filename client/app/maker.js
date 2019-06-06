@@ -106,7 +106,7 @@ const UpdateProductForm = (props) =>{
                 <label htmlFor="name">Product Name: </label>
                 <input  id ="updateName" type="text" name="name" placeholder="Product Name"/>
 
-                <label htmlFor="price"> Price: </label>
+                <label htmlFor="price"> Price: $ </label>
                 <input  id="updatePrice" type="text" name="price" placeholder="Product Price"/>
 
                 <label htmlFor="description">Description: </label>
@@ -152,7 +152,7 @@ const ProductForm = (props) => {
         <label htmlFor="name">Product Name: </label>
         <input className="inputProds" id ="productName" type="text" name="name" placeholder="Product Name"/>
 
-        <label htmlFor="price"> Price: </label>
+        <label htmlFor="price"> Price: $ </label>
         <input className="inputProds" id="productPrice" type="text" name="price" placeholder="Product Price"/>
 
         <label htmlFor="description">Description: </label>
@@ -162,7 +162,7 @@ const ProductForm = (props) => {
         <input className="inputProds" id ="productImage" type="text" name="productImage" placeholder="Image URL"/>
 
         <input type="hidden" name="_csrf" value={props.csrf} />
-        <input className="makeProductSubmit" type="submit" value="Create Product" />
+        <input id="creatProdBtn" className="makeProductSubmit" type="submit" value="Create Product" />
         </form>
     );
 };

@@ -64,7 +64,7 @@ var ProductsList = function ProductsList(props) {
       ),
       React.createElement(
         'div',
-        { id: products.price },
+        { id: products.price, className: 'prodInfo' },
         React.createElement(
           'button',
           { id: products.owner, className: 'buyButton', type: 'button', onClick: function onClick(e) {
@@ -80,7 +80,7 @@ var ProductsList = function ProductsList(props) {
           ' '
         ),
         React.createElement(
-          'h4',
+          'p',
           { className: 'productDescription' },
           ' ',
           products.description,
@@ -293,181 +293,222 @@ var nextDay;
 // Daily Reward - user is able to collect a daily reward every 24hours
 // function is called when page is loaded to ensure button is disabled/enabled
 var checkDailyReward = function checkDailyReward() {
-    var dailyRStatus;
-    var currentTime = new Date();
+  var dailyRStatus;
+  var currentTime = new Date();
 
-    // console.log("current time", currentTime);
+  // console.log("current time", currentTime);
 
-    sendAjax('GET', '/getDRStatus', null, function (result) {
-        dailyRStatus = result;
+  sendAjax('GET', '/getDRStatus', null, function (result) {
+    dailyRStatus = result;
 
-        // get the next time user is allowed to collect reward (specific to each user)
-        sendAjax('GET', '/getNextDay', null, function (retrieve) {
-            // save the next day as a Date object
-            var tomorrow = new Date(retrieve);
+    // get the next time user is allowed to collect reward (specific to each user)
+    sendAjax('GET', '/getNextDay', null, function (retrieve) {
+      // save the next day as a Date object
+      var tomorrow = new Date(retrieve);
 
-            // user already clicked
-            // it's not the next day
-            // button should be disable (disable = true)
-            if (dailyRStatus === true && currentTime < tomorrow) {
-                // console.dir("3");
-                document.querySelector("#dailyRewardButton").disabled = true;
-            }
+      // user already clicked
+      // it's not the next day
+      // button should be disable (disable = true)
+      if (dailyRStatus === true && currentTime < tomorrow) {
+        // console.dir("3");
+        document.querySelector("#dailyRewardButton").disabled = true;
+      }
 
-            // user already clicked
-            // it's the next day
-            // button should be clickable (disable = false)
-            if (dailyRStatus === true && currentTime > tomorrow) {
-                // console.dir("4");
-                document.querySelector("#dailyRewardButton").disabled = false;
-            }
-        });
+      // user already clicked
+      // it's the next day
+      // button should be clickable (disable = false)
+      if (dailyRStatus === true && currentTime > tomorrow) {
+        // console.dir("4");
+        document.querySelector("#dailyRewardButton").disabled = false;
+      }
     });
+  });
 };
 
 // wWhen button is clicked enable/disable button
 var afterButtonClicked = function afterButtonClicked() {
-    var dailyStatus = void 0;
-    sendAjax('GET', '/getDRStatus', null, function (result) {
-        dailyStatus = result;
-        if (dailyStatus == false) {
-            // console.dir("1");
-            document.querySelector("#dailyRewardButton").disabled = false;
-        }
+  var dailyStatus = void 0;
+  sendAjax('GET', '/getDRStatus', null, function (result) {
+    dailyStatus = result;
+    if (dailyStatus == false) {
+      // console.dir("1");
+      document.querySelector("#dailyRewardButton").disabled = false;
+    }
 
-        if (dailyStatus == true) {
-            // console.dir("2");
-            document.querySelector("#dailyRewardButton").disabled = true;
-            checkDailyReward();
-        }
-    });
+    if (dailyStatus == true) {
+      // console.dir("2");
+      document.querySelector("#dailyRewardButton").disabled = true;
+      checkDailyReward();
+    }
+  });
 };
 
 // Game of Chance - generate a random winning number and the user's random number
 // if the two numbers match the user wins. 
 // Currently: spiral cash is not added to the user's account
 var playChance = function playChance() {
-    var spiralCashWon = 50; // default of spiral cash won
-    var winningNum = Math.floor(Math.random() * 10); // random winning number
-    var userNum = Math.floor(Math.random() * 10); // users generated number
+  var spiralCashWon = 50; // default of spiral cash won
+  var winningNum = Math.floor(Math.random() * 10); // random winning number
+  var userNum = Math.floor(Math.random() * 10); // users generated number
 
-    var param = 'won=' + spiralCashWon + '&_csrf=' + csrfToken;
-    if (winningNum == userNum) {
-        sendAjax('PUT', '/updateSpiralsWon', param, function () {
-            getSpiralsGC(); // update the spirals text display
-            // console.dir("success");
-        });
-        $("#message").text("You won " + spiralCashWon + " Spiral Cash!");
-    } else {
-        $("#message").text("Sorry you did not get the lucky number. Your number: " + userNum + " | Winning number: " + winningNum);
-    }
+  var param = 'won=' + spiralCashWon + '&_csrf=' + csrfToken;
+  if (winningNum == userNum) {
+    sendAjax('PUT', '/updateSpiralsWon', param, function () {
+      getSpiralsGC(); // update the spirals text display
+      // console.dir("success");
+    });
+    $("#winNum").text(winningNum);
+    $("#userNum").text(userNum);
+    $("#message").text("You won " + spiralCashWon + " Spiral Cash!");
+  } else {
+    $("#winNum").text(winningNum);
+    $("#userNum").text(userNum);
+    $("#message").text("Sorry, better luck next time!");
+  }
 };
 
 var getDailyReward = function getDailyReward() {
-    document.querySelector("#dailyRewardButton").disabled = true;
-    var dailyCollect = 100;
+  document.querySelector("#dailyRewardButton").disabled = true;
+  var dailyCollect = 100;
 
-    // get time when user clicked on reward button
-    currentDate = new Date();
-    // calculate the next day (so button can be enabled again)
-    nextDay = new Date();
-    nextDay.setDate(currentDate.getDate() + 1);
-    // nextDay = new Date("2018-12-03T23:16:00-06:00");
+  // get time when user clicked on reward button
+  currentDate = new Date();
+  // calculate the next day (so button can be enabled again)
+  nextDay = new Date();
+  nextDay.setDate(currentDate.getDate() + 1);
+  // nextDay = new Date("2018-12-03T23:16:00-06:00");
 
-    // console.log("currentdate", currentDate);
-    // console.log("nextDay", nextDay);
+  // console.log("currentdate", currentDate);
+  // console.log("nextDay", nextDay);
 
-    // if user clicks on daily reward update the boolean in account. 
-    var paramStatus = 'nextDay=' + nextDay + '&status=' + true + '&_csrf=' + csrfToken;
-    sendAjax('PUT', '/updateDRStatus', paramStatus, function () {
-        // console.dir("clicked on daily reward button");
-        checkDailyReward();
-    });
+  // if user clicks on daily reward update the boolean in account. 
+  var paramStatus = 'nextDay=' + nextDay + '&status=' + true + '&_csrf=' + csrfToken;
+  sendAjax('PUT', '/updateDRStatus', paramStatus, function () {
+    // console.dir("clicked on daily reward button");
+    checkDailyReward();
+  });
 
-    var param = 'won=' + dailyCollect + '&_csrf=' + csrfToken;
+  var param = 'won=' + dailyCollect + '&_csrf=' + csrfToken;
 
-    sendAjax('PUT', '/updateSpiralsWon', param, function () {
-        getSpiralsGC(); // update the spirals text display
-        console.dir("success");
-    });
+  sendAjax('PUT', '/updateSpiralsWon', param, function () {
+    getSpiralsGC(); // update the spirals text display
+    console.dir("success");
+  });
 };
 
 // Game of Chance display
 var Chance = function Chance() {
-    return React.createElement(
+  return React.createElement(
+    'div',
+    { id: 'gameCont' },
+    React.createElement(
+      'div',
+      { id: 'dailyReward' },
+      React.createElement(
         'div',
-        { className: 'dailyReward' },
+        { className: 'column left' },
         React.createElement(
-            'h2',
-            null,
-            ' Game of Chance | Will you get the lucky number? '
+          'h2',
+          null,
+          'Daily Reward'
         ),
         React.createElement(
-            'p',
-            null,
-            'Rules: Play to see if your number is our winning number.'
-        ),
-        React.createElement(
-            'button',
-            { className: 'gameButton', onClick: function onClick(e) {
-                    return playChance(e);
-                } },
-            ' Play '
-        ),
-        React.createElement(
-            'h2',
-            null,
-            ' Collect Your Daily Reward'
-        ),
-        React.createElement(
-            'p',
-            null,
-            ' Collect a reward every 24 hours.'
-        ),
-        React.createElement(
-            'button',
-            { className: 'gameButton', id: 'dailyRewardButton', onClick: function onClick(e) {
-                    return getDailyReward(e);
-                } },
-            ' Collect Reward '
+          'p',
+          null,
+          ' Collect your bonus every 24 hours '
         )
-    );
+      ),
+      React.createElement(
+        'div',
+        { className: 'column right' },
+        React.createElement(
+          'button',
+          { className: 'gameButton', id: 'dailyRewardButton', onClick: function onClick(e) {
+              return getDailyReward(e);
+            } },
+          ' Collect '
+        )
+      )
+    ),
+    React.createElement(
+      'div',
+      { id: 'chanceGame' },
+      React.createElement(
+        'div',
+        { className: 'column left' },
+        React.createElement(
+          'h2',
+          null,
+          ' Game of Chance '
+        ),
+        React.createElement(
+          'p',
+          null,
+          'Will you get the lucky number? '
+        ),
+        React.createElement(
+          'button',
+          { className: 'gameButton gameBtns', onClick: function onClick(e) {
+              return playChance(e);
+            } },
+          ' Play '
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'column right', id: 'chanceInfo' },
+        React.createElement(
+          'p',
+          null,
+          'Winning number: ',
+          React.createElement('span', { id: 'winNum' })
+        ),
+        React.createElement(
+          'p',
+          null,
+          'Your number: ',
+          React.createElement('span', { id: 'userNum' })
+        ),
+        React.createElement('h3', { id: 'message' })
+      )
+    )
+  );
 };
 
 // Display Sprial Cash
 var SpiralCash = function SpiralCash(obj) {
-    return React.createElement(
-        'div',
-        { className: 'money' },
-        React.createElement(
-            'a',
-            { href: '/gameCenter' },
-            'Spiral Cash: $ ',
-            obj.spiral
-        )
-    );
+  return React.createElement(
+    'div',
+    { className: 'money' },
+    React.createElement(
+      'a',
+      { href: '/gameCenter' },
+      'Spiral Cash: $ ',
+      obj.spiral
+    )
+  );
 };
 
 // Get spiral cash
 var getSpiralsGC = function getSpiralsGC() {
-    sendAjax('GET', '/getSpirals', null, function (result) {
-        ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#infinityCoins"));
-    });
+  sendAjax('GET', '/getSpirals', null, function (result) {
+    ReactDOM.render(React.createElement(SpiralCash, { spiral: result }), document.querySelector("#infinityCoins"));
+  });
 };
 
 // setup
 var gameSetup = function gameSetup(csrf) {
-    ReactDOM.render(React.createElement(Chance, { csrf: csrf }), document.querySelector("#games"));
+  ReactDOM.render(React.createElement(Chance, { csrf: csrf }), document.querySelector("#games"));
 
-    ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#infinityCoins'));
-    getSpiralsGC();
+  ReactDOM.render(React.createElement(SpiralCash, { spiral: spirals }), document.querySelector('#infinityCoins'));
+  getSpiralsGC();
 };
 
 var getTokenGame = function getTokenGame() {
-    sendAjax('GET', '/getToken', null, function (result) {
-        gameSetup(result.csrfToken);
-        csrfToken = result.csrfToken;
-    });
+  sendAjax('GET', '/getToken', null, function (result) {
+    gameSetup(result.csrfToken);
+    csrfToken = result.csrfToken;
+  });
 };
 "use strict";
 
@@ -601,7 +642,7 @@ var UpdateProductForm = function UpdateProductForm(props) {
                 React.createElement(
                     "label",
                     { htmlFor: "price" },
-                    " Price: "
+                    " Price: $ "
                 ),
                 React.createElement("input", { id: "updatePrice", type: "text", name: "price", placeholder: "Product Price" }),
                 React.createElement(
@@ -663,7 +704,7 @@ var ProductForm = function ProductForm(props) {
         React.createElement(
             "label",
             { htmlFor: "price" },
-            " Price: "
+            " Price: $ "
         ),
         React.createElement("input", { className: "inputProds", id: "productPrice", type: "text", name: "price", placeholder: "Product Price" }),
         React.createElement(
@@ -679,7 +720,7 @@ var ProductForm = function ProductForm(props) {
         ),
         React.createElement("input", { className: "inputProds", id: "productImage", type: "text", name: "productImage", placeholder: "Image URL" }),
         React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-        React.createElement("input", { className: "makeProductSubmit", type: "submit", value: "Create Product" })
+        React.createElement("input", { id: "creatProdBtn", className: "makeProductSubmit", type: "submit", value: "Create Product" })
     );
 };
 
