@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
 html, body {
     height: 100%;
     width: 100%;
@@ -6,6 +6,7 @@ html, body {
     padding: 0;
     overflow-x: hidden;
     font-family: 'Roboto', sans-serif;
+    font-weight: 100;
 }
 
 /* NAVBAR */
@@ -54,11 +55,12 @@ html, body {
 /* NAVBAR */
 
 #logo {
-    height: 40px;
-    width: 40px;
-    padding: 15px 20px;
+    /* height: 40px; */
+    /* padding: 15px 20px; */
     float: left;
     border-radius: 8px;
+    width: 4%;
+    margin: 25px 0px 25px 25px;
 }
 
 nav {
@@ -79,7 +81,7 @@ nav:nth-child(1) {
     float: right;
 }
 
-#homepageNav{
+#homepageNav {
     margin: 27px 48px 27px 0px;
     color: white;
     font-size: 19px;
@@ -112,10 +114,10 @@ nav:nth-child(1) {
 #logoName {
     float: left;
     font-size: 30px;
-    padding: 17px 10px;
+    padding: 17px 5px;
     /* font-family: 'Great Vibes', cursive; */
     color: #FDEA85;
-    margin-left: 25px;
+    /* margin-left: 25px; */
 }
 
 #logoName a {
@@ -123,9 +125,9 @@ nav:nth-child(1) {
     color: #FDEA85;
 }
 
-
 /*  */
-#homepage{
+
+#homepage {
     background-image: url(img/main.jpg);
     background-repeat: no-repeat;
     background-size: cover;
@@ -218,14 +220,13 @@ input[type=submit] {
     padding-top: 15px;
 }
 
-
 /* PRODUCTS PAGE -------*/
 
 /* PRODUCT FORM */
 
 #productForm {
     /* #b2e4a3; */
-    background: #c8e9f5;
+    background-image: linear-gradient(rgba(255, 255, 255, 1),rgba(220, 247, 255, 1));
     /* background-image: url("img/bkgd.png"); */
     padding: 20px;
     font-size: 17px;
@@ -251,7 +252,7 @@ input[type=submit] {
 
 .product {
     /* background: #c8e9f5; */
-    background-image: url("img/bkgd.png");
+    /* background-image: url("img/bkgd.png"); */
     width: 250px;
     /* padding: 30px; */
     margin: 15px;
@@ -271,6 +272,7 @@ input[type=submit] {
 
 .productDescription {
     font-size: 13px;
+    font-weight: 100;
 }
 
 .makeProductSubmit {
@@ -285,6 +287,11 @@ input[type=submit] {
     color: black;
     margin-left: 20px;
     margin-top: 10px;
+    width: 150px;
+}
+
+#creatProdBtn{
+    width: 150px;
 }
 
 #deleteButton {
@@ -484,9 +491,8 @@ input:checked+.slider .private {
     bottom: 0;
     right: 0;
     position: absolute;
-    background-color: #5fba9e;
+    background-color: #FDEA85;
     border: none;
-    color: white;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -497,7 +503,7 @@ input:checked+.slider .private {
 .buyProduct {
     margin: 0px;
     /* background: #c8e9f5; */
-    background-image: url("img/bkgd.png");
+    /* background-image: url("img/bkgd.png"); */
     width: 250px;
     /* padding: 30px; */
     margin: 15px;
@@ -507,49 +513,110 @@ input:checked+.slider .private {
     border-color: black; */
     float: left;
     position: relative;
-    box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    border: 1px solid #DDDDDD;
 }
 
-.buyProduct h3, h4 {
+.buyProduct h3, h4, .buyProduct p {
     padding: 0px 20px;
+}
+
+.productDescription {
+    font-size: 16px;
+}
+
+.prodInfo {
+    border-top: 1px solid #DDDDDD;
 }
 
 /* GAME CENTER */
 
-#gameCenter {
-    background-image: url("img/game.jpg");
+#games {
+    background-image: linear-gradient(rgba(220, 247, 255, 1), rgba(255, 255, 255, 0.2));
 }
 
-#games, #message {
-    padding-left: 40px;
+#dailyReward, #chanceGame {
+    width: 100%;
+    height: 250px;
+    display: flex;
 }
 
-#message {
-    /* background: white; */
-    padding: 30px;
-    color: red;
+#dailyReward:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
-#gameArea {
-    padding: 20px 0px;
-    margin: 0px;
-    background: white;
+#dailyRewardText p {
+    font-size: 18px;
+}
+
+#gameCont h2 {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.column {
+    flex: 50%;
+    text-align: center;
+    margin-top: 50px;
+}
+
+#dailyRewardButton {
+    margin-top: 8px;
+}
+
+.left {
+    margin-left: 100px;
+}
+
+.right {
+    text-align: left;
+}
+
+#chanceGame {
+    clear: both;
 }
 
 .gameButton {
-    background: lightskyblue;
-    padding: 15px 32px;
+    background: #FDEA85;
+    padding: 15px 52px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    /* display: inline-block; */
+    font-size: 26px;
+    border-radius: 5px;
+    font-weight: 500;
+    border-color: #FDEA85;
 }
 
-#infinityCoins p{
+.gameBtns {
+    background-color: #8A92DB;
+    color: white;
+    font-size: 20px;
+    padding: 15px 32px;
+    border-color: #8A92DB;
+}
+
+#message {
+    padding-top: 25px;
+}
+
+#chanceInfo {
+    font-size: 19px;
+    color: #026dc3
+}
+
+#chanceInfo span {
+    font-weight: 500;
+}
+
+#infinityCoins p {
     margin: 0;
     margin-right: 90px;
     padding: 0px;
-    color:white;
+    color: white;
     float: right;
     height: 0;
 }
@@ -561,6 +628,7 @@ input:checked+.slider .private {
     background-repeat: no-repeat;
     background-size: cover;
     text-align: center;
+    /* background-position: center; */
 }
 
 .content {
@@ -572,13 +640,14 @@ input:checked+.slider .private {
 h1 {
     /* font-family: sans-serif; */
     font-size: 70px;
-    padding: 80px 0px 60px 0px;
+    padding: 80px 0px 15px 0px;
     margin: 0px;
     /* color: #ed4c4c; */
-    color: #4c7ded;
-    background-image: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.5));
-
-    /* -webkit-text-stroke-width: 2px; */
+    color: #fbf452;
+    /* color: #4c7ded; */
+    /* background-image:rgba(255, 255, 255, 0.2); */
+    /* background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)); */
+    /* -webkit-text-stroke-width: 0.1px; */
     /* -webkit-text-stroke-color: #ffffff; */
 }
 
@@ -593,8 +662,11 @@ h1 {
     text-align: center;
     font-size: 30px;
     font-weight: bold;
-    background-color: rgba(240, 248, 255, 0.5);
+    /* background-color: rgba(240, 248, 255, 0.2); */
     /* margin: 0px 200px 0px 200px; */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+    padding-bottom: 50px;
 }
 
 #clockCont>div {
@@ -682,4 +754,8 @@ h1 {
 
 .ui-icon-close {
     background-position: -80px -128px;
+}
+
+body {
+    font-weight: 100;
 }

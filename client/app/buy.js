@@ -48,10 +48,10 @@ const ProductsList = function (props) {
     return (
       <div className="productCard" key={products._id} id={products._id} className="buyProduct">
         <div><img className="theProductImage" src={products.productImage} alt="" /> </div>
-        <div id={products.price}>
+        <div id={products.price} className="prodInfo">
           <button id={products.owner} className="buyButton" type="button" onClick={(e) => BuyProduct(e)}>Buy</button>
           <h3 className="buyProductName"> {products.name} </h3>
-          <h4 className="productDescription"> {products.description} </h4>
+          <p className="productDescription"> {products.description} </p>
           <h3 className="productPrice"> ${products.price} </h3>
           <h3 class="ownerIdProduct" id={products.owner}></h3>
         </div>
