@@ -71,7 +71,7 @@ const SiteSale = function (obj) {
   return (
     <div id="splashContainer">
       <div class="content">
-        <h1 class="msgBlock"> SUMMER SALE</h1>
+        <h1 class="msgBlock"> SALE</h1>
         <div class="time" id="clockCont">
           <div>
             <span id="theDays" class="days"> {obj.saleTime.days} </span>
