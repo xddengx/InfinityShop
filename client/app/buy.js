@@ -97,7 +97,7 @@ const SiteSale = function (obj) {
 
 const calculateTime = (result) => {
   // Sale Day
-  const saleDay = new Date('January 1, 2020');
+  const saleDay = new Date('2029, 2, 17');
   // Time difference from Current Time to Sale Day
   const time = Date.parse(saleDay) - Date.parse(new Date());
   // convert the time (in millisecs) to days, hours, minutes, seconds
@@ -129,11 +129,10 @@ const getRemainingTime = () => {
     ReactDOM.render(
       <SiteSale saleTime={result} />, document.querySelector('#saleCont')
     );
+    console.log(result);
 
     // if time remaining reaches 0. stop the countdown
     if (result.time <= 0) {
-      console.log(timeRemaining)
-      cancelAnimationFrame(getRemainingTime);
       document.querySelector('#theDays').textContent = 0
       document.querySelector('#theHours').textContent = 0
       document.querySelector('#theMinutes').textContent = 0

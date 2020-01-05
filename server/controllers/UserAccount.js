@@ -33,7 +33,7 @@ const getSpirals = (request, response) => {
 // calculate the remaning time until the next sale
 const getRemainingTime = (req, res) => {
   // Sale Day
-  const saleDay = new Date('January 1, 2020');
+  const saleDay = new Date('2020, 2, 17');
   // Time difference from Current Time to Sale Day
   const time = Date.parse(saleDay) - Date.parse(new Date());
   // convert the time (in millisecs) to days, hours, minutes, seconds
