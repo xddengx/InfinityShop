@@ -97,7 +97,7 @@ const SiteSale = function (obj) {
 
 const calculateTime = (result) => {
   // Sale Day
-  const saleDay = new Date('2029, 2, 17');
+  const saleDay = new Date('2020, 2, 17');
   // Time difference from Current Time to Sale Day
   const time = Date.parse(saleDay) - Date.parse(new Date());
   // convert the time (in millisecs) to days, hours, minutes, seconds
