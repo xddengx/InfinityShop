@@ -129,7 +129,6 @@ const getRemainingTime = () => {
     ReactDOM.render(
       <SiteSale saleTime={result} />, document.querySelector('#saleCont')
     );
-    console.log(result);
 
     // if time remaining reaches 0. stop the countdown
     if (result.time <= 0) {
