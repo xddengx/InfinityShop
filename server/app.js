@@ -17,7 +17,7 @@ const url = require('url');
 const csrf = require('csurf');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
-const dbURL = process.env.MONGODB_CONNECTION || 'mongodb://localhost/SpiralShop';
+const dbURL = process.env.MONGO_CONNECTION || 'mongodb://localhost/SpiralShop';
 
 mongoose.set('useCreateIndex', true);
 mongoose.connect(dbURL, { useNewUrlParser: true }, (err) => {
